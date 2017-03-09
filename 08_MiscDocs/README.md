@@ -1,0 +1,2 @@
+# WindowsAutomatedSimplifier
+WAS
