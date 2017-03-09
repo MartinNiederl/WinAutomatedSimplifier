@@ -1,0 +1,17 @@
+=	Disable Aero-Shake
+=	Disable the shortcut-extension: "- verknüpfung"
+	Autorun Feature (USB-Stick,...)
+M	Passwortgeschützte Ordner
+=	Make Aero Peek faster
+=	Switch to the dark theme
++	Change name of PC
+M	PasswortSafe
+=	Resize Taskbar Preview-Window
+
+
+
+
+
+
+
+

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
-using WindowsAutomatedSimplifier.CompressImage;
 //using System.Windows.Forms;
 using WindowsAutomatedSimplifier.DeCompress;
 using WindowsAutomatedSimplifier.IconSpacing;
@@ -69,7 +68,8 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnReadProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog {Filter = "PasswordEncryptedFile (*.pwf)|*.pwf"};
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "PasswordEncryptedFile (*.pwf)|*.pwf";
             ofd.ShowDialog();
             FolderReader fr = new FolderReader(ofd.FileName);
             fr.SaveAllFiles();
@@ -114,9 +114,21 @@ namespace WindowsAutomatedSimplifier
             new FontPicker().ShowDialog();
         }
 
-        private void BtnImage_Click(object sender, RoutedEventArgs e)
+
+        private void checkBox_Checked(object sender, RoutedEventArgs e) => FolderCheckboxes.checkBox_Checked();
+        private void checkBox_Unchecked(object sender, RoutedEventArgs e) => FolderCheckboxes.checkBox_Unchecked();
+
+        private void checkBox_BlackTheme_Checked(object sender, RoutedEventArgs e) => BlackTheme.checkBox_Checked();
+        private void checkBox_BlackTheme_Unchecked(object sender, RoutedEventArgs e) => BlackTheme.checkBox_Unchecked();
+
+        private void checkBox_AeroShake_Checked(object sender, RoutedEventArgs e) => ToggleAeroShake.checkBox_Checked();
+        private void checkBox_AeroShake_Unchecked(object sender, RoutedEventArgs e) => ToggleAeroShake.checkBox_Unchecked();
+
+        private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow.WindowSize((int)slider_TaskbarPreview.Value);
+        private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
-            new ImageCompression(@"C:\Users\Mani\Pictures\Sonstige\Sonstige\Landschaft.jpg");
+            TaskbarPreviewWindow.RestoreWindowSize();
+            slider_TaskbarPreview.Value = 250;
         }
     }
 }

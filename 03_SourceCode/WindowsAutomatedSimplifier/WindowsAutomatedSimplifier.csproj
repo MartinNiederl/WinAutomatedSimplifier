@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BlackTheme.cs" />
     <Compile Include="ChangeFont\ChangeFont.xaml.cs">
       <DependentUpon>ChangeFont.xaml</DependentUpon>
     </Compile>
@@ -76,6 +77,7 @@
     </Compile>
     <Compile Include="CompressImage\ImageCompression.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FolderCheckboxes.cs" />
     <Compile Include="PasswordProtectedFolder\ByteFile.cs" />
     <Compile Include="PasswordProtectedFolder\Encryption.cs" />
     <Compile Include="PasswordProtectedFolder\FolderReader.cs" />
@@ -89,6 +91,8 @@
     </Compile>
     <Compile Include="Repository\WindowManager.cs" />
     <Compile Include="ShortcutExtension.cs" />
+    <Compile Include="TaskbarPreviewWindow.cs" />
+    <Compile Include="ToggleAeroShake.cs" />
     <Page Include="ChangeFont\ChangeFont.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
