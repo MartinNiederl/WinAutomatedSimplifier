@@ -46,7 +46,7 @@ namespace WindowsAutomatedSimplifier.DeCompress
         /// <param name="filepath">Path where the compressed file gets stored</param>
         public void Compress(ArchiveType archive, CompressionType compression, string filepath)
         {
-            using (FileStream zip = File.OpenWrite(filepath + archive)) //change path
+            using (FileStream zip = File.OpenWrite(filepath))
             using (IWriter zipWriter = WriterFactory.Open(zip, archive, compression))
                 foreach (FileInfo file in FileList)
                     zipWriter.Write(file.Name, file);

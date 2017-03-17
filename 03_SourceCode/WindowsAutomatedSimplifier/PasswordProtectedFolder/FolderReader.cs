@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using WindowsAutomatedSimplifier.Repository;
 
 namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
 {
     internal class FolderReader
     {
-        private readonly string _path;
+        private readonly string _filePath;
         private readonly List<Header> _header = new List<Header>();
         private readonly int _headerlength = 14 + Environment.NewLine.Length;
-        public FolderReader(string path)
+
+        public FolderReader(string filePath)
         {
-            if (string.IsNullOrEmpty(path)) return;
-            _path = path;
-            foreach (string line in File.ReadLines(_path))
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            _filePath = filePath;
+            foreach (string line in File.ReadLines(_filePath))
             {
                 if (line.StartsWith("--header_end--")) break;
                 _headerlength += line.Length + Environment.NewLine.Length;
@@ -23,9 +23,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
                 _header.Add(new Header(buf[0], buf[1], buf[2]));
             }
         }
-
         
-
         public byte[] ReadFileByIndex(int index)
         {
             byte[] file = ReadFromPosition(_header[index].Position, _header[index].Length);
@@ -35,7 +33,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         private byte[] ReadFromPosition(int position, int length)
         {
             byte[] data = new byte[length];
-            using (FileStream fs = new FileStream(_path, FileMode.Open))
+            using (FileStream fs = new FileStream(_filePath, FileMode.Open))
             {
                 fs.Position = position + _headerlength;
                 int actualRead = 0;
@@ -50,18 +48,24 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         {
             for (int i = 0; SaveFileByIndex(i); i++) ;
         }
+
+        /// <exception cref="ArgumentException">Der <paramref name="path" />-Parameter enthält ungültige Zeichen, ist leer oder enthält nur Leerräume. </exception>
         public bool SaveFileByIndex(int index)
         {
             try
             {
                 //TODO überarbeiten - Geschwindigkeit optimieren indem nur einmal aufgerufen!
-                string path = Path.GetDirectoryName(_path) + "\\" + Path.GetFileNameWithoutExtension(_path);
+                string path = Path.GetDirectoryName(_filePath) + "\\" + Path.GetFileNameWithoutExtension(_filePath);
                 Directory.CreateDirectory(path);
                 //TODO relativen Pfad für Unterverzeichnisse hinzufügen
                 File.WriteAllBytes(path + _header[index].Filename, ReadFileByIndex(index));
             }
             catch (ArgumentOutOfRangeException) {
                 return false;
+            }
+            catch (PathTooLongException pathTooLongException)
+            {
+                // TODO: Handle the PathTooLongException 
             }
             return true;
         }

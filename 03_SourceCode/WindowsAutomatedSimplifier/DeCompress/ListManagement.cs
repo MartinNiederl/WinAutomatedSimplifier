@@ -5,10 +5,10 @@ namespace WindowsAutomatedSimplifier.DeCompress
     internal class ListManagement
     {
         private static readonly NamedList Zip = new NamedList("Zip", new List<string> { "None", "Deflate", "BZip2", "LZMA", "LZMA2", "PPMd" }),
-            Tar = new NamedList("Tar", new List<string> { "None", "BZip", "GZip" }),
+            Tar = new NamedList("Tar", new List<string> { "None", "BZip2", "GZip" }),
             GZip = new NamedList("GZip", new List<string> { "GZip" }),
             Rar = new NamedList("Rar", new List<string> { "Rar" }),
-            SevenZip = new NamedList("SevenZip", new List<string> { "LZMA", "LZMA2", "BZip2", "PPMd", "BCJ", "BCJ" });
+            SevenZip = new NamedList("SevenZip", new List<string> { "LZMA", "LZMA2", "BZip2", "PPMd", "BCJ" });
 
         public static List<NamedList> Compress { get; } = new List<NamedList> { Zip, Tar, GZip };
 
