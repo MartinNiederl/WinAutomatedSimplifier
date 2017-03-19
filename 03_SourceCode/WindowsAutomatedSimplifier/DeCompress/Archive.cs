@@ -26,7 +26,6 @@ namespace WindowsAutomatedSimplifier.DeCompress
         /// </summary>
         public Archive()
         {
-            //Select files for compressing
             OpenFileDialog ofDialog = new OpenFileDialog { Multiselect = true };
             if (ofDialog.ShowDialog() == false) return;
 
@@ -58,9 +57,9 @@ namespace WindowsAutomatedSimplifier.DeCompress
         /// <param name="path">Path where the decompressed files get stored</param>
         public void Decompress(string path)
         {
-            IArchive archive = ArchiveFactory.Open(FileList[0].FullName);
-            foreach (IArchiveEntry entry in archive.Entries)
-                if (!entry.IsDirectory) entry.WriteToDirectory(path, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+            using (IArchive archive = ArchiveFactory.Open(FileList[0].FullName))
+                foreach (IArchiveEntry entry in archive.Entries)
+                    if (!entry.IsDirectory) entry.WriteToDirectory(path, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
         }
     }
 }

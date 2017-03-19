@@ -7,7 +7,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
     internal class FolderReader
     {
         private readonly string _filePath;
-        private readonly List<Header> _header = new List<Header>();
+        public static List<Header> Headers { get; } = new List<Header>();
         private readonly int _headerlength = 14 + Environment.NewLine.Length;
 
         public FolderReader(string filePath)
@@ -20,13 +20,15 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
                 if (line.StartsWith("--header_end--")) break;
                 _headerlength += line.Length + Environment.NewLine.Length;
                 string[] buf = line.Split('?');
-                _header.Add(new Header(buf[0], buf[1], buf[2]));
+                Headers.Add(new Header(buf[0], buf[1], buf[2]));
             }
+
+            new PasswordProtectedFolder().ShowDialog();
         }
         
         public byte[] ReadFileByIndex(int index)
         {
-            byte[] file = ReadFromPosition(_header[index].Position, _header[index].Length);
+            byte[] file = ReadFromPosition(Headers[index].Position, Headers[index].Length);
             return Encryption.DecryptBytes(file, "password");
         }
 
@@ -49,7 +51,6 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
             for (int i = 0; SaveFileByIndex(i); i++) ;
         }
 
-        /// <exception cref="ArgumentException">Der <paramref name="path" />-Parameter enthält ungültige Zeichen, ist leer oder enthält nur Leerräume. </exception>
         public bool SaveFileByIndex(int index)
         {
             try
@@ -58,14 +59,10 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
                 string path = Path.GetDirectoryName(_filePath) + "\\" + Path.GetFileNameWithoutExtension(_filePath);
                 Directory.CreateDirectory(path);
                 //TODO relativen Pfad für Unterverzeichnisse hinzufügen
-                File.WriteAllBytes(path + _header[index].Filename, ReadFileByIndex(index));
+                File.WriteAllBytes(path + Headers[index].Filename, ReadFileByIndex(index));
             }
-            catch (ArgumentOutOfRangeException) {
+            catch (Exception) {
                 return false;
-            }
-            catch (PathTooLongException pathTooLongException)
-            {
-                // TODO: Handle the PathTooLongException 
             }
             return true;
         }

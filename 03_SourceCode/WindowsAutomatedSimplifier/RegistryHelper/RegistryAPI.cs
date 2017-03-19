@@ -137,7 +137,6 @@ namespace WindowsAutomatedSimplifier.RegistryHelper
 
         public static void DeleteRegistryItems()
         {
-            //TODO delete all registered keys
             throw new NotImplementedException();
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
@@ -24,7 +25,7 @@ namespace WindowsAutomatedSimplifier
         {
             InitializeComponent();
             WindowManager.AddWindow(this);
-            RegistryAPI.InitRegistry();
+            Task.Run(() => RegistryAPI.InitRegistry());
         }
 
         /// <summary>
@@ -50,10 +51,11 @@ namespace WindowsAutomatedSimplifier
             if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             Archive archive = new Archive(new List<FileInfo> { new FileInfo(ofDialog.FileName) });
-            archive.Decompress(fbDialog.SelectedPath);
-
-            //MessageBox to confirm the functionality (closes after 1 second)
-            AutoClosingMessageBox.Show("Finished Successfully", "Closing...", 1000);
+            Task.Run(() =>
+            {
+                archive.Decompress(fbDialog.SelectedPath);
+                AutoClosingMessageBox.Show("Decompressing Finished Successfully", "Closing...", 1000);
+            });
         }
 
         private void BtnIconSpacing_OnClick(object sender, RoutedEventArgs e) => new IconSpacingWindow().ShowDialog();
