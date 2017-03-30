@@ -76,6 +76,9 @@
       <DependentUpon>CompressImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="CompressImage\ImageCompression.cs" />
+    <Compile Include="ShortcutDialog\GlobalHotkeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FileSystem\FileSystem.cs" />
     <Compile Include="FolderCheckboxes.cs" />
     <Compile Include="PasswordProtectedFolder\ByteFile.cs" />
@@ -90,6 +93,9 @@
       <DependentUpon>IconSpacingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Repository\WindowManager.cs" />
+    <Compile Include="ShortcutDialog\ShortcutDialog.xaml.cs">
+      <DependentUpon>ShortcutDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShortcutExtension.cs" />
     <Compile Include="TaskbarPreviewWindow.cs" />
     <Compile Include="ToggleAeroShake.cs" />
@@ -126,6 +132,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ShortcutDialog\ShortcutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -141,6 +151,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="ShortcutDialog\GlobalHotkeys.resx">
+      <DependentUpon>GlobalHotkeys.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -159,7 +172,9 @@
   <ItemGroup>
     <Content Include="DeCompress\SharpCompress.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Shortcuts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

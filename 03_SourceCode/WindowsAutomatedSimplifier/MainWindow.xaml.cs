@@ -27,6 +27,13 @@ namespace WindowsAutomatedSimplifier
             RegistryAPI.InitRegistry();
         }
 
+
+        private void OpenShortcutDialog(object sender, RoutedEventArgs e)
+        {
+            //new Short
+            new ShortcutDialog.ShortcutDialog().ShowDialog();
+        }
+
         /// <summary>
         /// Event for decommpressing files
         /// </summary>
@@ -128,7 +135,7 @@ namespace WindowsAutomatedSimplifier
         private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
             TaskbarPreviewWindow.RestoreWindowSize();
-            slider_TaskbarPreview.Value = 250;
+            slider_TaskbarPreview.Value = 300;
         }
     }
 }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Windows Automated Simplifier" Height="388.75" Width="304">
-    <Grid Margin="0,0,0,23">
+        Title="Windows Automated Simplifier" Height="404.05" Width="304">
+    <Grid Margin="0,0,0,4">
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>
             <RowDefinition Height="24"/>
@@ -15,6 +15,7 @@
             <RowDefinition Height="14"/>
             <RowDefinition Height="24"/>
             <RowDefinition Height="14"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="24"/>
             <RowDefinition Height="24"/>
             <RowDefinition Height="24"/>
@@ -46,8 +47,9 @@
         <CheckBox x:Name="checkBox_BlackTheme" Content="Black Theme" Margin="4" Grid.Row="11" Grid.Column="1" Checked="checkBox_BlackTheme_Checked" Unchecked="checkBox_BlackTheme_Unchecked"/>
         <CheckBox x:Name="checkBox_ToggleAeroShake" Content="Aero Shake" Margin="4" Grid.Row="12" Grid.Column="1" Checked="checkBox_AeroShake_Checked" Unchecked="checkBox_AeroShake_Unchecked"/>
         <Button x:Name="applyPreviewSizeChange" Content="Apply Size" Grid.Column="0" Margin="2,4,2,0" Grid.Row="13" Click="applyPreviewSizeChange_Click" />
+        <Button x:Name="openShortcutWindow" Content="OpenSC" Grid.Column="0" Margin="2" Grid.Row="14" Click="OpenShortcutDialog" />
 
-        <Slider x:Name="slider_TaskbarPreview" HorizontalAlignment="Left" Margin="10,8,0,-10" SmallChange="1" IsSnapToTickEnabled="True" VerticalAlignment="Top" Grid.Row="13" Grid.Column="1" Width="101" Maximum="500" Value="250" Background="Transparent"/>
+        <Slider x:Name="slider_TaskbarPreview" HorizontalAlignment="Left" Margin="10,4,0,0" SmallChange="1" IsSnapToTickEnabled="True" VerticalAlignment="Top" Grid.Row="13" Grid.Column="1" Width="101" Maximum="600" Value="300" Background="Transparent"/>
         <Button x:Name="restorePreviewSize" Content="Restore Size" Grid.Column="2" Margin="10,4,14,0" Grid.Row="13" Click="restorePreviewSize_Click" />
 
 
