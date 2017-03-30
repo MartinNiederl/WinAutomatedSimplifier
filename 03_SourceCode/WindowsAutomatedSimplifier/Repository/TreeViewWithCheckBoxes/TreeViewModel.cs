@@ -22,7 +22,7 @@ namespace WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes
 
         public static List<TreeViewModel> SetContent()
         {
-            TreeViewModel root = new TreeViewModel("root") { IsInitiallySelected = true };
+            TreeViewModel root = new TreeViewModel(FolderReader.FilePath) { IsInitiallySelected = true };
 
             foreach (Header h in FolderReader.Headers)
             {
@@ -91,6 +91,25 @@ namespace WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes
         /// will set all children to the same check state, and setting it 
         /// to any value will cause the parent to verify its check state.
         /// </summary>
+
+        public static List<TreeViewModel> GetCheckedItems(TreeViewModel node)
+        {
+            var checkedItems = new List<TreeViewModel>();
+
+            ProcessNode(node, checkedItems);
+
+            return checkedItems;
+        }
+
+        private static void ProcessNode(TreeViewModel node, ICollection<TreeViewModel> checkedItems)
+        {
+            foreach (TreeViewModel child in node.Children)
+            {
+                if (child.IsChecked == true && !child.Children.Any()) checkedItems.Add(child);
+                ProcessNode(child, checkedItems);
+            }
+        }
+
         public bool? IsChecked
         {
             get { return _isChecked; }
