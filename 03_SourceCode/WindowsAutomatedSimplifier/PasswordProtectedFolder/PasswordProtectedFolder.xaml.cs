@@ -51,6 +51,9 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
 
         private void BtnDelete_OnClick(object sender, RoutedEventArgs e)
         {
+            var checkedItems = TreeViewModel.GetCheckedItems(_root);
+
+
             throw new System.NotImplementedException();
         }
     }

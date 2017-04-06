@@ -135,11 +135,6 @@ namespace WindowsAutomatedSimplifier.RegistryHelper
             SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
         }
 
-        public static void DeleteRegistryItems()
-        {
-            throw new NotImplementedException();
-        }
-
         private static bool IsRegInit() => Registry.ClassesRoot.OpenSubKey(".pwf") != null;
 
         public static void UpdateRegistry()
