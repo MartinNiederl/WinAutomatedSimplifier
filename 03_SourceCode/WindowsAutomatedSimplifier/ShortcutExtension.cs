@@ -4,13 +4,12 @@ namespace WindowsAutomatedSimplifier
 {
     public static class ShortcutExtension
     {
-        public static void se_disable() => Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", new byte[] { 00, 00, 00, 00 }, RegistryValueKind.Binary);
+        public static void DisableShortcutExtension() => Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", new byte[] { 00, 00, 00, 00 }, RegistryValueKind.Binary);
 
-        public static void se_enable()
+        public static void EnableShortcutExtension()
         {
-            RegistryKey baseKey = Registry.CurrentUser;
-            baseKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\", true)?.DeleteValue("link");
-            baseKey.Close();
+            using (RegistryKey baseKey = Registry.CurrentUser)
+                baseKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\", true)?.DeleteValue("link");
         }
     }
 }

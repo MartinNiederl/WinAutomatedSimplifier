@@ -7,6 +7,7 @@
         WindowStartupLocation="CenterScreen"
         Title="Windows Automated Simplifier" Height="404.05" Width="304">
     <Grid Margin="0,0,0,4">
+        Closing="MainWindow_OnClosing"
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>
             <RowDefinition Height="24"/>
@@ -29,6 +30,7 @@
             <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
+        
         <Button x:Name="BtnCompress" Content="Compress" Click="Btn_compress_OnClick" Grid.Row="0" Margin="2"/>
         <Button x:Name="BtnDecompress" Content="Decompress" Click="Btn_decompress_OnClick" Grid.Row="0" Grid.Column="2" Margin="2"/>
         <Button x:Name="BtnIconSpacing" Content="IconSpacing" Click="BtnIconSpacing_OnClick" Grid.Row="1" Grid.Column="1" Margin="2"/>
@@ -51,9 +53,7 @@
 
         <Slider x:Name="slider_TaskbarPreview" HorizontalAlignment="Left" Margin="10,4,0,0" SmallChange="1" IsSnapToTickEnabled="True" VerticalAlignment="Top" Grid.Row="13" Grid.Column="1" Width="101" Maximum="600" Value="300" Background="Transparent"/>
         <Button x:Name="restorePreviewSize" Content="Restore Size" Grid.Column="2" Margin="10,4,14,0" Grid.Row="13" Click="restorePreviewSize_Click" />
-
-
-
+        <Button x:Name="EncryptDecryptTest" Content="EncryptDecryptTest" Grid.Column="1" Margin="2" Grid.Row="14" Click="EncryptDecryptTest_Click"/>
     </Grid>
 
 </Window>

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
-//using System.Windows.Forms;
 using WindowsAutomatedSimplifier.DeCompress;
 using WindowsAutomatedSimplifier.IconSpacing;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
@@ -14,7 +13,9 @@ using WindowsAutomatedSimplifier.RegistryHelper;
 using WindowsAutomatedSimplifier.Repository;
 using Microsoft.Win32;
 using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using PasswordWindow = WindowsAutomatedSimplifier.Repository.PasswordWindow;
 
 namespace WindowsAutomatedSimplifier
 {
@@ -24,7 +25,7 @@ namespace WindowsAutomatedSimplifier
         {
             InitializeComponent();
             WindowManager.AddWindow(this);
-            RegistryAPI.InitRegistry();
+            Task.Run(() => RegistryAPI.InitRegistry());
         }
 
 
@@ -57,85 +58,89 @@ namespace WindowsAutomatedSimplifier
             if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
             Archive archive = new Archive(new List<FileInfo> { new FileInfo(ofDialog.FileName) });
-            archive.Decompress(fbDialog.SelectedPath);
-
-            //MessageBox to confirm the functionality (closes after 1 second)
-            AutoClosingMessageBox.Show("Finished Successfully", "Closing...", 1000);
+            Task.Run(() =>
+            {
+                archive.Decompress(fbDialog.SelectedPath);
+                AutoClosingMessageBox.Show("Decompressing Finished Successfully", "Closing...", 1000);
+            });
         }
 
         private void BtnIconSpacing_OnClick(object sender, RoutedEventArgs e) => new IconSpacingWindow().ShowDialog();
 
         private void BtnCreateProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
-            //FolderBrowserDialog fbDialog = new FolderBrowserDialog();
-            //if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
-            //new ProtectedFolder(fbDialog.SelectedPath);
-            new ProtectedFolder(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\PWF TestOrdner", "password");
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                fbd.SelectedPath = rootPath;
+                fbd.ShowDialog();
+
+                if (fbd.SelectedPath != "" && fbd.SelectedPath != rootPath && Directory.Exists(fbd.SelectedPath))
+                {
+                    PasswordWindow pw = new PasswordWindow();
+                    pw.ShowDialog();
+                    new ProtectedFolder(fbd.SelectedPath, pw.Password);
+                }
+            }
         }
 
         private void BtnReadProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "PasswordEncryptedFile (*.pwf)|*.pwf";
+            OpenFileDialog ofd = new OpenFileDialog { Filter = "PasswordEncryptedFile (*.pwf)|*.pwf" };
             ofd.ShowDialog();
             FolderReader fr = new FolderReader(ofd.FileName);
             fr.SaveAllFiles();
         }
 
-        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => FileSystem.FileSystem.DeleteEmptyDirectories("C:\\Users\\Mani\\Documents\\Schule\\Projektentwicklung\\TESTORDNER", false);
+        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => FileSystem.FileSystem.DeleteEmptyDirectories(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\TESTORDNER", false);
 
         private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "DesktopLivePreviewHoverTime", (int)MSecSlider.Value, RegistryValueKind.DWord);
 
         private void SCExtension(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            if (button != null && button.Name.Contains("Activate")) ShortcutExtension.se_enable();
-            else ShortcutExtension.se_disable();
+            if (button != null && button.Name.Contains("Activate")) ShortcutExtension.EnableShortcutExtension();
+            else ShortcutExtension.DisableShortcutExtension();
         }
 
-        private void UpdateRegistry_Click(object sender, RoutedEventArgs e)
-        {
-            Task.Run(() =>
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo()
-                {
-                    Verb = "runas",
-                    Arguments = "/f /im explorer.exe",
-                    FileName = @"C:\windows\system32\taskkill.exe"
-                };
-                Process process = new Process { StartInfo = startInfo };
-                process.Start();
-                process.WaitForExit();
-                startInfo = new ProcessStartInfo()
-                {
-                    Verb = "runas",
-                    FileName = @"C:\windows\explorer.exe"
-                };
-                process = new Process { StartInfo = startInfo };
-                process.Start();
-            });
-        }
+        private void UpdateRegistry_Click(object sender, RoutedEventArgs e) => RegistryAPI.UpdateRegistry();
 
-        private void FontChange_Click(object sender, RoutedEventArgs e)
-        {
-            new FontPicker().ShowDialog();
-        }
+        private void FontChange_Click(object sender, RoutedEventArgs e) => new FontPicker().ShowDialog();
 
 
-        private void checkBox_Checked(object sender, RoutedEventArgs e) => FolderCheckboxes.checkBox_Checked();
-        private void checkBox_Unchecked(object sender, RoutedEventArgs e) => FolderCheckboxes.checkBox_Unchecked();
+        private void checkBox_Checked(object sender, RoutedEventArgs e) => FolderCheckboxes.EnableCheckboxes();
+        private void checkBox_Unchecked(object sender, RoutedEventArgs e) => FolderCheckboxes.DisableCheckboxes();
 
-        private void checkBox_BlackTheme_Checked(object sender, RoutedEventArgs e) => BlackTheme.checkBox_Checked();
-        private void checkBox_BlackTheme_Unchecked(object sender, RoutedEventArgs e) => BlackTheme.checkBox_Unchecked();
+        private void checkBox_BlackTheme_Checked(object sender, RoutedEventArgs e) => BlackTheme.EnableBlackTheme();
+        private void checkBox_BlackTheme_Unchecked(object sender, RoutedEventArgs e) => BlackTheme.DisableBlackTheme();
 
-        private void checkBox_AeroShake_Checked(object sender, RoutedEventArgs e) => ToggleAeroShake.checkBox_Checked();
-        private void checkBox_AeroShake_Unchecked(object sender, RoutedEventArgs e) => ToggleAeroShake.checkBox_Unchecked();
+        private void checkBox_AeroShake_Checked(object sender, RoutedEventArgs e) => ToggleAeroShake.EnableAeroShake();
+        private void checkBox_AeroShake_Unchecked(object sender, RoutedEventArgs e) => ToggleAeroShake.DisableAeroShake();
 
-        private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow.WindowSize((int)slider_TaskbarPreview.Value);
+        private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow.SetWindowSize((int)slider_TaskbarPreview.Value);
         private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
             TaskbarPreviewWindow.RestoreWindowSize();
             slider_TaskbarPreview.Value = 300;
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            MessageBoxResult mbr = MessageBox.Show("Update changes now? Else on next Windows start...", "Update Changes?", MessageBoxButton.YesNo, 0, MessageBoxResult.No);
+            if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
+        }
+
+        private void EncryptDecryptTest_Click(object sender, RoutedEventArgs e)
+        {
+            const string path = @"C:\Users\Mani\Documents\Schule\Projektentwicklung\";
+            const string sourcefile = "emptyFolders.txt", targetfile = "emptyFolders-2.txt";
+            const string password = "geheimespasswort";
+
+            byte[] prev = File.ReadAllBytes(path + sourcefile);
+            byte[] enc = Encryption.EncryptBytes(prev, password);
+            byte[] dec = Encryption.DecryptBytes(enc, password);
+
+            File.WriteAllBytes(path + targetfile, dec);
         }
     }
 }

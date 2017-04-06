@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
+using PasswordWindow = WindowsAutomatedSimplifier.Repository.PasswordWindow;
 
 namespace WindowsAutomatedSimplifier
 {
@@ -17,10 +14,16 @@ namespace WindowsAutomatedSimplifier
     {
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            if (e.Args.Length == 0) return;
+            if (e.Args.Length < 1) return;
+
             string dir = e.Args.Aggregate("", (current, eArg) => current + " " + eArg);
 
-            if (Directory.Exists(dir)) new ProtectedFolder(dir, "password");
+            if (Directory.Exists(dir))
+            {
+                PasswordWindow pw = new PasswordWindow();
+                pw.ShowDialog();
+                new ProtectedFolder(dir, pw.Password);
+            }
             else if (File.Exists(dir) && dir.EndsWith(".pwf"))
             {
                 FolderReader fr = new FolderReader(dir);

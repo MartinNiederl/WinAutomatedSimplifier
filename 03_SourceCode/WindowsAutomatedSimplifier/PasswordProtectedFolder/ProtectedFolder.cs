@@ -12,9 +12,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         private readonly List<ByteFile> _files = new List<ByteFile>();
         public ProtectedFolder(string directory, string password)
         {
-            DirectoryInfo di = new DirectoryInfo(directory);
-
-            foreach (FileInfo fileInfo in di.GetFiles("*", SearchOption.AllDirectories))
+            foreach (FileInfo fileInfo in new DirectoryInfo(directory).GetFiles("*", SearchOption.AllDirectories))
                 try { _files.Add(new ByteFile(fileInfo.FullName, directory, password)); }
                 catch { }
 
@@ -22,18 +20,20 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         }
         public async void CreateFile(string path)
         {
-            Task<byte[]> headerTask = CreateHeaderAsync();
-            Task<byte[]> filesTask = CombineFilesAsync();
+            using (Task<byte[]> headerTask = CreateHeaderAsync())
+            using (Task<byte[]> filesTask = CombineFilesAsync())
+            {
 
-            var allResults = await Task.WhenAll(headerTask, filesTask);
-            byte[] header = allResults[0];
-            byte[] files = allResults[1];
+                var allResults = await Task.WhenAll(headerTask, filesTask);
+                byte[] header = allResults[0];
+                byte[] files = allResults[1];
 
-            byte[] combined = new byte[header.Length + files.Length];
-            Buffer.BlockCopy(header, 0, combined, 0, header.Length);
-            Buffer.BlockCopy(files, 0, combined, header.Length, files.Length);
+                byte[] combined = new byte[header.Length + files.Length];
+                Buffer.BlockCopy(header, 0, combined, 0, header.Length);
+                Buffer.BlockCopy(files, 0, combined, header.Length, files.Length);
 
-            await Task.Run(delegate { File.WriteAllBytes(path, combined); });
+                File.WriteAllBytes(path, combined);
+            }
         }
 
         private Task<byte[]> CreateHeaderAsync()

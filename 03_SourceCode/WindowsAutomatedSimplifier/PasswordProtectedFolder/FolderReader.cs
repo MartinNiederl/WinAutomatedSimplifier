@@ -1,41 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using WindowsAutomatedSimplifier.Repository;
 
 namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
 {
     internal class FolderReader
     {
-        private readonly string _path;
-        private readonly List<Header> _header = new List<Header>();
+        private readonly string _filePath;
+        public static List<Header> Headers { get; } = new List<Header>();
         private readonly int _headerlength = 14 + Environment.NewLine.Length;
-        public FolderReader(string path)
+
+        public FolderReader(string filePath)
         {
-            if (string.IsNullOrEmpty(path)) return;
-            _path = path;
-            foreach (string line in File.ReadLines(_path))
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            _filePath = filePath;
+            foreach (string line in File.ReadLines(_filePath))
             {
                 if (line.StartsWith("--header_end--")) break;
                 _headerlength += line.Length + Environment.NewLine.Length;
                 string[] buf = line.Split('?');
-                _header.Add(new Header(buf[0], buf[1], buf[2]));
+                Headers.Add(new Header(buf[0], buf[1], buf[2]));
             }
+
+            new PasswordProtectedFolder().ShowDialog();
         }
-
         
-
         public byte[] ReadFileByIndex(int index)
         {
-            byte[] file = ReadFromPosition(_header[index].Position, _header[index].Length);
+            byte[] file = ReadFromPosition(Headers[index].Position, Headers[index].Length);
             return Encryption.DecryptBytes(file, "password");
         }
 
         private byte[] ReadFromPosition(int position, int length)
         {
             byte[] data = new byte[length];
-            using (FileStream fs = new FileStream(_path, FileMode.Open))
+            using (FileStream fs = new FileStream(_filePath, FileMode.Open))
             {
                 fs.Position = position + _headerlength;
                 int actualRead = 0;
@@ -50,17 +50,18 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         {
             for (int i = 0; SaveFileByIndex(i); i++) ;
         }
+
         public bool SaveFileByIndex(int index)
         {
             try
             {
                 //TODO überarbeiten - Geschwindigkeit optimieren indem nur einmal aufgerufen!
-                string path = Path.GetDirectoryName(_path) + "\\" + Path.GetFileNameWithoutExtension(_path);
+                string path = Path.GetDirectoryName(_filePath) + "\\" + Path.GetFileNameWithoutExtension(_filePath);
                 Directory.CreateDirectory(path);
                 //TODO relativen Pfad für Unterverzeichnisse hinzufügen
-                File.WriteAllBytes(path + _header[index].Filename, ReadFileByIndex(index));
+                File.WriteAllBytes(path + Headers[index].Filename, ReadFileByIndex(index));
             }
-            catch (ArgumentOutOfRangeException) {
+            catch (Exception) {
                 return false;
             }
             return true;

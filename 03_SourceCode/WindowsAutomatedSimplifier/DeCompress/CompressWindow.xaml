@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Compress" Height="190" Width="300"
+        Title="Compress" Height="234" Width="310"
         ResizeMode="CanMinimize">
     <Grid Margin="0,18,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -19,12 +20,60 @@
             <ColumnDefinition Width="148"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="Path" Text="C://temp" Grid.Row="0" Grid.Column="0"  Margin="10,0,0,10" Height="20" TextAlignment="Center"/>
-        <TextBox x:Name="Filename" Text="filename" Grid.Row="0" Grid.Column="1" Margin="10,0,10,10" Height="20" TextAlignment="Center"/>
-        <Label x:Name="LblArchiveFormat" Content="Archive Format:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
-        <ComboBox x:Name="CobArchive" SelectedIndex="0" SelectionChanged="cob_archive_SelectionChanged" Width="120" Grid.Row="1" Grid.Column="1" Margin="0,2"/>
-        <Label x:Name="LblCompressionFormat" Content="Compression Format:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"/>
-        <ComboBox x:Name="CobCompress" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Width="120" Grid.Row="2" Grid.Column="1" Margin="0,2"/>
-        <Button x:Name="Button" Content="Compress" Click="button_Click" FontWeight="Bold" Height="24" Width="80" Grid.Row="3" Grid.Column="1" Margin="0,12,0,0"/>
+        <TextBox x:Name="Path" Grid.Row="0" Grid.Column="0" Margin="10,0,10,0" Height="24" Grid.ColumnSpan="2">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Path where file gets stored" Foreground="LightGray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox x:Name="Filename" Grid.Row="1" Grid.Column="0" Margin="10,0,10,14" Height="24">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Filename of new file" Foreground="LightGray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button x:Name="BtnChoosePath" Content="Select Path" Grid.Column="1" Grid.Row="1" Height="24" Margin="30,0,30,12" Click="BtnChoosePath_Click" />
+
+        <Label x:Name="LblArchiveFormat" Content="Archive Format:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"/>
+        <ComboBox x:Name="CobArchive" SelectedIndex="0" SelectionChanged="cob_archive_SelectionChanged" Width="120" Grid.Row="2" Grid.Column="1" Margin="0,2"/>
+        <Label x:Name="LblCompressionFormat" Content="Compression Format:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right"/>
+        <ComboBox x:Name="CobCompress" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Width="120" Grid.Row="3" Grid.Column="1" Margin="0,2"/>
+        <Button x:Name="BtnCompress" Content="Compress" Click="BtnCompress_Click" FontWeight="Bold" Height="24" Width="80" Grid.Row="4" Grid.Column="1" Margin="0,12,0,0"/>
     </Grid>
 </Window>
