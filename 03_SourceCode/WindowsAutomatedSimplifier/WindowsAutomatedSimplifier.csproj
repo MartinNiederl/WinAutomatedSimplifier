@@ -136,6 +136,12 @@
     <Compile Include="Repository\TreeViewWithCheckBoxes\TreeViewModel.cs" />
     <Compile Include="Repository\TreeViewWithCheckBoxes\VirtualToggleButton.cs" />
     <Compile Include="Repository\WindowManager.cs" />
+    <Compile Include="ShortcutDialog\GlobalHotkeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShortcutDialog\ShortcutDialog.xaml.cs">
+      <DependentUpon>ShortcutDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShortcutExtension.cs" />
     <Compile Include="TaskbarPreviewWindow.cs" />
     <Compile Include="ToggleAeroShake.cs" />
@@ -180,6 +186,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ShortcutDialog\ShortcutDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -198,6 +208,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShortcutDialog\GlobalHotkeys.resx">
+      <DependentUpon>GlobalHotkeys.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
