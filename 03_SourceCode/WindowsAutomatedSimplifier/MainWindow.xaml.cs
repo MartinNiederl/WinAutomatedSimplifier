@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
 using WindowsAutomatedSimplifier.DeCompress;
 using WindowsAutomatedSimplifier.IconSpacing;
+using WindowsAutomatedSimplifier.NetworkSettings;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
 using WindowsAutomatedSimplifier.RegistryHelper;
 using WindowsAutomatedSimplifier.Repository;
@@ -142,5 +143,7 @@ namespace WindowsAutomatedSimplifier
 
             File.WriteAllBytes(path + targetfile, dec);
         }
+
+        private void BtnNetwork_OnClick(object sender, RoutedEventArgs e) => new Network().ShowDialog();
     }
 }

@@ -1,0 +1,65 @@
+﻿<Window x:Class="WindowsAutomatedSimplifier.NetworkSettings.Network"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsAutomatedSimplifier.NetworkSettings"
+        mc:Ignorable="d"
+        MinWidth="900" MaxWidth="1000"
+        MinHeight="500" MaxHeight="1000"
+        Title="Network" Height="500" Width="900">
+    <!--<Window.Resources>
+        <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                        <Expander x:Name="Expndr" IsExpanded="False" Foreground="White" Background="Black">
+                            <Expander.Header>
+                                <TextBlock Text="{Binding Name}" />
+                            </Expander.Header>
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>-->
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"></ColumnDefinition>
+            <ColumnDefinition Width="65*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Content="NetwerkInterfaces:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" FontSize="14" />
+        <Label Content="InterfaceDetails:" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" FontSize="14"/>
+
+        <ListView x:Name="Interfaces" Grid.Column="0" Grid.Row="1" Margin="10,10,10,0" ItemsSource="{Binding List, RelativeSource={RelativeSource AncestorType=Window}}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="30" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <DataGrid x:Name="NetInfo" ItemsSource="{Binding SelectedInterface, RelativeSource={RelativeSource AncestorType=Window}}" AutoGenerateColumns="True" Grid.Column="1" Grid.Row="1" />
+
+        <Button x:Name="RefreshIP" Content="Refresh IP Address" Grid.Column="0" Grid.Row="3" Margin="2" Click="RefreshIP_OnClick"/>
+        <Label Content="CurrentIP:" Grid.Column="1" Grid.Row="3" Margin="20,0,0,0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Label x:Name="CurrIP" Content="" Grid.Column="1" Grid.Row="3" Margin="100,0,0,0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+    </Grid>
+</Window>
+
+
+
+
+
+
+
