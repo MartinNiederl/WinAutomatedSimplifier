@@ -5,36 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowsAutomatedSimplifier.ShortcutDialog"
         mc:Ignorable="d"
-        Title="ShortcutDialog" Height="427.221" Width="670.588" Closing="Window_Closing">
-    <Grid>
+        ResizeMode="CanMinimize"
+        Title="ShortcutDialog" Height="214.054" Width="377.088" Closing="Window_Closing" Background="White">
+    <Grid Margin="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="85"/>
-            <ColumnDefinition Width="211"/>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="151"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="27"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="27"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="27"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="27"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="27"/>
             <RowDefinition Height="5"/>
 
         </Grid.RowDefinitions>
-        <Button x:Name="SH01" Content="AppData" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="SH01_Click"/>
-        <Button x:Name="SH02" Content="ProgramData" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Click="SH02_Click"/>
-        <Button x:Name="SH03" Content="Desktop" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="5" VerticalAlignment="Top" Width="75" Click="SH03_Click"/>
-        <Button x:Name="SH04" Content="Button" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" Click="SH04_Click"/>
-        <Button x:Name="SH05" Content="Button" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75" Click="SH05_Click"/>
-        <Label x:Name="label01" Content="C:\Users\david\AppData" Grid.Column="1" HorizontalAlignment="Left" Margin="5,6,0,0" VerticalAlignment="Top" Width="196" Grid.RowSpan="2"/>
-        <Label x:Name="label02" Content="C:\ProgramData" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="196" Grid.RowSpan="2" Grid.Row="2"/>
-        <Label x:Name="label03" Content="C:\Users\david\Desktop" Grid.Column="1" HorizontalAlignment="Left" Margin="5,2,0,0" VerticalAlignment="Top" Width="196" Grid.RowSpan="2" Grid.Row="4"/>
-        <Label x:Name="label04" Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="5,3,0,0" VerticalAlignment="Top" Width="196" Grid.RowSpan="2" Grid.Row="6"/>
-        <Label x:Name="label05" Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="196" Grid.RowSpan="2" Grid.Row="9"/>
+        <Button x:Name="SH01" Content="AppData" Margin="10,0,5,0" Grid.Row="1" Click="SH01_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <Button x:Name="SH02" Content="ProgramData" Margin="10,0,5,0" Grid.Row="3" Click="SH02_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <Button x:Name="SH03" Content="Desktop" Margin="10,0,5,0" Grid.Row="5" Click="SH03_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <Button x:Name="SH04" Content="Button" Margin="10,0,5,0" Grid.Row="7" Click="SH04_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <Button x:Name="SH05" Content="Button" Margin="10,0,5,0" Grid.Row="9" Click="SH05_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <Label x:Name="label01" Content="C:\Users\david\AppData" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="1"/>
+        <Label x:Name="label02" Content="C:\ProgramData" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="3" Height="15.96"/>
+        <Label x:Name="label03" Content="C:\Users\david\Desktop" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <Label x:Name="label04" Content="Label" Grid.Column="1" Margin="10,0,0,0" Grid.Row="7" VerticalAlignment="Center"/>
+        <Label x:Name="label05" Content="Label" Grid.Column="1" Margin="10,0,0,0" Grid.Row="9" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
 
     </Grid>
 </Window>

@@ -10,8 +10,6 @@ namespace GlobalHotkeyExampleForm
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        private static GlobalHotkeys instance;
         private static ShortcutDialog sh;
 
         enum KeyModifier
@@ -23,21 +21,12 @@ namespace GlobalHotkeyExampleForm
             WinKey = 8
         }
  
-        private GlobalHotkeys()
+        public GlobalHotkeys(ShortcutDialog shInput)
         {
             //Test Hotkeys
             RegisterHotKey(this.Handle, 0, (int)KeyModifier.Control, Keys.D1.GetHashCode());       // Register Shift + A as global hotkey.
             RegisterHotKey(this.Handle, 1, (int)KeyModifier.Control, Keys.D2.GetHashCode());       // Register CTRL + B as global hotkey.
-        }
-
-        public static GlobalHotkeys getInstance(ShortcutDialog input)
-        {
-            if (instance == null)
-            {
-                instance = new GlobalHotkeys();
-                sh = input;
-            }
-            return instance;
+            sh = shInput;
         }
 
         //Handles all the incoming Hotkeys
