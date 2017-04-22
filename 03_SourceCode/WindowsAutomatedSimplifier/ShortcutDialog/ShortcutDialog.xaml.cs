@@ -27,7 +27,7 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
         public ShortcutDialog()
         {
             InitializeComponent();
-            ef = GlobalHotkeys.getInstance(this);
+            ef = new GlobalHotkeys(this);
         }
 
         public void SH01_Click(object sender, RoutedEventArgs e)

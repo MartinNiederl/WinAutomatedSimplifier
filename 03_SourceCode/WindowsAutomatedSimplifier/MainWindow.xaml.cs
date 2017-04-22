@@ -33,7 +33,7 @@ namespace WindowsAutomatedSimplifier
         private void OpenShortcutDialog(object sender, RoutedEventArgs e)
         {
             //new Short
-            new ShortcutDialog.ShortcutDialog().ShowDialog();
+            new ShortcutDialog.ShortcutDialog().Show();
         }
 
         /// <summary>
@@ -129,6 +129,16 @@ namespace WindowsAutomatedSimplifier
         {
             MessageBoxResult mbr = MessageBox.Show("Update changes now? Else on next Windows start...", "Update Changes?", MessageBoxButton.YesNo, 0, MessageBoxResult.No);
             if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
+
+            WindowCollection wc = System.Windows.Application.Current.Windows;
+            foreach (Window k in wc)
+            {
+                if (!(sender as Window).Equals(k))
+                {
+                    k.Close();
+                }
+            }
+            
         }
 
         private void EncryptDecryptTest_Click(object sender, RoutedEventArgs e)
