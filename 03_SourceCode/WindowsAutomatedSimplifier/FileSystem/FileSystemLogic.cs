@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace WindowsAutomatedSimplifier.FileSystem
 {
-    internal class FileSystem
+    internal class FileSystemLogic
     {
         public static void DeleteEmptyDirectories(string dir)
         {
@@ -20,6 +20,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
                     try { Directory.Delete(dir); }
                     catch (UnauthorizedAccessException) { }
                     catch (DirectoryNotFoundException) { }
+                    catch (Exception) { }
                 }
             }
             catch (UnauthorizedAccessException) { }

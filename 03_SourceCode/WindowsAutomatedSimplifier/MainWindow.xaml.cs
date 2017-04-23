@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
 using WindowsAutomatedSimplifier.DeCompress;
+using WindowsAutomatedSimplifier.FileSystem;
 using WindowsAutomatedSimplifier.IconSpacing;
 using WindowsAutomatedSimplifier.NetworkSettings;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
@@ -97,7 +98,7 @@ namespace WindowsAutomatedSimplifier
             fr.SaveAllFiles();
         }
 
-        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => Task.Factory.StartNew(() => FileSystem.FileSystem
+        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => Task.Factory.StartNew(() => FileSystem.FileSystemLogic
             .DeleteEmptyDirectories(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\TESTORDNER"));
 
         private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(
@@ -161,5 +162,7 @@ namespace WindowsAutomatedSimplifier
         }
 
         private void BtnNetwork_OnClick(object sender, RoutedEventArgs e) => new Network().ShowDialog();
+
+        private void BtnFileSystem_OnClick(object sender, RoutedEventArgs e) => new FileSystemMainWindow().ShowDialog();
     }
 }

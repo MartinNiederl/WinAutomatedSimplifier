@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
-        Title="Windows Automated Simplifier" Height="520" Width="400">
+        Title="Windows Automated Simplifier" Height="530" Width="400">
     <Grid Margin="0,0,0,4">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -16,6 +16,7 @@
             <RowDefinition Height="14"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="14"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -58,6 +59,8 @@
         <Button x:Name="EncryptDecryptTest" Content="EncryptDecryptTest" Grid.Column="1" Margin="2" Grid.Row="14" Click="EncryptDecryptTest_Click"/>
         
         <Button x:Name="BtnNetwork" Content="OpenNetworkSettings" Grid.Column="1" Grid.Row="15" Margin="2" Click="BtnNetwork_OnClick"/>
+        
+        <Button x:Name="BtnFileSystem" Content="OpenFileSystem" Grid.Column="1" Grid.Row="16" Margin="2" Click="BtnFileSystem_OnClick"/>
     </Grid>
 
 </Window>

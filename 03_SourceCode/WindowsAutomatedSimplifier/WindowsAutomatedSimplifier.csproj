@@ -85,6 +85,7 @@
       <HintPath>De-Compress\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
@@ -110,7 +111,14 @@
       <DependentUpon>CompressImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="CompressImage\ImageCompression.cs" />
-    <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\ByteSize.cs" />
+    <Compile Include="FileSystem\FileSystemLogic.cs" />
+    <Compile Include="FileSystem\FileSystemMainWindow.xaml.cs">
+      <DependentUpon>FileSystemMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FileSystem\SearchFilter.xaml.cs">
+      <DependentUpon>SearchFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderCheckboxes.cs" />
     <Compile Include="NetworkSettings\Network.xaml.cs">
       <DependentUpon>Network.xaml</DependentUpon>
@@ -154,6 +162,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DeCompress\CompressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FileSystem\FileSystemMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FileSystem\SearchFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
