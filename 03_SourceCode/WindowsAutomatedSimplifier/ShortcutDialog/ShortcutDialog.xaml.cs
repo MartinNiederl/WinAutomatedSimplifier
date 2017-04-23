@@ -1,19 +1,8 @@
-﻿using GlobalHotkeyExampleForm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WindowsAutomatedSimplifier.DeCompress;
-using WindowsAutomatedSimplifier.Repository;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using static System.Environment;
 
 namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
@@ -22,42 +11,54 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
     /// </summary>
     public partial class ShortcutDialog : Window
     {
-        private GlobalHotkeys ef;
+        public GlobalHotkeys GHInstance { get; }
 
         public ShortcutDialog()
         {
             InitializeComponent();
-            ef = new GlobalHotkeys(this);
+            GHInstance = new GlobalHotkeys(this);
         }
 
         public void SH01_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\Users\david\AppData");
+            RunCommand(GetFolderPath(SpecialFolder.ApplicationData));
         }
 
         public void SH02_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\ProgramData");
+            RunCommand(@"C:\ProgramData");
         }
 
         public void SH03_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\Users\david\Desktop");
+            RunCommand(GetFolderPath(SpecialFolder.Desktop));
         }
 
         public void SH04_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\ProgramData");
+            RunCommand(@"C:\ProgramData");
         }
 
         public void SH05_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\ProgramData");
+            RunCommand(@"C:\ProgramData");
+        }
+
+        private static void RunCommand(string arguments)
+        {
+            try
+            {
+                Task.Factory.StartNew(() => Process.Start("explorer.exe", arguments));
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.Message);
+            }
         }
 
         public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ef.ExampleForm_FormClosing();
+            GHInstance.WindClose();
         }
     }
 }

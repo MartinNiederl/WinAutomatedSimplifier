@@ -1,39 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WindowsAutomatedSimplifier.FileSystem
 {
     internal class FileSystem
     {
-        private void DeleteEmptyDirectories(string path)
+        public static void DeleteEmptyDirectories(string dir)
         {
-            if (path == null) return;
-            while (path.EndsWith("\\")) path = path.Substring(0, path.Length - 1);
+            if (string.IsNullOrEmpty(dir)) throw new ArgumentException(@"Starting directory is a null reference or an empty string", nameof(dir));
 
-            DirectoryInfo di = new DirectoryInfo(@"C:\MyProject\Project1\file1\file2\file3\file4\");
-            const string root = @"C:\MyProject\Project1"; // no trailing slash!
-            while (di != null && di.FullName != root && !di.EnumerateFiles().Any() && !di.EnumerateDirectories().Any())
+            try
             {
-                di.Delete();
-                di = di.Parent;
+                foreach (string d in Directory.EnumerateDirectories(dir))
+                    DeleteEmptyDirectories(d);
+                
+                if (!Directory.EnumerateFileSystemEntries(dir).Any())
+                {
+                    try { Directory.Delete(dir); }
+                    catch (UnauthorizedAccessException) { }
+                    catch (DirectoryNotFoundException) { }
+                }
             }
-        }
-
-        public static void DeleteEmptyDirectories(string directoryPath, bool topDirectoryOnly)
-        {
-            // Get all directories; directory search option based upon parameter value.
-            IEnumerable<string> allDirectoryPaths =
-                 Directory.EnumerateDirectories(directoryPath, "*",
-                 (topDirectoryOnly) ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
-
-            // Delete directories with 0 files.
-            foreach (string path in allDirectoryPaths)
-                if (!Directory.EnumerateFiles(path).Any()) Directory.Delete(path);
+            catch (UnauthorizedAccessException) { }
         }
     }
 }
