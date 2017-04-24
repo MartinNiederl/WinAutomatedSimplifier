@@ -17,7 +17,7 @@ using WindowsAutomatedSimplifier.WindowsTweaks;
 using Microsoft.Win32;
 using static System.Windows.Application;
 using Button = System.Windows.Controls.Button;
-using MessageBox = System.Windows.MessageBox;
+using MessageBox = CustomMessageBox.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using PasswordWindow = WindowsAutomatedSimplifier.Repository.PasswordWindow;
 
@@ -138,17 +138,6 @@ namespace WindowsAutomatedSimplifier
             slider_TaskbarPreview.Value = 300;
         }
 
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            MessageBoxResult mbr = MessageBox.Show("Update changes now? Else on next Windows start...",
-                "Update Changes?", MessageBoxButton.YesNo, 0, MessageBoxResult.No);
-            if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
-
-            Window wind = sender as Window;
-            foreach (Window k in Current.Windows)
-                if (wind != null && !wind.Equals(k)) k.Close();
-        }
-
         private void EncryptDecryptTest_Click(object sender, RoutedEventArgs e)
         {
             const string path = @"C:\Users\Mani\Documents\Schule\Projektentwicklung\";
@@ -165,5 +154,16 @@ namespace WindowsAutomatedSimplifier
         private void BtnNetwork_OnClick(object sender, RoutedEventArgs e) => new Network().ShowDialog();
 
         private void BtnFileSystem_OnClick(object sender, RoutedEventArgs e) => new FileSystemMainWindow().ShowDialog();
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            MessageBoxResult mbr = MessageBox.Show("Update Changes?",
+                "Update changes now? Else on next Windows start...", MessageBoxButton.YesNo);
+            if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
+
+            Window wind = sender as Window;
+            foreach (Window k in Current.Windows)
+                if (wind != null && !wind.Equals(k)) k.Close();
+        }
     }
 }

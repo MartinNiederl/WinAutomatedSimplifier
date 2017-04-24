@@ -8,21 +8,7 @@
         MinWidth="900" MaxWidth="1000"
         MinHeight="500" MaxHeight="1000"
         Title="Network" Height="500" Width="900">
-    <!--<Window.Resources>
-        <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                        <Expander x:Name="Expndr" IsExpanded="False" Foreground="White" Background="Black">
-                            <Expander.Header>
-                                <TextBlock Text="{Binding Name}" />
-                            </Expander.Header>
-                        </Expander>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>-->
+
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35*"></ColumnDefinition>
@@ -50,16 +36,13 @@
         </ListView>
         <DataGrid x:Name="NetInfo" ItemsSource="{Binding SelectedInterface, RelativeSource={RelativeSource AncestorType=Window}}" AutoGenerateColumns="True" Grid.Column="1" Grid.Row="1" />
 
-        <Button x:Name="RefreshIP" Content="Refresh IP Address" Grid.Column="0" Grid.Row="3" Margin="2" Click="RefreshIP_OnClick"/>
-        <Label Content="CurrentIP:" Grid.Column="1" Grid.Row="3" Margin="20,0,0,0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <Label x:Name="CurrIP" Content="" Grid.Column="1" Grid.Row="3" Margin="100,0,0,0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Button x:Name="RefreshIP" Content="Request New IP-Address" Grid.Column="0" Grid.Row="3" Margin="2" Click="RefreshIP_OnClick"/>
 
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
+            <Label Content="CurrentIP:" FontSize="14" />
+            <Separator Width="40" Visibility="Hidden" Opacity="0"/>
+            <Label x:Name="CurrIP" Content="" FontSize="14" />
+        </StackPanel>
     </Grid>
 </Window>
-
-
-
-
-
-
-
+    
