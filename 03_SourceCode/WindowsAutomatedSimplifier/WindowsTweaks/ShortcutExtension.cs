@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace WindowsAutomatedSimplifier
+namespace WindowsAutomatedSimplifier.WindowsTweaks
 {
     public static class ShortcutExtension
     {

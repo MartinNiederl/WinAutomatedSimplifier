@@ -13,6 +13,7 @@ using WindowsAutomatedSimplifier.NetworkSettings;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
 using WindowsAutomatedSimplifier.RegistryHelper;
 using WindowsAutomatedSimplifier.Repository;
+using WindowsAutomatedSimplifier.WindowsTweaks;
 using Microsoft.Win32;
 using static System.Windows.Application;
 using Button = System.Windows.Controls.Button;
