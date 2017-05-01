@@ -6,10 +6,10 @@
         xmlns:pageTransitions="clr-namespace:WPFPageTransitions;assembly=WpfPageTransitions"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="FileSystemMainWindow" Height="280" Width="500">
+        Title="FileSystemMainWindow" Height="300" Width="500">
     <Grid>
         <!-- ReSharper disable once InconsistentNaming -->
-        <pageTransitions:PageTransition Name="PTControl" TransitionType="Slide" Margin="0,40,0,0"/>
+        <pageTransitions:PageTransition Name="PTControl" TransitionType="Slide" Margin="0,20,0,0"/>
     </Grid>
 </Window>
 
