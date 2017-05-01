@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Forms;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
 
 namespace WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes
