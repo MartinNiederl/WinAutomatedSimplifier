@@ -109,6 +109,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Repository\ByteSizeConverter.cs" />
     <Compile Include="WindowsTweaks\BlackTheme.cs" />
     <Compile Include="ChangeFont\ChangeFont.xaml.cs">
       <DependentUpon>ChangeFont.xaml</DependentUpon>
