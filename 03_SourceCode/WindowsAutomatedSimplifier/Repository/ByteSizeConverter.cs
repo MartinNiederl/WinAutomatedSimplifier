@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 // ReSharper disable StringIndexOfIsCultureSpecific.1
 
 namespace WindowsAutomatedSimplifier.Repository
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public enum ByteSizeEnum
+    {
+        B, KB, MB, GB, TB
+    }
     /// <summary>
     /// Represents a byte size value.
     /// </summary>
@@ -21,7 +27,7 @@ namespace WindowsAutomatedSimplifier.Repository
 
         public const string BitSymbol = "b";
         public const string ByteSymbol = "B";
-        public const string KiloByteSymbol = "KB";
+        public const string KiloByteSymbol = "kB";
         public const string MegaByteSymbol = "MB";
         public const string GigaByteSymbol = "GB";
         public const string TeraByteSymbol = "TB";
