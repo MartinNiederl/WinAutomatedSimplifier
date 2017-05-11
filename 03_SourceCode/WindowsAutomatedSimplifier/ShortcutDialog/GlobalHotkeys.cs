@@ -23,10 +23,14 @@ namespace GlobalHotkeyExampleForm
  
         public GlobalHotkeys(ShortcutDialog shInput)
         {
-            //Test Hotkeys
-            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Control, Keys.D1.GetHashCode());       // Register Shift + A as global hotkey.
-            RegisterHotKey(this.Handle, 1, (int)KeyModifier.Control, Keys.D2.GetHashCode());       // Register CTRL + B as global hotkey.
             sh = shInput;
+
+            //Test Hotkeys
+            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Control, Keys.D1.GetHashCode());
+            RegisterHotKey(this.Handle, 1, (int)KeyModifier.Control, Keys.D2.GetHashCode());
+            RegisterHotKey(this.Handle, 2, (int)KeyModifier.Control, Keys.D3.GetHashCode());
+            RegisterHotKey(this.Handle, 3, (int)KeyModifier.Control, Keys.D4.GetHashCode());
+            RegisterHotKey(this.Handle, 4, (int)KeyModifier.Control, Keys.D5.GetHashCode());
         }
 
         //Handles all the incoming Hotkeys
@@ -42,12 +46,27 @@ namespace GlobalHotkeyExampleForm
                 if (key == Keys.D1 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 1");
-                    sh.SH01_Click(new object(), new System.Windows.RoutedEventArgs());
+                    sh.textBox01_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
                 }
                 else if (key == Keys.D2 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 2");
-                    sh.SH02_Click(new object(), new System.Windows.RoutedEventArgs());
+                    sh.textBox02_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                }
+                else if (key == Keys.D3 && modifier == KeyModifier.Control)
+                {
+                    Console.WriteLine("Pressed CTRL + 3");
+                    sh.textBox03_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                }
+                else if (key == Keys.D4 && modifier == KeyModifier.Control)
+                {
+                    Console.WriteLine("Pressed CTRL + 4");
+                    sh.textBox04_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                }
+                else if (key == Keys.D5 && modifier == KeyModifier.Control)
+                {
+                    Console.WriteLine("Pressed CTRL + 5");
+                    sh.textBox05_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
                 }
             }
         }
