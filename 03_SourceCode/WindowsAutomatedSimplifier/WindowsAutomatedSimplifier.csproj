@@ -228,7 +228,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DeCompress\SharpCompress.dll" />
-    <Resource Include="ShortcutDialog\w_01_Mushroom01.jpg" />
     <Resource Include="Key.ico" />
   </ItemGroup>
   <ItemGroup>
