@@ -8,12 +8,6 @@ namespace WindowsAutomatedSimplifier.IconSpacing
         private const string VALUEH = "IconSpacing";
         private const string VALUEV = "IconVerticalSpacing";
 
-        private readonly RegistryKey _windowMetrics;
-        public IconSpacing()
-        {
-            _windowMetrics = Registry.CurrentUser.OpenSubKey("Control Panel/Desktop/WindowMetrics")?.OpenSubKey("Desktop")?.OpenSubKey("WindowMetrics", true);
-        }
-
         /// <summary>
         /// Edit desktop icon spacing.
         /// </summary>
