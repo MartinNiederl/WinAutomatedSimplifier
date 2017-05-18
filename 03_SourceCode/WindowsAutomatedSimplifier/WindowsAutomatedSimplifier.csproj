@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WindowsAutomatedSimplifier</RootNamespace>
     <AssemblyName>WindowsAutomatedSimplifier</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -78,31 +78,23 @@
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Windows.Shell">
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpCompress, Version=0.15.2.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+    <Reference Include="SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SharpCompress.0.15.2\lib\net45\SharpCompress.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>De-Compress\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -115,9 +107,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Repository\ByteSizeConverter.cs" />
-    <Compile Include="Repository\Logger.cs" />
-    <Compile Include="WindowsTweaks\BlackTheme.cs" />
+    <Compile Include="BlackTheme.cs" />
     <Compile Include="ChangeFont\ChangeFont.xaml.cs">
       <DependentUpon>ChangeFont.xaml</DependentUpon>
     </Compile>
@@ -125,18 +115,8 @@
       <DependentUpon>CompressImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="CompressImage\ImageCompression.cs" />
-    <Compile Include="FileSystem\FileSystemLogic.cs" />
-    <Compile Include="FileSystem\FileSystemMainWindow.xaml.cs">
-      <DependentUpon>FileSystemMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FileSystem\SearchFilter.xaml.cs">
-      <DependentUpon>SearchFilter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WindowsTweaks\FolderCheckboxes.cs" />
-    <Compile Include="NetworkSettings\Network.xaml.cs">
-      <DependentUpon>Network.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NetworkSettings\NetworkLogic.cs" />
+    <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FolderCheckboxes.cs" />
     <Compile Include="PasswordProtectedFolder\ByteFile.cs" />
     <Compile Include="PasswordProtectedFolder\Encryption.cs" />
     <Compile Include="PasswordProtectedFolder\FolderReader.cs" />
@@ -163,9 +143,9 @@
     <Compile Include="ShortcutDialog\ShortcutDialog.xaml.cs">
       <DependentUpon>ShortcutDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowsTweaks\ShortcutExtension.cs" />
-    <Compile Include="WindowsTweaks\TaskbarPreviewWindow.cs" />
-    <Compile Include="WindowsTweaks\ToggleAeroShake.cs" />
+    <Compile Include="ShortcutExtension.cs" />
+    <Compile Include="TaskbarPreviewWindow.cs" />
+    <Compile Include="ToggleAeroShake.cs" />
     <Page Include="ChangeFont\ChangeFont.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,14 +155,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DeCompress\CompressWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FileSystem\FileSystemMainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FileSystem\SearchFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,10 +179,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NetworkSettings\Network.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="PasswordProtectedFolder\PasswordProtectedFolder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -261,7 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DeCompress\SharpCompress.dll" />
-    <Resource Include="Resources\Key.ico" />
+    <Resource Include="Key.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -274,16 +242,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CustomMessageBox\CustomMessageBox.csproj">
-      <Project>{352ebbab-af63-4f9c-ab6a-0ad6d92b51d7}</Project>
-      <Name>CustomMessageBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfPageTransitions\WPFPageTransitions.csproj">
-      <Project>{22a46d61-1d40-43a9-802c-b9d43dadd9ec}</Project>
-      <Name>WPFPageTransitions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

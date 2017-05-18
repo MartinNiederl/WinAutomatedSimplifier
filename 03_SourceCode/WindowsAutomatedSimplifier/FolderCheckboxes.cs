@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace WindowsAutomatedSimplifier.WindowsTweaks
+namespace WindowsAutomatedSimplifier
 {
     public static class FolderCheckboxes
     {

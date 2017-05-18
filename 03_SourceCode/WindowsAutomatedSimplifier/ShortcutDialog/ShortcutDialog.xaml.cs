@@ -1,14 +1,8 @@
 ﻿using GlobalHotkeyExampleForm;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using static System.Environment;
+using System.Windows.Controls;
 
 namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
@@ -116,3 +110,15 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
         }
     }
 }
+
+/*
+var fbd = new System.Windows.Forms.FolderBrowserDialog();
+if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+{
+    Button x = sender as Button;
+    int row = Grid.GetRow(x);
+    var temp = sHGrid.Children.Cast<UIElement>().Where(i => Grid.GetRow(i) == row).ElementAt(1) as TextBox;
+    Console.WriteLine(fbd.SelectedPath);
+    //temp.Text = fbd.SelectedPath;
+}
+*/

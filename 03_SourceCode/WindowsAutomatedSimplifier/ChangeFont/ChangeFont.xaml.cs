@@ -27,7 +27,6 @@ namespace WindowsAutomatedSimplifier.ChangeFont
             byte[] value = Registry.GetValue(SOURCE_PATH, selectedItem, "") as byte[];
             if (value == null || LbFontFamily.SelectedItem == null)
             {
-                Logger.Log("No font selected or other error!");
                 AutoClosingMessageBox.Show("No font selected or other error!", "Error occured", 2000);
                 return;
             }
