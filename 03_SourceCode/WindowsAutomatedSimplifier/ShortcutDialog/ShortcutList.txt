@@ -1,0 +1,5 @@
+C:\Program Files (x86)\foobar2000\components
+C:\Program Files\Unity\Editor\Data\Documentation\en
+C:\Windows\Temp
+C:\Windows.old
+C:\Users\david\Desktop\Ordner

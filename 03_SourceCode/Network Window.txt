@@ -1,5 +1,0 @@
-<Label Content="Actual MAC Address" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-<Label Content="New MAC Address" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-
-<Label Content="Actual IP Address" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-<Label Content="New IP Address" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
