@@ -6,15 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WindowsAutomatedSimplifier.DeCompress;
-using WindowsAutomatedSimplifier.Repository;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using static System.Environment;
 
 namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
@@ -122,15 +116,3 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
         }
     }
 }
-
-/*
-var fbd = new System.Windows.Forms.FolderBrowserDialog();
-if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-{
-    Button x = sender as Button;
-    int row = Grid.GetRow(x);
-    var temp = sHGrid.Children.Cast<UIElement>().Where(i => Grid.GetRow(i) == row).ElementAt(1) as TextBox;
-    Console.WriteLine(fbd.SelectedPath);
-    //temp.Text = fbd.SelectedPath;
-}
-*/

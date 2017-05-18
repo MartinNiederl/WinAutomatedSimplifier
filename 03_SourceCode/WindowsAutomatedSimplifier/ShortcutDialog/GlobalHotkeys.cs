@@ -1,18 +1,19 @@
 using System;
 using System.Windows.Forms;
-using WindowsAutomatedSimplifier.ShortcutDialog;
+using System.Runtime.InteropServices;
 
-namespace GlobalHotkeyExampleForm
+namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
-    public partial class GlobalHotkeys : Form
+    public class GlobalHotkeys : Form
     {
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-        private static ShortcutDialog sh;
 
-        enum KeyModifier
+        private static ShortcutDialog _eventRef;
+
+        private enum KeyModifier
         {
             None = 0,
             Alt = 1,
@@ -21,7 +22,7 @@ namespace GlobalHotkeyExampleForm
             WinKey = 8
         }
  
-        public GlobalHotkeys(ShortcutDialog shInput)
+        public GlobalHotkeys(ShortcutDialog eventRefInput)
         {
             sh = shInput;
 
@@ -31,17 +32,18 @@ namespace GlobalHotkeyExampleForm
             RegisterHotKey(this.Handle, 2, (int)KeyModifier.Control, Keys.D3.GetHashCode());
             RegisterHotKey(this.Handle, 3, (int)KeyModifier.Control, Keys.D4.GetHashCode());
             RegisterHotKey(this.Handle, 4, (int)KeyModifier.Control, Keys.D5.GetHashCode());
+            _eventRef = eventRefInput;
         }
 
         //Handles all the incoming Hotkeys
-        protected override void WndProc(ref Message m)
+        protected override void WndProc(ref Message message)
         {
-            base.WndProc(ref m);
+            base.WndProc(ref message);
 
-            if (m.Msg == 0x0312)
+            if (message.Msg == 0x0312)
             {
-                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
-                KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
+                Keys key = (Keys)(((int)message.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
+                KeyModifier modifier = (KeyModifier)((int)message.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
 
                 if (key == Keys.D1 && modifier == KeyModifier.Control)
                 {
@@ -72,15 +74,10 @@ namespace GlobalHotkeyExampleForm
         }
 
         //Closes the Hotkeys
-        public void ExampleForm_FormClosing()
+        public void WindClose()
         {
-            UnregisterHotKey(this.Handle, 0);
-            UnregisterHotKey(this.Handle, 1);
-        }
-
-        private void ExampleForm_Load(object sender, EventArgs e)
-        {
-
+            UnregisterHotKey(Handle, 0);
+            UnregisterHotKey(Handle, 1);
         }
     }
 }

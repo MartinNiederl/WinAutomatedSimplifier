@@ -7,13 +7,17 @@ using System.Windows;
 using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
 using WindowsAutomatedSimplifier.DeCompress;
+using WindowsAutomatedSimplifier.FileSystem;
 using WindowsAutomatedSimplifier.IconSpacing;
+using WindowsAutomatedSimplifier.NetworkSettings;
 using WindowsAutomatedSimplifier.PasswordProtectedFolder;
 using WindowsAutomatedSimplifier.RegistryHelper;
 using WindowsAutomatedSimplifier.Repository;
+using WindowsAutomatedSimplifier.WindowsTweaks;
 using Microsoft.Win32;
+using static System.Windows.Application;
 using Button = System.Windows.Controls.Button;
-using MessageBox = System.Windows.MessageBox;
+using MessageBox = CustomMessageBox.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using PasswordWindow = WindowsAutomatedSimplifier.Repository.PasswordWindow;
 
@@ -50,14 +54,17 @@ namespace WindowsAutomatedSimplifier
         private void Btn_decompress_OnClick(object sender, RoutedEventArgs e)
         {
             //Dialog for selecting the file for decompressing
-            OpenFileDialog ofDialog = new OpenFileDialog { Filter = "Archive Files (*.7z;*.rar;*.tar;*.zip;*.gz)|*.7z;*.rar;*.tar;*.zip;*.gz" };
+            OpenFileDialog ofDialog = new OpenFileDialog
+            {
+                Filter = "Archive Files (*.7z;*.rar;*.tar;*.zip;*.gz)|*.7z;*.rar;*.tar;*.zip;*.gz"
+            };
             if (ofDialog.ShowDialog() == false) return;
 
             //Dialog for selecting the folder where the decompressed files should get stored
             FolderBrowserDialog fbDialog = new FolderBrowserDialog();
             if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            Archive archive = new Archive(new List<FileInfo> { new FileInfo(ofDialog.FileName) });
+            Archive archive = new Archive(new List<FileInfo> {new FileInfo(ofDialog.FileName)});
             Task.Run(() =>
             {
                 archive.Decompress(fbDialog.SelectedPath);
@@ -86,15 +93,18 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnReadProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog { Filter = "PasswordEncryptedFile (*.pwf)|*.pwf" };
+            OpenFileDialog ofd = new OpenFileDialog {Filter = "PasswordEncryptedFile (*.pwf)|*.pwf"};
             ofd.ShowDialog();
             FolderReader fr = new FolderReader(ofd.FileName);
             fr.SaveAllFiles();
         }
 
-        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => FileSystem.FileSystem.DeleteEmptyDirectories(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\TESTORDNER", false);
+        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => Task.Factory.StartNew(() => FileSystem.FileSystemLogic
+            .DeleteEmptyDirectories(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\TESTORDNER"));
 
-        private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "DesktopLivePreviewHoverTime", (int)MSecSlider.Value, RegistryValueKind.DWord);
+        private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(
+            @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
+            "DesktopLivePreviewHoverTime", (int) MSecSlider.Value, RegistryValueKind.DWord);
 
         private void SCExtension(object sender, RoutedEventArgs e)
         {
@@ -115,29 +125,17 @@ namespace WindowsAutomatedSimplifier
         private void checkBox_BlackTheme_Unchecked(object sender, RoutedEventArgs e) => BlackTheme.DisableBlackTheme();
 
         private void checkBox_AeroShake_Checked(object sender, RoutedEventArgs e) => ToggleAeroShake.EnableAeroShake();
-        private void checkBox_AeroShake_Unchecked(object sender, RoutedEventArgs e) => ToggleAeroShake.DisableAeroShake();
 
-        private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow.SetWindowSize((int)slider_TaskbarPreview.Value);
+        private void checkBox_AeroShake_Unchecked(object sender, RoutedEventArgs e) => ToggleAeroShake
+            .DisableAeroShake();
+
+        private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow
+            .SetWindowSize((int) slider_TaskbarPreview.Value);
+
         private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
             TaskbarPreviewWindow.RestoreWindowSize();
             slider_TaskbarPreview.Value = 300;
-        }
-
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            MessageBoxResult mbr = MessageBox.Show("Update changes now? Else on next Windows start...", "Update Changes?", MessageBoxButton.YesNo, 0, MessageBoxResult.No);
-            if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
-
-            WindowCollection wc = System.Windows.Application.Current.Windows;
-            foreach (Window k in wc)
-            {
-                if (!(sender as Window).Equals(k))
-                {
-                    k.Close();
-                }
-            }
-            
         }
 
         private void EncryptDecryptTest_Click(object sender, RoutedEventArgs e)
@@ -151,6 +149,21 @@ namespace WindowsAutomatedSimplifier
             byte[] dec = Encryption.DecryptBytes(enc, password);
 
             File.WriteAllBytes(path + targetfile, dec);
+        }
+
+        private void BtnNetwork_OnClick(object sender, RoutedEventArgs e) => new Network().ShowDialog();
+
+        private void BtnFileSystem_OnClick(object sender, RoutedEventArgs e) => new FileSystemMainWindow().ShowDialog();
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            MessageBoxResult mbr = MessageBox.Show("Update Changes?",
+                "Update changes now? Else on next Windows start...", MessageBoxButton.YesNo);
+            if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
+
+            Window wind = sender as Window;
+            foreach (Window k in Current.Windows)
+                if (wind != null && !wind.Equals(k)) k.Close();
         }
     }
 }
