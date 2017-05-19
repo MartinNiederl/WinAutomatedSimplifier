@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:WindowsAutomatedSimplifier.ShortcutDialog"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="ShortcutDialog" Height="214.054" Width="377.088" Closing="Window_Closing" Background="White">
-    <Grid Margin="0">
+        Title="ShortcutDialog" Height="214.054" Width="532.088" Closing="Window_Closing" Background="White" Initialized="Window_Initialized">
+    <Grid Margin="0" x:Name="sHGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="151"/>
@@ -26,16 +26,22 @@
             <RowDefinition Height="5"/>
 
         </Grid.RowDefinitions>
-        <Button x:Name="SH01" Content="AppData" Margin="10,0,5,0" Grid.Row="1" Click="SH01_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <Button x:Name="SH02" Content="ProgramData" Margin="10,0,5,0" Grid.Row="3" Click="SH02_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <Button x:Name="SH03" Content="Desktop" Margin="10,0,5,0" Grid.Row="5" Click="SH03_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <Button x:Name="SH04" Content="Button" Margin="10,0,5,0" Grid.Row="7" Click="SH04_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <Button x:Name="SH05" Content="Button" Margin="10,0,5,0" Grid.Row="9" Click="SH05_Click" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <Label x:Name="label01" Content="C:\Users\david\AppData" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="1"/>
-        <Label x:Name="label02" Content="C:\ProgramData" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="3" Height="15.96"/>
-        <Label x:Name="label03" Content="C:\Users\david\Desktop" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="10,0,0,0"/>
-        <Label x:Name="label04" Content="Label" Grid.Column="1" Margin="10,0,0,0" Grid.Row="7" VerticalAlignment="Center"/>
-        <Label x:Name="label05" Content="Label" Grid.Column="1" Margin="10,0,0,0" Grid.Row="9" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
+        <Button x:Name="sH01" Content="Open" Margin="10,0,5,0" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Click="sH01_Click" Height="27"/>
+        <Button x:Name="sH02" Content="Open" Margin="10,0,5,0" Grid.Row="3" Height="27" VerticalAlignment="Top" Click="sH02_Click"/>
+        <Button x:Name="sH03" Content="Open" Margin="10,0,5,0" Grid.Row="5" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Click="sH03_Click" Height="27"/>
+        <Button x:Name="sH04" Content="Open" Margin="10,0,5,0" Grid.Row="7" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Click="sH04_Click" Height="27"/>
+        <Button x:Name="sH05" Content="Open" Margin="10,0,5,0" Grid.Row="9" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Click="sH05_Click" Height="27"/>
+        <Label x:Name="label01" Content="C:\Users\david\AppData" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="1" d:IsHidden="True"/>
+        <Label x:Name="label02" Content="C:\ProgramData" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="3" Height="15.96" d:IsHidden="True"/>
+        <Label x:Name="label03" Content="C:\Users\david\Desktop" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="10,0,0,0" d:IsHidden="True"/>
+        <Label x:Name="label04" Content="Label" Grid.Column="1" Margin="10,0,0,0" Grid.Row="7" VerticalAlignment="Center" d:IsHidden="True"/>
+        <Label x:Name="label05" Content="Label" Grid.Column="1" Margin="10,0,0,0" Grid.Row="9" d:LayoutOverrides="Height" VerticalAlignment="Center" d:IsHidden="True"/>
+        <TextBox x:Name="textBox01" Margin="10,0,-218,0" Text="TextBox" Grid.Row="1" Grid.Column="1" Height="27" VerticalAlignment="Top" MouseDoubleClick="textBox01_MouseDoubleClick" HorizontalScrollBarVisibility="Disabled" MaxLines="1" MinLines="1"/>
+        <TextBox x:Name="textBox02" Margin="10,0,-218,0" Text="TextBox" Grid.Row="3" Grid.Column="1" Height="27" VerticalAlignment="Top" MouseDoubleClick="textBox02_MouseDoubleClick" MaxLines="1"/>
+        <TextBox x:Name="textBox03" Margin="10,0,-218,0" Text="TextBox" Grid.Row="5" Grid.Column="1" Height="27" VerticalAlignment="Top" MouseDoubleClick="textBox03_MouseDoubleClick" MaxLines="1"/>
+        <TextBox x:Name="textBox04" Margin="10,0,-218,0" Text="TextBox" Grid.Row="7" Grid.Column="1" Height="27" VerticalAlignment="Top" MouseDoubleClick="textBox04_MouseDoubleClick" MaxLines="1"/>
+        <TextBox x:Name="textBox05" Margin="10,0,-218,0" Text="TextBox" Grid.Row="9" Grid.Column="1" Height="27" VerticalAlignment="Top" MouseDoubleClick="textBox05_MouseDoubleClick" MaxLines="1"/>
+
 
     </Grid>
 </Window>
