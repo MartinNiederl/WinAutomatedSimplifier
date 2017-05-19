@@ -115,6 +115,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FileSystem\SelectedFileOverview.xaml.cs">
+      <DependentUpon>SelectedFileOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Repository\ByteSizeConverter.cs" />
     <Compile Include="Repository\Logger.cs" />
     <Compile Include="WindowsTweaks\BlackTheme.cs" />
@@ -183,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FileSystem\SearchFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FileSystem\SelectedFileOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

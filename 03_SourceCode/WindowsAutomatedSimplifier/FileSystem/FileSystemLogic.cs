@@ -7,8 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WindowsAutomatedSimplifier.Repository;
 using Microsoft.VisualBasic.FileIO;
-using Microsoft.WindowsAPICodePack.Controls;
-using SearchOption = System.IO.SearchOption;
 
 namespace WindowsAutomatedSimplifier.FileSystem
 {
@@ -61,8 +59,8 @@ namespace WindowsAutomatedSimplifier.FileSystem
             {
                 Logger.Log("RootDirectory does not exist");
                 return new List<FileInfo>();
-            };
-
+            }
+            
             IEnumerable<string> files;
             try
             {
