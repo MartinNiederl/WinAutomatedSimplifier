@@ -1,20 +1,10 @@
 ﻿using GlobalHotkeyExampleForm;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WindowsAutomatedSimplifier.DeCompress;
-using WindowsAutomatedSimplifier.Repository;
+using System.Windows.Forms;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
@@ -56,7 +46,7 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             System.Diagnostics.Process.Start("explorer.exe", textBox05.Text);
         }
 
-        public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        public void Window_Closing(object sender, CancelEventArgs e)
         {
             Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
@@ -67,15 +57,14 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             allPaths[2] = textBox03.Text;
             allPaths[3] = textBox04.Text;
             allPaths[4] = textBox05.Text;
-
+            //TODO Fix path
             File.WriteAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt", allPaths);
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            //Read Paths from file.
-            string[] values = new string[5];
-            values = File.ReadAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt");
+            //Read Paths from file.TODO Fix path
+            var values = File.ReadAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt");
 
             textBox01.Text = values[0];
             textBox02.Text = values[1];
@@ -86,11 +75,10 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
         private void GetFolderPath(TextBox tb)
         {
-            var fbd = new System.Windows.Forms.FolderBrowserDialog();
+            var fbd = new FolderBrowserDialog();
+
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
                 tb.Text = fbd.SelectedPath;
-            }
         }
 
         private void sH05_Click(object sender, RoutedEventArgs e)

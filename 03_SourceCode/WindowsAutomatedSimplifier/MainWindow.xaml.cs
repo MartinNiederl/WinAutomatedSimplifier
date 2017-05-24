@@ -99,7 +99,7 @@ namespace WindowsAutomatedSimplifier
             fr.SaveAllFiles();
         }
 
-        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => Task.Factory.StartNew(() => FileSystem.FileSystemLogic
+        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => Task.Factory.StartNew(() => FileSystemLogic
             .DeleteEmptyDirectories(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\TESTORDNER"));
 
         private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(
