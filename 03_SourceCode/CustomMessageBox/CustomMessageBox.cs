@@ -9,7 +9,7 @@
         Warning
     }
 
-    internal enum MessageBoxImage
+    public enum MessageBoxImage
     {
         Warning = 0,
         Question,

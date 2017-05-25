@@ -9,6 +9,7 @@ namespace CustomMessageBox
         public MessageBox()
         {
             InitializeComponent();
+            MBWnd.Icon = new BitmapImage(new Uri($"Icons/Information.png", UriKind.Relative));
         }
 
         private static MessageBox _messageBox;
@@ -49,7 +50,7 @@ namespace CustomMessageBox
             return Show(caption, text, button, MessageBoxImage.None);
         }
 
-        private static MessageBoxResult Show(string caption, string text, MessageBoxButton button, MessageBoxImage image)
+        public static MessageBoxResult Show(string caption, string text, MessageBoxButton button, MessageBoxImage image)
         {
             _messageBox = new MessageBox
             {
@@ -126,9 +127,10 @@ namespace CustomMessageBox
         }
         private void SetImage(string imageName)
         {
-            string uri = $"/Resources/images/{imageName}";
-            Uri uriSource = new Uri(uri, UriKind.RelativeOrAbsolute);
-            Img.Source = new BitmapImage(uriSource);
+            BitmapImage image = new BitmapImage(new Uri($"Icons/{imageName}", UriKind.Relative));
+            MBWnd.Icon = image;
+            Img.Visibility = Visibility.Visible;
+            Img.Source = image;
         }
     }
 }
