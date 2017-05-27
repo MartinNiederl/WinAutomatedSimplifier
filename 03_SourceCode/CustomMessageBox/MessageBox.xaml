@@ -14,6 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="38"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,16 +23,12 @@
         </Grid.ColumnDefinitions>
 
         <Image Name="Img" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Width="54" Height="54" Stretch="Fill" Visibility="Collapsed"/>
-        <TextBlock Margin="20,5,20,5"
-                   VerticalAlignment="Center"
-                   TextWrapping="Wrap" 
-                   Name="TxtMsg"
-                   Grid.Row="0"
-                   Grid.Column="1" 
-                   FontSize="14"
-                   LineHeight="20"/>
-        <Separator Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Bottom" Margin="8,0,8,4" Background="#663399FF" />
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+        <TextBlock Margin="20,5,20,5" VerticalAlignment="Center" TextWrapping="Wrap" Name="TxtMsg" Grid.Row="0" Grid.Column="1" FontSize="14" LineHeight="20"/>
+
+        <TextBox x:Name="Input" Grid.Column="1" Grid.Row="1" Margin="20,0,20,14" Height="24" VerticalAlignment="Top" Visibility="Collapsed" FontFamily="Roboto" FontSize="14" />
+        <Separator Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Bottom" Margin="8,0,8,4" Background="#663399FF" />
+        
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
             <Button Name="BtnOk" Content="OK" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
             <Button Name="BtnYes" Content="Yes" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
             <Button Name="BtnNo" Content="No" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
@@ -39,4 +36,10 @@
         </StackPanel>
     </Grid>
 </Window>
+
+
+
+
+
+
 

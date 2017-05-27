@@ -9,7 +9,6 @@ namespace CustomMessageBox
         public MessageBox()
         {
             InitializeComponent();
-            MBWnd.Icon = new BitmapImage(new Uri($"Icons/Information.png", UriKind.Relative));
         }
 
         private static MessageBox _messageBox;
@@ -33,18 +32,35 @@ namespace CustomMessageBox
                     return MessageBoxResult.No;
             }
         }
+
+        public string ShowInput(string caption, string text)
+        {
+            _messageBox = new MessageBox
+            {
+                TxtMsg = {Text = text},
+                Title = caption,
+                Input = {Visibility = Visibility.Visible}
+            };
+            SetVisibilityOfButtons(MessageBoxButton.OK);
+            _messageBox.ShowDialog();
+            return _messageBox.Input.Text;
+        }
+
         public static MessageBoxResult Show(string msg, MessageBoxType type)
         {
             return Show(string.Empty, msg, type);
         }
+
         public static MessageBoxResult Show(string msg)
         {
             return Show(string.Empty, msg, MessageBoxButton.OK, MessageBoxImage.None);
         }
+
         public static MessageBoxResult Show(string caption, string text)
         {
             return Show(caption, text, MessageBoxButton.OK, MessageBoxImage.None);
         }
+
         public static MessageBoxResult Show(string caption, string text, MessageBoxButton button)
         {
             return Show(caption, text, button, MessageBoxImage.None);
@@ -57,12 +73,12 @@ namespace CustomMessageBox
                 TxtMsg = { Text = text },
                 Title = caption
             };
-
             SetVisibilityOfButtons(button);
             SetImageOfMessageBox(image);
             _messageBox.ShowDialog();
             return _result;
         }
+
         private static void SetVisibilityOfButtons(MessageBoxButton button)
         {
             switch (button)
@@ -123,7 +139,6 @@ namespace CustomMessageBox
             else _result = MessageBoxResult.None;
 
             _messageBox.Close();
-            _messageBox = null;
         }
         private void SetImage(string imageName)
         {

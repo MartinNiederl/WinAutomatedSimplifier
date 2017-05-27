@@ -6,66 +6,46 @@ namespace PasswordSafe
 {
     internal class DataBase : IDisposable
     {
+        private static DataBase instance;
         private SQLiteConnection Connection { get; }
         private SQLiteCommand Command { get; }
 
-        public DataBase(string dataSource)
+        private DataBase(string dataSource)
         {
-            Connection = new SQLiteConnection();
-            Connection.ConnectionString = "Data Source=" + dataSource;
-
+            Connection = new SQLiteConnection { ConnectionString = "Data Source=" + dataSource };
             Connection.Open();
 
             Command = new SQLiteCommand(Connection);
         }
 
-        private void VerifyPassword()
+        public static DataBase GetInstance(string dataSource)
         {
-            Command.CommandText = "SELECT notes FROM passwords LIMIT 1";
-            using (SQLiteDataReader reader = Command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    
-                }
-                reader.Close();
-            }
+            return instance ?? (instance = new DataBase(dataSource));
         }
 
-        public void CreateTable()
+        public string GetValidationString()
         {
-            Command.CommandText = "CREATE TABLE IF NOT EXISTS passwords ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, username VARCHAR(40) NOT NULL, password VARCHAR(40) NOT NULL, url VARCHAR(40), notes VARCHAR(200));";
-            Command.ExecuteNonQuery();
-
-            // Einfügen eines PasswortTest-Datensatzes.
-            Command.CommandText = "INSERT INTO passwords (id, username, password) VALUES(NULL, ' ', 'PasswortTest-Datensatz')";
-            Command.ExecuteNonQuery();
-
+            Command.CommandText = "SELECT testtext FROM validation";
+            return (string)Command.ExecuteReader()[0];
         }
 
-        public void Read()
+        public void Initialize(string validation)
         {
-            Command.CommandText = "SELECT id, name FROM passwords ORDER BY id DESC LIMIT 0, 1";
-
-            using (SQLiteDataReader reader = Command.ExecuteReader())
-            {
-                while (reader.Read())
-                    Console.WriteLine("Dies ist der {0}. eingefügte Datensatz mit dem Wert: \"{1}\"",
-                        reader[0], reader[1]);
-
-                reader.Close();
-            }
+            ExecuteScript(
+                "CREATE TABLE IF NOT EXISTS passwords ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, username VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, url VARCHAR(100), notes VARCHAR(300));" +
+                "CREATE TABLE IF NOT EXISTS validation ( testtext VARCHAR(100) NOT NULL);" +
+                $"INSERT INTO validation (testtext) VALUES('{validation}');");
         }
 
         public List<PasswordEntity> ReadEntity()
         {
             var list = new List<PasswordEntity>();
-            Command.CommandText = "SELECT username, password, url, notes FROM table LIMIT -1 OFFSET 1";
+            Command.CommandText = "SELECT id, username, password, url, notes FROM passwords";
 
             using (SQLiteDataReader reader = Command.ExecuteReader())
             {
                 while (reader.Read())
-                    list.Add(new PasswordEntity(reader[0], reader[1], reader[2], reader[3]));
+                    list.Add(new PasswordEntity((string)reader[1], (string)reader[2], (string)reader[3], (string)reader[4], (int)reader[0]));
 
                 reader.Close();
             }
@@ -73,10 +53,35 @@ namespace PasswordSafe
             return list;
         }
 
+        /// <summary>
+        /// Insert new PasswordEntry into the database.
+        /// </summary>
+        /// <returns>The autoincremented ID.</returns>
+        public int InsertEntry(string username, string password, string url, string notes)
+        {
+            Command.CommandText = $"INSERT INTO passwords (username, password, url, notes) VALUES ('{username}', '{password}', '{url}', '{notes}') ";
+            Command.ExecuteNonQuery();
+            Command.CommandText = "SELECT last_insert_rowid()";
+            return (int)Command.ExecuteReader()[0];
+        }
+
+        //TODO add partial support
+        public void UpdateEntry(string username, string password, string url, string notes, int id)
+        {
+            Command.CommandText = $"UPDATE passwords SET username = '{username}', password = '{password}', url = '{url}', notes = '{notes}' WHERE id = '{id}'";
+            Command.ExecuteNonQuery();
+        }
+
+        public void DeleteEntry(int id)
+        {
+            Command.CommandText = $"DELETE FROM passwords WHERE id = {id}";
+            Command.ExecuteNonQuery();
+        }
+
         public void ClearDB()
         {
-            Command.CommandText = "DROP TABLE passwords";
-            Command.ExecuteNonQuery();
+            ExecuteScript("DROP TABLE passwords;" +
+                "DROP TABLE validation;");
         }
 
         public void CloseConnection()
@@ -84,6 +89,15 @@ namespace PasswordSafe
             Connection.Close();
             Connection.Dispose();
             Command.Dispose();
+        }
+
+        private void ExecuteScript(string script = "")
+        {
+            foreach (string command in script.Trim(';').Split(';'))
+            {
+                Command.CommandText = command;
+                Command.ExecuteNonQuery();
+            }
         }
 
         public void Dispose() => CloseConnection();

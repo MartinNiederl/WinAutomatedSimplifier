@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PasswordSafe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="800">
     <Grid Margin="4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="80*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -16,17 +16,21 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <DataGrid x:Name="PasswordGrid" Grid.Column="1" Grid.Row="1">
+        <DataGrid x:Name="PasswordGrid" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="User Name" Width="SizeToCells" IsReadOnly="True" />
-                <DataGridTextColumn Header="Password" Width="SizeToCells" IsReadOnly="True" />
+                <DataGridTextColumn Header="User Name" Width="10*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Password" Width="10*" IsReadOnly="True" />
+                <DataGridTextColumn Header="URL" Width="14*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Notes" Width="14*" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Margin="10,0,0,0">
             <Button x:Name="Open" Content="Open" Click="Open_OnClick" VerticalAlignment="Center" Margin="14,0,0,0"/>
             <Button x:Name="New" Content="New" Click="New_OnClick" VerticalAlignment="Center" Margin="14,0,0,0"/>
-            <Button x:Name="Delete" Content="Delete" Click="Delete_OnClick_OnClick" Visibility="Collapsed" VerticalAlignment="Center" Margin="14,0,0,0"/>
+            <Button x:Name="Delete" Content="Delete" Click="Delete_OnClick" Visibility="Collapsed" VerticalAlignment="Center" Margin="14,0,0,0"/>
+            <Button x:Name="AddEntry" Content="Add Entry" Click="AddEntry_OnClick" Visibility="Collapsed" VerticalAlignment="Center" Margin="14,0,0,0"/>
         </StackPanel>
+        
 
     </Grid>
 </Window>
