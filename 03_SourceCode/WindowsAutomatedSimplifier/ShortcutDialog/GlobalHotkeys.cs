@@ -1,18 +1,17 @@
 using System;
 using System.Windows.Forms;
-using WindowsAutomatedSimplifier.ShortcutDialog;
 
-namespace GlobalHotkeyExampleForm
+namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
-    public partial class GlobalHotkeys : Form
+    public class GlobalHotkeys : Form
     {
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-        private static ShortcutDialog sh;
+        private static ShortcutDialog SDialogInstance;
 
-        enum KeyModifier
+        private enum KeyModifier
         {
             None = 0,
             Alt = 1,
@@ -21,16 +20,16 @@ namespace GlobalHotkeyExampleForm
             WinKey = 8
         }
  
-        public GlobalHotkeys(ShortcutDialog shInput)
+        public GlobalHotkeys(ShortcutDialog sDialogInstanceInput)
         {
-            sh = shInput;
+            SDialogInstance = sDialogInstanceInput;
 
             //Test Hotkeys
-            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Control, Keys.D1.GetHashCode());
-            RegisterHotKey(this.Handle, 1, (int)KeyModifier.Control, Keys.D2.GetHashCode());
-            RegisterHotKey(this.Handle, 2, (int)KeyModifier.Control, Keys.D3.GetHashCode());
-            RegisterHotKey(this.Handle, 3, (int)KeyModifier.Control, Keys.D4.GetHashCode());
-            RegisterHotKey(this.Handle, 4, (int)KeyModifier.Control, Keys.D5.GetHashCode());
+            RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.D1.GetHashCode());
+            RegisterHotKey(Handle, 1, (int)KeyModifier.Control, Keys.D2.GetHashCode());
+            RegisterHotKey(Handle, 2, (int)KeyModifier.Control, Keys.D3.GetHashCode());
+            RegisterHotKey(Handle, 3, (int)KeyModifier.Control, Keys.D4.GetHashCode());
+            RegisterHotKey(Handle, 4, (int)KeyModifier.Control, Keys.D5.GetHashCode());
         }
 
         //Handles all the incoming Hotkeys
@@ -46,27 +45,27 @@ namespace GlobalHotkeyExampleForm
                 if (key == Keys.D1 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 1");
-                    sh.textBox01_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                    SDialogInstance.RunCommand(SDialogInstance.TxtPath01, null);
                 }
                 else if (key == Keys.D2 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 2");
-                    sh.textBox02_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                    SDialogInstance.RunCommand(SDialogInstance.TxtPath02, null);
                 }
                 else if (key == Keys.D3 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 3");
-                    sh.textBox03_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                    SDialogInstance.RunCommand(SDialogInstance.TxtPath03, null);
                 }
                 else if (key == Keys.D4 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 4");
-                    sh.textBox04_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                    SDialogInstance.RunCommand(SDialogInstance.TxtPath04, null);
                 }
                 else if (key == Keys.D5 && modifier == KeyModifier.Control)
                 {
                     Console.WriteLine("Pressed CTRL + 5");
-                    sh.textBox05_MouseDoubleClick(new object(), new System.Windows.RoutedEventArgs());
+                    SDialogInstance.RunCommand(SDialogInstance.TxtPath05, null);
                 }
             }
         }
@@ -74,8 +73,8 @@ namespace GlobalHotkeyExampleForm
         //Closes the Hotkeys
         public void ExampleForm_FormClosing()
         {
-            UnregisterHotKey(this.Handle, 0);
-            UnregisterHotKey(this.Handle, 1);
+            UnregisterHotKey(Handle, 0);
+            UnregisterHotKey(Handle, 1);
         }
 
         private void ExampleForm_Load(object sender, EventArgs e)
