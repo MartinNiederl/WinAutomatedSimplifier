@@ -5,13 +5,9 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsAutomatedSimplifier", "WindowsAutomatedSimplifier\WindowsAutomatedSimplifier.csproj", "{0C72BB47-A4C4-4006-9748-63B3DC5101CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsAutomatedSimplifier.Tests", "WindowsAutomatedSimplifier.Tests\WindowsAutomatedSimplifier.Tests.csproj", "{EAEC5518-2385-4075-9FB7-F1DBD5816AA3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFPageTransitions", "WpfPageTransitions\WPFPageTransitions.csproj", "{22A46D61-1D40-43A9-802C-B9D43DADD9EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMessageBox", "CustomMessageBox\CustomMessageBox.csproj", "{352EBBAB-AF63-4F9C-AB6A-0AD6D92B51D7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMessageBox.Tests", "CustomMessageBox.Tests\CustomMessageBox.Tests.csproj", "{73ED359D-9915-4D76-83E0-E85820BBB47E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordSafe", "PasswordSafe\PasswordSafe.csproj", "{F04E31D3-D2E0-4465-BAEF-B7F6E1967CCD}"
 EndProject
@@ -25,10 +21,6 @@ Global
 		{0C72BB47-A4C4-4006-9748-63B3DC5101CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C72BB47-A4C4-4006-9748-63B3DC5101CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C72BB47-A4C4-4006-9748-63B3DC5101CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAEC5518-2385-4075-9FB7-F1DBD5816AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAEC5518-2385-4075-9FB7-F1DBD5816AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAEC5518-2385-4075-9FB7-F1DBD5816AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAEC5518-2385-4075-9FB7-F1DBD5816AA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22A46D61-1D40-43A9-802C-B9D43DADD9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22A46D61-1D40-43A9-802C-B9D43DADD9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22A46D61-1D40-43A9-802C-B9D43DADD9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,10 +29,6 @@ Global
 		{352EBBAB-AF63-4F9C-AB6A-0AD6D92B51D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{352EBBAB-AF63-4F9C-AB6A-0AD6D92B51D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{352EBBAB-AF63-4F9C-AB6A-0AD6D92B51D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73ED359D-9915-4D76-83E0-E85820BBB47E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73ED359D-9915-4D76-83E0-E85820BBB47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73ED359D-9915-4D76-83E0-E85820BBB47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73ED359D-9915-4D76-83E0-E85820BBB47E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F04E31D3-D2E0-4465-BAEF-B7F6E1967CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F04E31D3-D2E0-4465-BAEF-B7F6E1967CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F04E31D3-D2E0-4465-BAEF-B7F6E1967CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU

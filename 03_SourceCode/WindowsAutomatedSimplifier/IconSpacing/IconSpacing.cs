@@ -18,8 +18,8 @@ namespace WindowsAutomatedSimplifier.IconSpacing
             Registry.SetValue(KEYPATH, VALUEH, horizontal);
             Registry.SetValue(KEYPATH, VALUEV, vertical);
         }
-        public static int GetHorizontalSpacing() => (int)Registry.GetValue(KEYPATH, VALUEH, -1);
+        public static int GetHorizontalSpacing() => int.Parse((string)Registry.GetValue(KEYPATH, VALUEH, -1));
 
-        public static int GetVerticalSpacing() => (int)Registry.GetValue(KEYPATH, VALUEV, -1);
+        public static int GetVerticalSpacing() => int.Parse((string)Registry.GetValue(KEYPATH, VALUEV, -1));
     }
 }
