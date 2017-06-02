@@ -1,10 +1,14 @@
 using System;
 using System.Windows.Forms;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
     public class GlobalHotkeys : Form
     {
+        private const int SCCOUNT = 5;
+        private const int NUMKEYSTART = 48;  //48 is the begin of the number keys
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -24,62 +28,31 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
         {
             SDialogInstance = sDialogInstanceInput;
 
-            //Test Hotkeys
-            RegisterHotKey(Handle, 0, (int)KeyModifier.Control, Keys.D1.GetHashCode());
-            RegisterHotKey(Handle, 1, (int)KeyModifier.Control, Keys.D2.GetHashCode());
-            RegisterHotKey(Handle, 2, (int)KeyModifier.Control, Keys.D3.GetHashCode());
-            RegisterHotKey(Handle, 3, (int)KeyModifier.Control, Keys.D4.GetHashCode());
-            RegisterHotKey(Handle, 4, (int)KeyModifier.Control, Keys.D5.GetHashCode());
+            for (int i = 0; i < SCCOUNT; i++)
+                RegisterHotKey(Handle, i, (int) KeyModifier.Control, i + NUMKEYSTART);
         }
 
         //Handles all the incoming Hotkeys
-        protected override void WndProc(ref Message m)
+        protected override void WndProc(ref Message message)
         {
-            base.WndProc(ref m);
+            base.WndProc(ref message);
+            if (message.Msg != 0x0312) return;
 
-            if (m.Msg == 0x0312)
+            Keys key = (Keys)(((int)message.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
+            KeyModifier modifier = (KeyModifier)((int)message.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
+
+            if (modifier == KeyModifier.Control)
             {
-                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
-                KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
-
-                if (key == Keys.D1 && modifier == KeyModifier.Control)
-                {
-                    Console.WriteLine("Pressed CTRL + 1");
-                    SDialogInstance.RunCommand(SDialogInstance.TxtPath01, null);
-                }
-                else if (key == Keys.D2 && modifier == KeyModifier.Control)
-                {
-                    Console.WriteLine("Pressed CTRL + 2");
-                    SDialogInstance.RunCommand(SDialogInstance.TxtPath02, null);
-                }
-                else if (key == Keys.D3 && modifier == KeyModifier.Control)
-                {
-                    Console.WriteLine("Pressed CTRL + 3");
-                    SDialogInstance.RunCommand(SDialogInstance.TxtPath03, null);
-                }
-                else if (key == Keys.D4 && modifier == KeyModifier.Control)
-                {
-                    Console.WriteLine("Pressed CTRL + 4");
-                    SDialogInstance.RunCommand(SDialogInstance.TxtPath04, null);
-                }
-                else if (key == Keys.D5 && modifier == KeyModifier.Control)
-                {
-                    Console.WriteLine("Pressed CTRL + 5");
-                    SDialogInstance.RunCommand(SDialogInstance.TxtPath05, null);
-                }
+                string name = "TxtPath" + ((int) key - NUMKEYSTART).ToString().PadLeft(2, '0');
+                SDialogInstance.RunCommand(SDialogInstance.FindName(name), null);
             }
         }
 
         //Closes the Hotkeys
         public void ExampleForm_FormClosing()
         {
-            UnregisterHotKey(Handle, 0);
-            UnregisterHotKey(Handle, 1);
-        }
-
-        private void ExampleForm_Load(object sender, EventArgs e)
-        {
-
+            for (int i = 0; i < SCCOUNT; i++)
+                UnregisterHotKey(Handle, i);
         }
     }
 }

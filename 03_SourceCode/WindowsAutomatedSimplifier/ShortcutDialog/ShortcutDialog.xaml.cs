@@ -26,31 +26,6 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             hotkeyInstance = new GlobalHotkeys(this);
         }
 
-        /*public void textBox01_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start("explorer.exe", TxtPath01.Text);
-        }
-
-        public void textBox02_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start("explorer.exe", TxtPath02.Text);
-        }
-
-        public void textBox03_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start("explorer.exe", TxtPath03.Text);
-        }
-
-        public void textBox04_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start("explorer.exe", TxtPath04.Text);
-        }
-
-        public void textBox05_MouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start("explorer.exe", TxtPath05.Text);
-        }*/
-
         public void Window_Closing(object sender, CancelEventArgs e)
         {
             Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
@@ -74,40 +49,6 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             //TxtPath05.Text = values[4];
         }
 
-        private void GetFolderPath(TextBox tb)
-        {
-            var fbd = new FolderBrowserDialog();
-
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                tb.Text = fbd.SelectedPath;
-        }
-
-        private void sH05_Click(object sender, RoutedEventArgs e)
-        {
-            GetFolderPath(TxtPath05);
-        }
-
-        private void sH04_Click(object sender, RoutedEventArgs e)
-        {
-            GetFolderPath(TxtPath04);
-        }
-
-        private void sH03_Click(object sender, RoutedEventArgs e)
-        {
-            GetFolderPath(TxtPath03);
-        }
-
-        private void sH02_Click(object sender, RoutedEventArgs e)
-        {
-            GetFolderPath(TxtPath02);
-        }
-
-        private void sH01_Click(object sender, RoutedEventArgs e)
-        {
-            GetFolderPath(TxtPath01);
-        }
-
-
         public void RunCommand(object sender, MouseButtonEventArgs e)
         {
             TextBox box = sender as TextBox;
@@ -130,7 +71,6 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 box.Text = fbd.SelectedPath;
-
         }
     }
 }
