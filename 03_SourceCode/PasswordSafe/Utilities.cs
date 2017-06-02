@@ -118,6 +118,11 @@ namespace PasswordSafe
             DB.UpdateEntry(username, password, url, notes, id);
         }
 
+        public static void Update(PasswordEntity entity)
+        {
+            DB.UpdateEntry(entity.Username, entity.Password, entity.Url, entity.Notes, entity.ID);
+        }
+
         public static void Delete(int id)
         {
             DB.DeleteEntry(id);

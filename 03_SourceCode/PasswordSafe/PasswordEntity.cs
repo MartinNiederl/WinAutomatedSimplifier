@@ -2,16 +2,16 @@
 
 namespace PasswordSafe
 {
-    internal class PasswordEntity
+    public class PasswordEntity
     {
-        public int ID { get; }
-        public string Username { get; }
+        public int ID { get; private set; }
+        public string Username { get; private set; }
 
-        public string Password { get; }
+        public string Password { get; private set; }
 
-        public string Url { get; }
+        public string Url { get; private set; }
 
-        public string Notes { get; }
+        public string Notes { get; private set; }
 
         public PasswordEntity(string username, string password, string url, string notes, int id = 0)
         {
@@ -20,6 +20,15 @@ namespace PasswordSafe
             Password = password;
             Url = url;
             Notes = notes;
+        }
+
+        public PasswordEntity Update(PasswordEntity @new)
+        {
+            Username = @new.Username;
+            Password = @new.Password;
+            Url = @new.Url;
+            Notes = @new.Notes;
+            return this;
         }
 
         public override string ToString()

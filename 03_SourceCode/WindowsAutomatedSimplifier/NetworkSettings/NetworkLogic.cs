@@ -36,10 +36,14 @@ namespace WindowsAutomatedSimplifier.NetworkSettings
         public static List<string> GetNetworkCards() => NetworkCards.Select(card => $"{card.Name} ({card.Description})").ToList();
 
 
-        public static List<KeyValuePair<string, object>> GetNetworkCardsByName(string name) => NetworkCards.Where(c => c.Name.Equals(name))
-            .Select(card => typeof(NetworkInterface).GetProperties()
-                .Select(prop => new KeyValuePair<string, object>(prop.Name, prop.GetValue(card, null)))
-                .ToList()).ElementAt(0);
+        public static List<KeyValuePair<string, object>> GetNetworkCardsByName(string name)
+        {
+            return NetworkCards.Where(c => c.Name.Equals(name))
+                .Select(card => typeof(NetworkInterface).GetProperties()
+                    .Select(prop => new KeyValuePair<string, object>(prop.Name, prop.GetValue(card, null)))
+                    .ToList())
+                .ElementAt(0);
+        }
 
         public static void CreateNetInformation()
         {

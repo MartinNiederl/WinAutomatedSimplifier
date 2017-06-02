@@ -23,17 +23,24 @@
                 <DataGridTextColumn Header="URL" Width="14*" IsReadOnly="True" />
                 <DataGridTextColumn Header="Notes" Width="14*" IsReadOnly="True" />
             </DataGrid.Columns>
+            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Click="Delete_OnClick" />
+                    <MenuItem Header="Edit" Click="Edit_OnClick" />
+                    <Separator />
+                    <MenuItem Header="Copy Password" Click="CopyPassword_OnClick" />
+                    <MenuItem Header="Copy Username" Click="CopyUsername_OnClick" />
+                    </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Margin="10,0,0,0">
             <Button x:Name="Open" Content="Open" Click="Open_OnClick" VerticalAlignment="Center" Margin="14,0,0,0"/>
             <Button x:Name="New" Content="New" Click="New_OnClick" VerticalAlignment="Center" Margin="14,0,0,0"/>
-            <Button x:Name="Delete" Content="Delete" Click="Delete_OnClick" Visibility="Collapsed" VerticalAlignment="Center" Margin="14,0,0,0"/>
+            <Button x:Name="Delete" Content="Delete" Click="DeleteSafe_OnClick" Visibility="Collapsed" VerticalAlignment="Center" Margin="14,0,0,0"/>
             <Button x:Name="AddEntry" Content="Add Entry" Click="AddEntry_OnClick" Visibility="Collapsed" VerticalAlignment="Center" Margin="14,0,0,0"/>
         </StackPanel>
         
 
     </Grid>
 </Window>
-
-
-

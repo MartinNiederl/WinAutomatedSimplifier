@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Text;
 
 namespace PasswordSafe
 {
@@ -64,11 +65,17 @@ namespace PasswordSafe
             Command.CommandText = "SELECT last_insert_rowid()";
             return (int)Command.ExecuteReader()[0];
         }
-
-        //TODO add partial support
+        
         public void UpdateEntry(string username, string password, string url, string notes, int id)
         {
-            Command.CommandText = $"UPDATE passwords SET username = '{username}', password = '{password}', url = '{url}', notes = '{notes}' WHERE id = '{id}'";
+            string updateStatement = "UPDATE passwords SET";
+
+            updateStatement += UpdateAppend(username, "username", 3) + UpdateAppend(password, "password", 5) +
+                UpdateAppend(url, "url") + UpdateAppend(notes, "notes");
+
+            updateStatement = updateStatement.TrimEnd(',') + $" WHERE id = '{id}'";
+
+            Command.CommandText = updateStatement;
             Command.ExecuteNonQuery();
         }
 
@@ -78,11 +85,7 @@ namespace PasswordSafe
             Command.ExecuteNonQuery();
         }
 
-        public void ClearDB()
-        {
-            ExecuteScript("DROP TABLE passwords;" +
-                "DROP TABLE validation;");
-        }
+        public void ClearDB() => ExecuteScript("DROP TABLE passwords;" + "DROP TABLE validation;");
 
         public void CloseConnection()
         {
@@ -98,6 +101,13 @@ namespace PasswordSafe
                 Command.CommandText = command;
                 Command.ExecuteNonQuery();
             }
+        }
+
+        private static string UpdateAppend(string var, string colname, int gt = 0)
+        {
+            if (var != null && var.Length >= gt)
+                return $" {colname} = '{var}'";
+            return "";
         }
 
         public void Dispose() => CloseConnection();
