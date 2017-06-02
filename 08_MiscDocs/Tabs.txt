@@ -1,0 +1,21 @@
+	Security
+		PasswordSafe
+		PasswordProtectedFolder
+	Design
+		IconSpacing
+		ChangeFont
+		Black Theme
+		ToggleAeroShake
+		Folder Checkboxes
+		Shortcut Extension
+		TaskbarPreviewWindow
+	Network
+		FileSystem
+		NetworkSettings
+	Extensions
+		Compress/DeCompress
+		ShortcutDialog
+
+	About
+		Dokumentation
+		Credits (MD-Softworks)

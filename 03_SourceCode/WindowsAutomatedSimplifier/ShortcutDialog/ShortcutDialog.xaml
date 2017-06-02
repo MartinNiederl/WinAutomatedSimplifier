@@ -7,7 +7,6 @@
         ResizeMode="CanMinimize"
         Title="ShortcutDialog" Height="230" Width="530" Closing="Window_Closing" Background="White" Initialized="Window_Initialized">
     <Grid Margin="10" x:Name="HotkeyInterface">
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="*"/>
