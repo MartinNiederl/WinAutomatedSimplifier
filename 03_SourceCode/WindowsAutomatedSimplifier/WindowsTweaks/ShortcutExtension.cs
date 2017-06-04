@@ -6,10 +6,9 @@ namespace WindowsAutomatedSimplifier.WindowsTweaks
     {
         public static void DisableShortcutExtension() => Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", new byte[] { 00, 00, 00, 00 }, RegistryValueKind.Binary);
 
-        public static void EnableShortcutExtension()
+        public static void EnableShortcutExtension() //by deleting link
         {
-            using (RegistryKey baseKey = Registry.CurrentUser)
-                baseKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\", true)?.DeleteValue("link");
+                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", new byte[] { 19, 00, 00, 00 });
         }
     }
 }

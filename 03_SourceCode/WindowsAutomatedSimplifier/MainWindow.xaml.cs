@@ -64,7 +64,7 @@ namespace WindowsAutomatedSimplifier
             FolderBrowserDialog fbDialog = new FolderBrowserDialog();
             if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            Archive archive = new Archive(new List<FileInfo> { new FileInfo(ofDialog.FileName) });
+            Archive archive = new Archive(new List<FileInfo> {new FileInfo(ofDialog.FileName)});
             Task.Run(() =>
             {
                 archive.Decompress(fbDialog.SelectedPath);
@@ -93,7 +93,7 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnReadProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog { Filter = "PasswordEncryptedFile (*.pwf)|*.pwf" };
+            OpenFileDialog ofd = new OpenFileDialog {Filter = "PasswordEncryptedFile (*.pwf)|*.pwf"};
             ofd.ShowDialog();
             FolderReader fr = new FolderReader(ofd.FileName);
             fr.SaveAllFiles();
@@ -104,7 +104,7 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(
             @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
-            "DesktopLivePreviewHoverTime", (int)MSecSlider.Value, RegistryValueKind.DWord);
+            "DesktopLivePreviewHoverTime", (int) MSecSlider.Value, RegistryValueKind.DWord);
 
         private void UpdateRegistry_Click(object sender, RoutedEventArgs e) => RegistryAPI.UpdateRegistry();
 
@@ -123,7 +123,7 @@ namespace WindowsAutomatedSimplifier
             .DisableAeroShake();
 
         private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow
-            .SetWindowSize((int)slider_TaskbarPreview.Value);
+            .SetWindowSize((int) slider_TaskbarPreview.Value);
 
         private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
@@ -159,22 +159,33 @@ namespace WindowsAutomatedSimplifier
                 if (wind != null && !wind.Equals(k)) k.Close();
         }
 
-        private void Window_Initialized(object sender, EventArgs e)
+        private void ToggleShortcutExtension_Checked(object sender, RoutedEventArgs e) => ShortcutExtension.EnableShortcutExtension();
+        private void ToggleShortcutExtension_Unchecked(object sender, RoutedEventArgs e) => ShortcutExtension.DisableShortcutExtension();
+
+        private void Design_Initialized(object sender, EventArgs e)
         {
-            //Initialize all the WindowsTweak-Functions.
-            Console.WriteLine("Initialized");
             string keypath_01 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
             string keypath_02 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
             string keypath_03 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband";
-            
-            checkBox_checkBoxEnable.IsChecked = ((int)Registry.GetValue(keypath_01, "AutoCheckSelect", false) == 1) ? true : false;
-            checkBox_BlackTheme.IsChecked = ((int)Registry.GetValue(keypath_02, "AppsUseLightTheme", false) == 0) ? true : false;
-            checkBox_ToggleAeroShake.IsChecked = ((int)Registry.GetValue(keypath_01, "DisallowShaking", false) == 0) ? true : false;
+            string keypath_04 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer";
+
+            ToggleAeroShake.IsChecked = ((int)Registry.GetValue(keypath_01, "DisallowShaking", false) == 0) ? true : false;
+            ToggleBlackTheme.IsChecked = ((int)Registry.GetValue(keypath_02, "AppsUseLightTheme", false) == 0) ? true : false;
+            ToggleCheckBoxes.IsChecked = ((int)Registry.GetValue(keypath_01, "AutoCheckSelect", false) == 1) ? true : false;
             slider_TaskbarPreview.Value = (int)Registry.GetValue(keypath_03, "MinThumbSizePx", -1);
             MSecSlider.Value = (int)Registry.GetValue(keypath_01, "DesktopLivePreviewHoverTime", -1);
+            Console.WriteLine(Registry.GetValue(keypath_04, "link", -1));//mach auf -> notChecked
+
+            var b = (Byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", null);
+            string s = BitConverter.ToString(b);
+            if (s == "00-00-00-00") //Wenn Key existiert
+            {
+                ToggleShortcutExtension.IsChecked = false;
+            }
+            else
+            {
+                ToggleShortcutExtension.IsChecked = true;
+            }
         }
-		
-        private void ToggleShortcutExtension_Checked(object sender, RoutedEventArgs e) => ShortcutExtension.EnableShortcutExtension();
-        private void ToggleShortcutExtension_Unchecked(object sender, RoutedEventArgs e) => ShortcutExtension.DisableShortcutExtension();
     }
 }

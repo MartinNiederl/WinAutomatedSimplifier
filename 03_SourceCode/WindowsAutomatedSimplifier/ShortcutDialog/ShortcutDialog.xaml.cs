@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Controls;
 using Button = System.Windows.Controls.Button;
 using TextBox = System.Windows.Controls.TextBox;
-using System.Windows.Controls;
 
 namespace WindowsAutomatedSimplifier.ShortcutDialog
 {
@@ -31,25 +31,24 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
         public void Window_Closing(object sender, CancelEventArgs e)
         {
-            hotkeyInstance.ExampleForm_FormClosing();
-			string[] allPaths = { TxtPath01.Text, TxtPath02.Text, TxtPath03.Text, TxtPath04.Text, TxtPath05.Text };
-            File.WriteAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt", allPaths);
+            hotkeyInstance.CloseForm();
+
+            var paths = HotkeyInterface.Children.OfType<TextBox>().Select(el => el.Text);
+
+            if (!File.Exists(scListPath)) File.Create(scListPath);
+            File.WriteAllLines(scListPath, paths);
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS");
-            string path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt");
-            if (!File.Exists(path))
-            {
-                FileStream x = File.Create(path);
-                x.Close();
-            }
+            if (!File.Exists(scListPath)) File.Create(scListPath);
+            var values = File.ReadAllLines(scListPath);
 
-            string[] values = File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt");
-            if (values.Length > 0)
+            for (int i = 0; i < values.Length; i++)
             {
-				for(int i = 0; i < 5; i++){TxtPath01.Text = values[i];}
+                string name = "TxtPath" + i.ToString().PadLeft(2, '0');
+                TextBox box = (TextBox)FindName(name);
+                if (box != null) box.Text = values[i];
             }
         }
 

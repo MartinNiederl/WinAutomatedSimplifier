@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
-        Title="Windows Automated Simplifier" Height="600" Width="800" Initialized="Window_Initialized">
+        Title="Windows Automated Simplifier" Height="600" Width="800">
     <Grid>
         <TabControl Margin="5">
             <TabItem x:Name="Security" Header="Security">
@@ -25,19 +25,15 @@
                     <Button x:Name="BtnCreateProtectedFolder" Content="CreatePWF" Grid.Column="0" Margin="2,0,-24,-35.92" Click="BtnCreateProtectedFolder_Click" Height="26" VerticalAlignment="Bottom"/>
                     <Button x:Name="BtnReadProtectedFolder" Content="ReadPWF" Margin="0,0,-296,-35.92" Click="BtnReadProtectedFolder_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="116"/>
                     <Button x:Name="BtnDeleteEmptyFolders" Content="DeleteEmptyFolders" Margin="0,0,-176,-65.92" Click="BtnDeleteEmptyFolders_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-                    <Slider x:Name="MSecSlider" Margin="2,0,-24,-109.92" Maximum="1000" Value="500" SmallChange="1" IsSnapToTickEnabled="True" Grid.Column="0" Height="26" VerticalAlignment="Bottom"/>
-                    <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="29,22,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=MSecSlider, StringFormat=\{0\}ms}" VerticalAlignment="Top" Width="128" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2"/>
-                    <Button x:Name="BtnSetAeroSpeed" Content="Set AeroPeek" Margin="0,0,-296,-109.92" Click="BtnSetAeroSpeed_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="116"/>
-                    <Button x:Name="BtnActivateSCExtension" Content="Activate" Click="SCExtension" Grid.Column="0" Margin="2,0,-24,-153.92" Height="26" VerticalAlignment="Bottom"/>
-                    <Button x:Name="BtnDeactivateSCExtension" Content="Deactivate" Click="SCExtension" Margin="0,0,-296,-153.92" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="116"/>
+
+
 
                     <Button x:Name="UpdateRegistry" Content="SaveChanges" Margin="0,0,-176,-183.92" Click="UpdateRegistry_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
                     <Button x:Name="FontChange" Content="ChangeFont" Margin="0,0,-176,-213.92" Click="FontChange_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148" />
 
                     <Button x:Name="openShortcutWindow" Content="OpenSC" Grid.Column="0" Margin="2,0,-24,-363.92" Click="OpenShortcutDialog" Height="26" VerticalAlignment="Bottom" />
 
-                    <Slider x:Name="slider_TaskbarPreview" HorizontalAlignment="Left" Margin="36,1,0,0" SmallChange="1" IsSnapToTickEnabled="True" VerticalAlignment="Top" Width="128" Maximum="600" Value="300" Background="Transparent" Height="26" Grid.Column="1" Grid.Row="12"/>
-                    <Button x:Name="restorePreviewSize" Content="Restore Size" Margin="0,0,248,4" Click="restorePreviewSize_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="100" Grid.Column="1" Grid.Row="12" />
+
                     <Button x:Name="EncryptDecryptTest" Content="EncryptDecryptTest" Margin="0,0,-176,-363.92" Click="EncryptDecryptTest_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
 
                     <Button x:Name="BtnNetwork" Content="OpenNetworkSettings" Margin="0,0,-176,-393.92" Click="BtnNetwork_OnClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
@@ -45,7 +41,7 @@
                     <Button x:Name="BtnFileSystem" Content="OpenFileSystem" Margin="0,0,-176,-423.92" Click="BtnFileSystem_OnClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Design" Header="Design" Background="White">
+            <TabItem x:Name="Design" Header="Design" Background="White" Initialized="Design_Initialized">
                 <Grid Width="Auto">
                     <GroupBox Header="Icon Spacing" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20" FontFamily="Roboto">
                         <iconSpacing:IconSpacingWindow />
