@@ -1,34 +1,39 @@
-﻿namespace PasswordSafe
+﻿using System;
+
+namespace PasswordSafe
 {
-    internal class PasswordEntity
+    public class PasswordEntity
     {
-        public string Username { get; }
+        public int ID { get; private set; }
+        public string Username { get; private set; }
 
-        public string Password { get; }
+        public string Password { get; private set; }
 
-        public string Url { get; }
+        public string Url { get; private set; }
 
-        public string Notes { get; }
+        public string Notes { get; private set; }
 
-        public PasswordEntity(string username, string password, string url, string notes)
+        public PasswordEntity(string username, string password, string url, string notes, int id = 0)
         {
+            ID = id;
             Username = username;
             Password = password;
             Url = url;
             Notes = notes;
         }
 
-        public PasswordEntity(object username, object password, object url, object notes)
+        public PasswordEntity Update(PasswordEntity @new)
         {
-            Username = username.ToString();
-            Password = password.ToString();
-            Url = url.ToString();
-            Notes = notes.ToString();
+            Username = @new.Username;
+            Password = @new.Password;
+            Url = @new.Url;
+            Notes = @new.Notes;
+            return this;
         }
 
         public override string ToString()
         {
-            return $"username: {Username}, password: {Password}, url: {Url}, notes: {Notes}";
+            return $"ID: {ID}, username: {Username}, password: {Password}, url: {Url}, notes: {Notes}";
         }
     }
 }

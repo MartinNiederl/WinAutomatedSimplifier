@@ -169,7 +169,7 @@ namespace WindowsAutomatedSimplifier
         private void Window_Initialized(object sender, EventArgs e)
         {
             //Initialize all the WindowsTweak-Functions.
-
+            Console.WriteLine("Initialized");
             string keypath_01 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
             string keypath_02 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
             string keypath_03 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband";

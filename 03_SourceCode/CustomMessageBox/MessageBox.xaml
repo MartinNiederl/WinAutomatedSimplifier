@@ -4,44 +4,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="" Height="200" Width="360" MinHeight="200"
+        Title="" Width="360" MinHeight="170"
         SizeToContent="WidthAndHeight" 
         WindowStartupLocation="CenterScreen"  
         ShowInTaskbar="False" ResizeMode="NoResize" 
-        Topmost="True">
+        Topmost="True"
+        x:Name="MBWnd">
 
-    <!--<Window.Resources>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Margin" Value="3,5" />
-            <Setter Property="Width" Value="80" />
-            <Setter Property="Height" Value="30" />
-            <EventSetter Event="Click" Handler="Button_Click"/>
-        </Style>
-    </Window.Resources>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="56"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="38"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Image Name="Img" Margin="5" Grid.Row="0" Grid.Column="0" Width="50" Height="50"  Stretch="Fill" />
-        <TextBlock Margin="20,5,20,5"
-                   VerticalAlignment="Center"
-                   TextWrapping="Wrap" 
-                   Name="TxtMsg"
-                   Grid.Row="0"
-                   Grid.Column="1" 
-                   FontSize="14"
-                   LineHeight="20"/>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" >
-            <Button Name="BtnOk" Content="OK" Margin="10" Width="80" VerticalAlignment="Center"/>
-            <Button Name="BtnYes" Content="Yes" Margin="10" Width="80" VerticalAlignment="Center"/>
-            <Button Name="BtnNo" Content="No" Margin="10" Width="80" VerticalAlignment="Center"/>
-            <Button Name="BtnCancel" Content="Cancel" Margin="10" Width="80" VerticalAlignment="Center"/>
+        <Image Name="Img" Margin="10,0,0,0" Grid.Row="0" Grid.Column="0" Width="54" Height="54" Stretch="Fill" Visibility="Collapsed"/>
+        <TextBlock Margin="20,5,20,5" VerticalAlignment="Center" TextWrapping="Wrap" Name="TxtMsg" Grid.Row="0" Grid.Column="1" FontSize="14" LineHeight="20"/>
+
+        <TextBox x:Name="Input" Grid.Column="1" Grid.Row="1" Margin="20,0,20,14" Height="24" VerticalAlignment="Top" Visibility="Collapsed" FontFamily="Roboto" FontSize="14" />
+        <Separator Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Bottom" Margin="8,0,8,4" Background="#663399FF" />
+        
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+            <Button Name="BtnOk" Content="OK" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Name="BtnYes" Content="Yes" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Name="BtnNo" Content="No" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Name="BtnCancel" Content="Cancel" Margin="10,4" Width="80" VerticalAlignment="Top" Click="Button_Click"/>
         </StackPanel>
     </Grid>
 </Window>
+
+
+
+
+
+
+
