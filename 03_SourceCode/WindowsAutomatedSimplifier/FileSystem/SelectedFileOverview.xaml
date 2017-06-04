@@ -4,29 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WindowsAutomatedSimplifier.FileSystem"
+             xmlns:treeViewWithCheckBoxes="clr-namespace:WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+
+    </UserControl.Resources>
+
+
+    <Grid Margin="4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-        </Grid.RowDefinitions>
 
-        <Label Content="Sort By: " Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" />
-        <Label Content="Pattern: " Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" />
-        <TextBox Text="TextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Width="120"/>
+        <!--<TreeView x:Name="Tree" ItemContainerStyle="{StaticResource TreeViewItemStyle}" ItemsSource="{Binding Mode=OneTime}" ItemTemplate="{StaticResource CheckBoxItemTemplate}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>-->
+        <StackPanel Grid.Column="1" Margin="4">
+            <Button Command="Redo" Content="Check All" HorizontalAlignment="Center" Margin="0,10,0,0" Width="100"/>
+            <Button Command="Undo" Content="Uncheck All" HorizontalAlignment="Center" Margin="0,10,0,0" Width="100"/>
+            <Separator Margin="15"/>
+        </StackPanel>
 
-        <Label Content="Sort By: " Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
-        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Width="120"/>
     </Grid>
 </UserControl>
-

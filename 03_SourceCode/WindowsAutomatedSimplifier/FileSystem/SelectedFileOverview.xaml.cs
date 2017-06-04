@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes;
 
 namespace WindowsAutomatedSimplifier.FileSystem
 {
@@ -20,9 +9,30 @@ namespace WindowsAutomatedSimplifier.FileSystem
     /// </summary>
     public partial class SelectedFileOverview : UserControl
     {
+        //private readonly TreeViewModel _root;
         public SelectedFileOverview()
         {
             InitializeComponent();
+
+            //_root = Tree.Items[0] as TreeViewModel;
+
+            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo,
+            //    (sender, e) =>
+            //    {
+            //        e.Handled = true;
+            //        if (_root != null) _root.IsChecked = false;
+            //        Tree.Focus();
+            //    }));
+
+            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Redo,
+            //    (sender, e) =>
+            //    {
+            //        e.Handled = true;
+            //        if (_root != null) _root.IsChecked = true;
+            //        Tree.Focus();
+            //    }));
+
+            //Tree.Focus();
         }
     }
 }

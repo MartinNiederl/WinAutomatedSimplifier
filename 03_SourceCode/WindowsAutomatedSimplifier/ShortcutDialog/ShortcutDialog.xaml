@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="ShortcutDialog" Height="230" Width="530" Closing="Window_Closing" Background="White" Initialized="Window_Initialized">
+        Title="ShortcutDialog" Height="240" Width="530" Closing="Window_Closing" Background="White" Initialized="Window_Initialized">
     <Grid Margin="10" x:Name="HotkeyInterface">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="145"/>

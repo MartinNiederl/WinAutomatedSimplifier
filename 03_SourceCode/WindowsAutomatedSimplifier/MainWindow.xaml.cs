@@ -72,7 +72,7 @@ namespace WindowsAutomatedSimplifier
             });
         }
 
-        private void BtnIconSpacing_OnClick(object sender, RoutedEventArgs e) => new IconSpacingWindow().ShowDialog();
+        private void BtnIconSpacing_OnClick(object sender, RoutedEventArgs e) => new IconSpacingWindow();
 
         private void BtnCreateProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
@@ -106,27 +106,20 @@ namespace WindowsAutomatedSimplifier
             @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
             "DesktopLivePreviewHoverTime", (int) MSecSlider.Value, RegistryValueKind.DWord);
 
-        private void SCExtension(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            if (button != null && button.Name.Contains("Activate")) ShortcutExtension.EnableShortcutExtension();
-            else ShortcutExtension.DisableShortcutExtension();
-        }
-
         private void UpdateRegistry_Click(object sender, RoutedEventArgs e) => RegistryAPI.UpdateRegistry();
 
-        private void FontChange_Click(object sender, RoutedEventArgs e) => new FontPicker().ShowDialog();
+        private void FontChange_Click(object sender, RoutedEventArgs e) => new FontPicker();
 
 
-        private void checkBox_Checked(object sender, RoutedEventArgs e) => FolderCheckboxes.EnableCheckboxes();
-        private void checkBox_Unchecked(object sender, RoutedEventArgs e) => FolderCheckboxes.DisableCheckboxes();
+        private void ToggleCheckBoxes_Checked(object sender, RoutedEventArgs e) => FolderCheckboxes.EnableCheckboxes();
+        private void ToggleCheckBoxes_Unchecked(object sender, RoutedEventArgs e) => FolderCheckboxes.DisableCheckboxes();
 
-        private void checkBox_BlackTheme_Checked(object sender, RoutedEventArgs e) => BlackTheme.EnableBlackTheme();
-        private void checkBox_BlackTheme_Unchecked(object sender, RoutedEventArgs e) => BlackTheme.DisableBlackTheme();
+        private void ToggleBlackTheme_Checked(object sender, RoutedEventArgs e) => BlackTheme.EnableBlackTheme();
+        private void ToggleBlackTheme_Unchecked(object sender, RoutedEventArgs e) => BlackTheme.DisableBlackTheme();
 
-        private void checkBox_AeroShake_Checked(object sender, RoutedEventArgs e) => ToggleAeroShake.EnableAeroShake();
+        private void ToggleAeroShake_Checked(object sender, RoutedEventArgs e) => WindowsTweaks.ToggleAeroShake.EnableAeroShake();
 
-        private void checkBox_AeroShake_Unchecked(object sender, RoutedEventArgs e) => ToggleAeroShake
+        private void ToggleAeroShake_Unchecked(object sender, RoutedEventArgs e) => WindowsTweaks.ToggleAeroShake
             .DisableAeroShake();
 
         private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow
@@ -165,5 +158,8 @@ namespace WindowsAutomatedSimplifier
             foreach (Window k in Current.Windows)
                 if (wind != null && !wind.Equals(k)) k.Close();
         }
+
+        private void ToggleShortcutExtension_Checked(object sender, RoutedEventArgs e) => ShortcutExtension.EnableShortcutExtension();
+        private void ToggleShortcutExtension_Unchecked(object sender, RoutedEventArgs e) => ShortcutExtension.DisableShortcutExtension();
     }
 }

@@ -49,7 +49,7 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
         }
 
         //Closes the Hotkeys
-        public void ExampleForm_FormClosing()
+        public void CloseForm()
         {
             for (int i = 0; i < SCCOUNT; i++)
                 UnregisterHotKey(Handle, i);

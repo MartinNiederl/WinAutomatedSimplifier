@@ -10,17 +10,13 @@ namespace WindowsAutomatedSimplifier.IconSpacing
         public IconSpacingWindow()
         {
             InitializeComponent();
-
             _hdef = HSlider.Value = IconSpacing.GetHorizontalSpacing() * -1;
             _vdef = VSlider.Value = IconSpacing.GetVerticalSpacing() * -1;
-
-            WindowManager.AddWindow(this);
         }
 
         private void ApplyChangesBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            IconSpacing.EditSpacing((int) HSlider.Value * -1, (int) VSlider.Value * -1);
-            Close();
+            IconSpacing.EditSpacing((int)HSlider.Value * -1, (int)VSlider.Value * -1);
         }
 
         private void Menu_Click(object sender, RoutedEventArgs e)

@@ -60,7 +60,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
                 Logger.Log("RootDirectory does not exist");
                 return new List<FileInfo>();
             }
-            
+
             IEnumerable<string> files;
             try
             {
@@ -80,7 +80,9 @@ namespace WindowsAutomatedSimplifier.FileSystem
 
             if (!string.IsNullOrWhiteSpace(regexStr))
             {
-                Regex regex = new Regex(regexStr);
+                Regex regex;
+                try { regex = new Regex(regexStr); }
+                catch (Exception) { return null; }
                 files = files.Where(entry => regex.IsMatch(entry));
             }
 
@@ -128,7 +130,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
         }
 
         /// <summary>
-        /// Custom method to iterate through fileSystem without getting Errors.
+        /// Iterate through fileSystem without getting Errors.
         /// </summary>
         /// <param name="path">Root path where to start.</param>
         /// <param name="files"></param>
@@ -192,5 +194,36 @@ namespace WindowsAutomatedSimplifier.FileSystem
                 catch (Exception e) { Logger.LogAdd(e.Message, e.StackTrace); }
             });
         }
+
+        public void NumberFilesPattern(List<FileInfo> files, string pattern, SortBy order)
+        {
+            files = SortFileList(files, order);
+        }
+
+        private static List<FileInfo> SortFileList(List<FileInfo> files, SortBy order)
+        {
+            switch (order)
+            {
+                case SortBy.OrigName:
+                    return files.OrderBy(e => e.Name).ToList();
+                case SortBy.CreationDate:
+                    return files.OrderBy(e => e.CreationTime).ToList();
+                case SortBy.EditDate:
+                    return files.OrderBy(e => e.LastWriteTime).ToList();
+                case SortBy.Size:
+                    return files.OrderBy(e => e.Length).ToList();
+                default:
+                    return files;
+            }
+        }
+    }
+
+    public enum SortBy
+    {
+        OrigName,
+        CreationDate,
+        EditDate,
+        Size,
+        None
     }
 }

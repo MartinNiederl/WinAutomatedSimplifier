@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -17,8 +18,10 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
     /// </summary>
     public partial class ShortcutDialog : Window
     {
-        // ReSharper disable once InconsistentNaming
+        // ReSharper disable InconsistentNaming
         private readonly GlobalHotkeys hotkeyInstance;
+        private static readonly string APPDATA = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WinAS");
+        private static readonly string scListPath = Path.Combine(APPDATA, "Shortcutlist.txt");
 
         public ShortcutDialog()
         {
@@ -28,25 +31,25 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
         public void Window_Closing(object sender, CancelEventArgs e)
         {
-            Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            hotkeyInstance.CloseForm();
 
-            hotkeyInstance.ExampleForm_FormClosing();
-            string[] allPaths = { TxtPath01.Text, TxtPath02.Text, TxtPath03.Text, TxtPath04.Text, TxtPath05.Text };
+            var paths = HotkeyInterface.Children.OfType<TextBox>().Select(el => el.Text);
 
-            //TODO Fix path
-            //File.WriteAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt", allPaths);
+            if (!File.Exists(scListPath)) File.Create(scListPath);
+            File.WriteAllLines(scListPath, paths);
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            //Read Paths from file.TODO Fix path
-            //var values = File.ReadAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt");
+            if (!File.Exists(scListPath)) File.Create(scListPath);
+            var values = File.ReadAllLines(scListPath);
 
-            //TxtPath01.Text = values[0];
-            //TxtPath02.Text = values[1];
-            //TxtPath03.Text = values[2];
-            //TxtPath04.Text = values[3];
-            //TxtPath05.Text = values[4];
+            for (int i = 0; i < values.Length; i++)
+            {
+                string name = "TxtPath" + i.ToString().PadLeft(2, '0');
+                TextBox box = (TextBox)FindName(name);
+                if (box != null) box.Text = values[i];
+            }
         }
 
         public void RunCommand(object sender, MouseButtonEventArgs e)

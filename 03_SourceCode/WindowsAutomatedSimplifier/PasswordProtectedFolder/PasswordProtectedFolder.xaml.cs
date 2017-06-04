@@ -18,7 +18,6 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
 
             _root = Tree.Items[0] as TreeViewModel;
 
-
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo,
                     (sender, e) =>
                     {
