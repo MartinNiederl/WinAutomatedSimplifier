@@ -48,8 +48,6 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
         public void Window_Closing(object sender, CancelEventArgs e)
         {
-            Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-
             gH.ExampleForm_FormClosing();
             String[] allPaths = new string[5];
             allPaths[0] = textBox01.Text;
@@ -58,19 +56,34 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             allPaths[3] = textBox04.Text;
             allPaths[4] = textBox05.Text;
             //TODO Fix path
-            File.WriteAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt", allPaths);
+            //Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            File.WriteAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt", allPaths);
+            //File.WriteAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt", allPaths);
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            //Read Paths from file.TODO Fix path
-            var values = File.ReadAllLines(@"C:\Users\david\Documents\WinAutomatedSimplifier\WinAutomatedSimplifier\03_SourceCode\WindowsAutomatedSimplifier\ShortcutDialog\ShortcutList.txt");
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS");
+            string path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt");
+            if (!File.Exists(path))
+            {
+                FileStream x = File.Create(path);
+                //TextWriter tw = new StreamWriter(path);
+                //tw.WriteLine("The very first line!");
+                //tw.Close();
+                x.Close();
+            }
 
-            textBox01.Text = values[0];
-            textBox02.Text = values[1];
-            textBox03.Text = values[2];
-            textBox04.Text = values[3];
-            textBox05.Text = values[4];
+
+            string[] values = File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt");
+            if (values.Length > 0)
+            {
+                textBox01.Text = values[0];
+                textBox02.Text = values[1];
+                textBox03.Text = values[2];
+                textBox04.Text = values[3];
+                textBox05.Text = values[4];
+            }
         }
 
         private void GetFolderPath(TextBox tb)

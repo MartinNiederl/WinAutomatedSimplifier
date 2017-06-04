@@ -64,7 +64,7 @@ namespace WindowsAutomatedSimplifier
             FolderBrowserDialog fbDialog = new FolderBrowserDialog();
             if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            Archive archive = new Archive(new List<FileInfo> {new FileInfo(ofDialog.FileName)});
+            Archive archive = new Archive(new List<FileInfo> { new FileInfo(ofDialog.FileName) });
             Task.Run(() =>
             {
                 archive.Decompress(fbDialog.SelectedPath);
@@ -93,7 +93,7 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnReadProtectedFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog {Filter = "PasswordEncryptedFile (*.pwf)|*.pwf"};
+            OpenFileDialog ofd = new OpenFileDialog { Filter = "PasswordEncryptedFile (*.pwf)|*.pwf" };
             ofd.ShowDialog();
             FolderReader fr = new FolderReader(ofd.FileName);
             fr.SaveAllFiles();
@@ -104,7 +104,7 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(
             @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
-            "DesktopLivePreviewHoverTime", (int) MSecSlider.Value, RegistryValueKind.DWord);
+            "DesktopLivePreviewHoverTime", (int)MSecSlider.Value, RegistryValueKind.DWord);
 
         private void SCExtension(object sender, RoutedEventArgs e)
         {
@@ -130,7 +130,7 @@ namespace WindowsAutomatedSimplifier
             .DisableAeroShake();
 
         private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow
-            .SetWindowSize((int) slider_TaskbarPreview.Value);
+            .SetWindowSize((int)slider_TaskbarPreview.Value);
 
         private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
@@ -164,6 +164,21 @@ namespace WindowsAutomatedSimplifier
             Window wind = sender as Window;
             foreach (Window k in Current.Windows)
                 if (wind != null && !wind.Equals(k)) k.Close();
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            //Initialize all the WindowsTweak-Functions.
+
+            string keypath_01 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+            string keypath_02 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            string keypath_03 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband";
+            
+            checkBox_checkBoxEnable.IsChecked = ((int)Registry.GetValue(keypath_01, "AutoCheckSelect", false) == 1) ? true : false;
+            checkBox_BlackTheme.IsChecked = ((int)Registry.GetValue(keypath_02, "AppsUseLightTheme", false) == 0) ? true : false;
+            checkBox_ToggleAeroShake.IsChecked = ((int)Registry.GetValue(keypath_01, "DisallowShaking", false) == 0) ? true : false;
+            slider_TaskbarPreview.Value = (int)Registry.GetValue(keypath_03, "MinThumbSizePx", -1);
+            MSecSlider.Value = (int)Registry.GetValue(keypath_01, "DesktopLivePreviewHoverTime", -1);
         }
     }
 }

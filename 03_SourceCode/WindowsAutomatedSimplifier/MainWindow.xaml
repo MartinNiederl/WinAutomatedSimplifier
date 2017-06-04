@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
-        Title="Windows Automated Simplifier" Height="530" Width="400">
+        Title="Windows Automated Simplifier" Height="530" Width="400" Initialized="Window_Initialized">
     <Grid Margin="0,0,0,4">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
