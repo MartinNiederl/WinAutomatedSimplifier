@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -38,32 +35,21 @@ namespace WindowsAutomatedSimplifier.FileSystem
             if (_working) return;
             _working = true;
 
-            CommonOpenFileDialog dlg = new CommonOpenFileDialog
+            string rootPath = "";
+            if (!Directory.Exists(TxtRootPath.Text))
             {
-                Title = "My Title",
-                IsFolderPicker = true,
-                InitialDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
-                AddToMostRecentlyUsedList = false,
-                AllowNonFileSystemItems = false,
-                DefaultDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
-                EnsureFileExists = true,
-                EnsurePathExists = true,
-                EnsureReadOnly = false,
-                EnsureValidNames = true,
-                Multiselect = false,
-                ShowPlacesList = true
-            };
-
-
-            if (dlg.ShowDialog() != CommonFileDialogResult.Ok) return;
+                CommonFileDialog dialog = OpenFileDialog("Please choose root path again, previous was invalid...");
+                if (dialog == null) return;
+                rootPath = dialog.FileName;
+            }
 
             Task.Factory.StartNew(() =>
                 {
                     string regexStr = "";
-                    DateTime? creationDateFrom = new DateTime?();
-                    DateTime? creationDateTo = new DateTime?();
-                    DateTime? lastChangeFrom = new DateTime?();
-                    DateTime? lastChangeTo = new DateTime?();
+                    var creationDateFrom = new DateTime?();
+                    var creationDateTo = new DateTime?();
+                    var lastChangeFrom = new DateTime?();
+                    var lastChangeTo = new DateTime?();
                     string sizeFrom = "";
                     string sizeTo = "";
 
@@ -79,18 +65,43 @@ namespace WindowsAutomatedSimplifier.FileSystem
                         sizeTo = SizeTo.Text + CSizeTo.Text;
                     }));
 
-                    return FileSystemLogic.GetFilteredFiles(dlg.FileName, regexStr,
-                            creationDateFrom, creationDateTo, lastChangeFrom, lastChangeTo,
-                            sizeFrom, sizeTo)
-                        .ToList();
+                    return FileSystemLogic.GetFilteredFiles(rootPath, regexStr, creationDateFrom, creationDateTo, lastChangeFrom, lastChangeTo, sizeFrom, sizeTo).ToList();
                 }, TaskCreationOptions.LongRunning)
                 .ContinueWith(prev =>
                 {
-                    //TODO open new Window with selected Files
                     ProgBar.Dispatcher.Invoke(() => ProgBar.Visibility = Visibility.Hidden);
-                    Console.WriteLine(prev.Result.Count);
+                    FileSystemMainWindow.Instance.PTControl.Dispatcher.Invoke(() => FileSystemMainWindow.Instance.PTControl.ShowPage(new SelectedFileOverview()));
                     _working = false;
                 });
+        }
+
+
+        private void TxtRootPath_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CommonFileDialog dialog = OpenFileDialog();
+            if (dialog == null) return;
+            TxtRootPath.Text = dialog.FileName;
+        }
+
+        private static CommonFileDialog OpenFileDialog(string title = "Choose root directory...")
+        {
+            CommonOpenFileDialog dlg = new CommonOpenFileDialog
+            {
+                Title = title,
+                IsFolderPicker = true,
+                InitialDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
+                AddToMostRecentlyUsedList = false,
+                AllowNonFileSystemItems = false,
+                DefaultDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                EnsureReadOnly = false,
+                EnsureValidNames = true,
+                Multiselect = false,
+                ShowPlacesList = true
+            };
+
+            return dlg.ShowDialog() != CommonFileDialogResult.Ok ? null : dlg;
         }
     }
 }

@@ -1,39 +1,23 @@
 ﻿<Window x:Class="WindowsAutomatedSimplifier.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:changeFont="clr-namespace:WindowsAutomatedSimplifier.ChangeFont"
+        xmlns:iconSpacing="clr-namespace:WindowsAutomatedSimplifier.IconSpacing"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
         Title="Windows Automated Simplifier" Height="600" Width="800" Initialized="Window_Initialized">
     <Grid>
         <TabControl Margin="5">
-            <TabItem x:Name="Design" Header="Design" Background="White">
+            <TabItem x:Name="Security" Header="Security">
                 <Grid Background="White">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="14"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="14"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="BtnCompress" Content="Compress" Click="Btn_compress_OnClick" Grid.Row="0" Margin="2,2,-24,24.08"/>
                     <Button x:Name="BtnDecompress" Content="Decompress" Click="Btn_decompress_OnClick" Grid.Row="0" Margin="0,2,-296,24.08" HorizontalAlignment="Right" Width="116"/>
@@ -49,11 +33,7 @@
 
                     <Button x:Name="UpdateRegistry" Content="SaveChanges" Margin="0,0,-176,-183.92" Click="UpdateRegistry_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
                     <Button x:Name="FontChange" Content="ChangeFont" Margin="0,0,-176,-213.92" Click="FontChange_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148" />
-                    <CheckBox x:Name="checkBox_checkBoxEnable" Content="Checkboxes" Margin="0,0,-174,-241.92" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked" HorizontalAlignment="Right" Height="22" VerticalAlignment="Bottom" Width="144"/>
-                    <CheckBox x:Name="checkBox_BlackTheme" Content="Black Theme" Margin="0,0,-174,-271.92" Checked="checkBox_BlackTheme_Checked" Unchecked="checkBox_BlackTheme_Unchecked" HorizontalAlignment="Right" Height="22" VerticalAlignment="Bottom" Width="144"/>
-                    <CheckBox x:Name="checkBox_ToggleAeroShake" Content="Aero Shake" Margin="0,0,-174,-301.92" Checked="checkBox_AeroShake_Checked" Unchecked="checkBox_AeroShake_Unchecked" HorizontalAlignment="Right" Height="22" VerticalAlignment="Bottom" Width="144"/>
 
-                    <Button x:Name="applyPreviewSizeChange" Content="Apply Size" Grid.Column="0" Margin="2,0,-24,-335.92" Click="applyPreviewSizeChange_Click" Height="26" VerticalAlignment="Bottom" />
                     <Button x:Name="openShortcutWindow" Content="OpenSC" Grid.Column="0" Margin="2,0,-24,-363.92" Click="OpenShortcutDialog" Height="26" VerticalAlignment="Bottom" />
 
                     <Slider x:Name="slider_TaskbarPreview" HorizontalAlignment="Left" Margin="36,1,0,0" SmallChange="1" IsSnapToTickEnabled="True" VerticalAlignment="Top" Width="128" Maximum="600" Value="300" Background="Transparent" Height="26" Grid.Column="1" Grid.Row="12"/>
@@ -65,8 +45,57 @@
                     <Button x:Name="BtnFileSystem" Content="OpenFileSystem" Margin="0,0,-176,-423.92" Click="BtnFileSystem_OnClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Security" Header="Security">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem x:Name="Design" Header="Design" Background="White">
+                <Grid Width="Auto">
+                    <GroupBox Header="Icon Spacing" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20" FontFamily="Roboto">
+                        <iconSpacing:IconSpacingWindow />
+                    </GroupBox>
+                    <GroupBox Header="Change System Font" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20" FontFamily="Roboto">
+                        <changeFont:FontPicker />
+                    </GroupBox>
+                    <GroupBox Header="Taskbar Preview Window Size" HorizontalAlignment="Right" VerticalAlignment="Top" Width="220" Margin="20,40,20,20" FontFamily="Roboto" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Slider x:Name="slider_TaskbarPreview" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" SmallChange="1" IsSnapToTickEnabled="True" Maximum="600" Value="300" Margin="10" Grid.RowSpan="2" />
+                            <Button x:Name="restorePreviewSize" Click="restorePreviewSize_Click" Content="Restore" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <Button x:Name="applyPreviewSizeChange" Click="applyPreviewSizeChange_Click" Content="Apply" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Tweaks" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="220" Margin="20,20,20,180" FontFamily="Roboto">
+                        <StackPanel Width="Auto">
+                            <CheckBox x:Name="ToggleCheckBoxes" Content="Checkboxes in Explorer" Checked="ToggleCheckBoxes_Checked" Unchecked="ToggleCheckBoxes_Unchecked" Margin="14,14,14,0"/>
+                            <CheckBox x:Name="ToggleBlackTheme" Content="Black Theme" Checked="ToggleBlackTheme_Checked" Unchecked="ToggleBlackTheme_Unchecked" Margin="14,14,14,0"/>
+                            <CheckBox x:Name="ToggleAeroShake" Content="Aero Shake" Checked="ToggleAeroShake_Checked" Unchecked="ToggleAeroShake_Unchecked" Margin="14,14,14,0"/>
+                            <CheckBox x:Name="ToggleShortcutExtension" Content="Shortcut Extension" Checked="ToggleShortcutExtension_Checked" Unchecked="ToggleShortcutExtension_Unchecked" Margin="14"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Aero Peek Time" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20,20,20,20" Width="220" FontFamily="Roboto">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Slider x:Name="MSecSlider" Grid.ColumnSpan="2" Margin="10,0,50,0" VerticalAlignment="Center" Maximum="1000" Value="500" SmallChange="1" IsSnapToTickEnabled="True"/>
+                            <TextBox x:Name="textBlock" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding Value, ElementName=MSecSlider, StringFormat=\{0\}ms}" BorderBrush="Transparent"/>
+                            
+                            <Button x:Name="BtnSetAeroSpeed" Content="Apply" Click="BtnSetAeroSpeed_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80"/>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
             </TabItem>
             <TabItem x:Name="Network" Header="Network">
                 <Grid Background="#FFE5E5E5"/>
@@ -81,4 +110,7 @@
     </Grid>
 
 </Window>
+ 
+ 
+ 
  

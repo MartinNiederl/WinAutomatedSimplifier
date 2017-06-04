@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -17,8 +18,10 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
     /// </summary>
     public partial class ShortcutDialog : Window
     {
-        // ReSharper disable once InconsistentNaming
+        // ReSharper disable InconsistentNaming
         private readonly GlobalHotkeys hotkeyInstance;
+        private static readonly string APPDATA = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WinAS");
+        private static readonly string scListPath = Path.Combine(APPDATA, "Shortcutlist.txt");
 
         public ShortcutDialog()
         {
@@ -46,11 +49,7 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             string[] values = File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\WAS\\ShortcutList.txt");
             if (values.Length > 0)
             {
-                TxtPath01.Text = values[0];
-                TxtPath02.Text = values[1];
-                TxtPath03.Text = values[2];
-                TxtPath04.Text = values[3];
-                TxtPath05.Text = values[4];
+				for(int i = 0; i < 5; i++){TxtPath01.Text = values[i];}
             }
         }
 

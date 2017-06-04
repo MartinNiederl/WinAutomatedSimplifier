@@ -2,13 +2,13 @@
 		PasswordSafe
 		PasswordProtectedFolder
 	Design
-		IconSpacing
-		ChangeFont
-		Black Theme
-		ToggleAeroShake
-		Folder Checkboxes
-		Shortcut Extension
-		TaskbarPreviewWindow
+		IconSpacing            ++
+		ChangeFont             ++
+		Black Theme            ++
+		ToggleAeroShake        ++
+		Folder Checkboxes      ++
+		Shortcut Extension     ++
+		TaskbarPreviewWindow   ++
 	Network
 		FileSystem
 		NetworkSettings

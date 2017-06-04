@@ -7,7 +7,7 @@ using FontFamily = System.Drawing.FontFamily;
 
 namespace WindowsAutomatedSimplifier.ChangeFont
 {
-    public partial class FontPicker : Window
+    public partial class FontPicker
     {
         private const string SOURCE_PATH = @"HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics\";
 
@@ -34,8 +34,6 @@ namespace WindowsAutomatedSimplifier.ChangeFont
 
             value = GetNewFontBytes(value, LbFontFamily.SelectedItem.ToString());
             Registry.SetValue(SOURCE_PATH, selectedItem, value);
-
-            Close();
         }
 
         private static byte[] GetNewFontBytes(byte[] byteEntry, string fontname)
