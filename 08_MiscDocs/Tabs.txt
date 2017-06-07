@@ -10,8 +10,8 @@
 		Shortcut Extension     ++
 		TaskbarPreviewWindow   ++
 	Network
-		FileSystem
-		NetworkSettings
+		FileSystem             ++
+		NetworkSettings        ++
 	Extensions
 		Compress/DeCompress
 		ShortcutDialog
@@ -19,3 +19,10 @@
 	About
 		Dokumentation
 		Credits (MD-Softworks)
+
+PPF
+	open - in temp - command line execute
+	decrypt permanent
+	delete - whole, parts
+	rename?
+	

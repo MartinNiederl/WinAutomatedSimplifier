@@ -1,43 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WindowsAutomatedSimplifier.Repository;
 using Microsoft.VisualBasic.FileIO;
+using SearchOption = System.IO.SearchOption;
 
 namespace WindowsAutomatedSimplifier.FileSystem
 {
     internal class FileSystemLogic
     {
+        private static List<string> _whiteList;
+
         /// <summary>
         /// Delete empty directories in a given root directory.
         /// </summary>
         /// <param name="rootDirectory">Root directory to start.</param>
-        public static void DeleteEmptyDirectories(string rootDirectory)
+        /// <param name="whiteList">List of ignored Directories.</param>
+        /// <param name="onlytopdir">Only delete empty directories in the root directory.</param>
+        public static void DeleteEmptyDirectories(string rootDirectory, List<string> whiteList = null, bool onlytopdir = false)
         {
-            if (string.IsNullOrEmpty(rootDirectory))
+            if (String.IsNullOrEmpty(rootDirectory))
             {
-                Logger.Log(@"Starting rootDirectory is a null reference or an empty string");
+                Logger.Log(@"RootDirectory is a null reference or an empty string");
                 return;
             }
+            _whiteList = whiteList ?? new List<string>();
 
+            if (onlytopdir) DelEmptyDirs(rootDirectory);
+            else DelEmptyDirsRecursive(rootDirectory);
+        }
+
+        private static void DelEmptyDirsRecursive(string rootDirectory)
+        {
             try
             {
                 foreach (string d in Directory.EnumerateDirectories(rootDirectory))
-                    DeleteEmptyDirectories(d);
+                    if (!_whiteList.Contains(d)) DelEmptyDirsRecursive(d);
 
                 if (!Directory.EnumerateFileSystemEntries(rootDirectory).Any())
                 {
                     try { Directory.Delete(rootDirectory); }
-                    catch (UnauthorizedAccessException) { }
-                    catch (DirectoryNotFoundException dnfe) { Logger.LogAdd(dnfe.Message, dnfe.StackTrace); }
                     catch (Exception e) { Logger.LogAdd(e.Message, e.StackTrace); }
                 }
             }
-            catch (UnauthorizedAccessException) { }
+            catch (UnauthorizedAccessException e) { Logger.LogAdd(e.Message, e.StackTrace); }
+        }
+
+        private static void DelEmptyDirs(string directory)
+        {
+            try
+            {
+                foreach (string d in Directory.EnumerateDirectories(directory))
+                {
+                    if (!Directory.EnumerateFileSystemEntries(d).Any())
+                    {
+                        try { Directory.Delete(d); }
+                        catch (Exception e) { Logger.LogAdd(e.Message, e.StackTrace); }
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException e) { Logger.LogAdd(e.Message, e.StackTrace); }
         }
 
         /// <summary>
@@ -78,7 +103,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
                 return new List<FileInfo>();
             }
 
-            if (!string.IsNullOrWhiteSpace(regexStr))
+            if (!String.IsNullOrWhiteSpace(regexStr))
             {
                 Regex regex;
                 try { regex = new Regex(regexStr); }
@@ -110,7 +135,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
                 files = files.Where(entry => dateTo > File.GetLastWriteTime(entry));
             }
 
-            if (!string.IsNullOrWhiteSpace(sizeFrom))
+            if (!String.IsNullOrWhiteSpace(sizeFrom))
             {
                 ByteSize bs;
                 if (!ByteSize.TryParse(sizeFrom, out bs))
@@ -118,7 +143,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
                 else files = files.Where(entry => bs.Bytes < new FileInfo(entry).Length);
             }
 
-            if (!string.IsNullOrWhiteSpace(sizeTo))
+            if (!String.IsNullOrWhiteSpace(sizeTo))
             {
                 ByteSize bs;
                 if (!ByteSize.TryParse(sizeTo, out bs))
@@ -216,8 +241,55 @@ namespace WindowsAutomatedSimplifier.FileSystem
                     return files;
             }
         }
-    }
 
+        public static IEnumerable<string> IterateThroughFiles(string rootPath, string searchPattern = "*")
+        {
+            foreach (string file in GetFiles(rootPath, searchPattern))
+                yield return file;
+
+            foreach (string directory in GetDirectories(rootPath))
+            {
+                foreach (string file in IterateThroughFiles(directory, searchPattern))
+                    yield return file;
+            }
+        }
+
+        private static IEnumerable<string> GetDirectories(string directory)
+        {
+            IEnumerable<string> subDirectories = null;
+            try { subDirectories = Directory.EnumerateDirectories(directory, "*.*", SearchOption.TopDirectoryOnly); }
+            catch (UnauthorizedAccessException) { }
+
+            if (subDirectories != null)
+            {
+                foreach (string subDirectory in subDirectories)
+                    yield return subDirectory;
+            }
+        }
+
+        private static IEnumerable<string> GetFiles(string directory, string searchPattern)
+        {
+            IEnumerable<string> files = null;
+            try { files = Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly); }
+            catch (UnauthorizedAccessException) { }
+
+            if (files != null)
+            {
+                foreach (string file in files)
+                    yield return file;
+            }
+        }
+
+        public static void ConcatFiles(IEnumerable<string> sourcePaths, string outputFilePath)
+        {
+            using (FileStream outputStream = File.Create(outputFilePath))
+            {
+                foreach (string inputFilePath in sourcePaths)
+                    using (FileStream inputStream = File.OpenRead(inputFilePath))
+                        inputStream.CopyTo(outputStream);
+            }
+        }
+    }
     public enum SortBy
     {
         OrigName,

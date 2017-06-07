@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using WindowsAutomatedSimplifier.ChangeFont;
 using WindowsAutomatedSimplifier.DeCompress;
+using WindowsAutomatedSimplifier.EncryptedDirectory;
 using WindowsAutomatedSimplifier.FileSystem;
 using WindowsAutomatedSimplifier.IconSpacing;
 using WindowsAutomatedSimplifier.NetworkSettings;
-using WindowsAutomatedSimplifier.PasswordProtectedFolder;
 using WindowsAutomatedSimplifier.RegistryHelper;
 using WindowsAutomatedSimplifier.Repository;
 using WindowsAutomatedSimplifier.WindowsTweaks;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using static System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using MessageBox = CustomMessageBox.MessageBox;
@@ -64,7 +66,7 @@ namespace WindowsAutomatedSimplifier
             FolderBrowserDialog fbDialog = new FolderBrowserDialog();
             if (fbDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
-            Archive archive = new Archive(new List<FileInfo> {new FileInfo(ofDialog.FileName)});
+            Archive archive = new Archive(new List<FileInfo> { new FileInfo(ofDialog.FileName) });
             Task.Run(() =>
             {
                 archive.Decompress(fbDialog.SelectedPath);
@@ -74,37 +76,13 @@ namespace WindowsAutomatedSimplifier
 
         private void BtnIconSpacing_OnClick(object sender, RoutedEventArgs e) => new IconSpacingWindow();
 
-        private void BtnCreateProtectedFolder_Click(object sender, RoutedEventArgs e)
-        {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
-            {
-                string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                fbd.SelectedPath = rootPath;
-                fbd.ShowDialog();
+        
 
-                if (fbd.SelectedPath != "" && fbd.SelectedPath != rootPath && Directory.Exists(fbd.SelectedPath))
-                {
-                    PasswordWindow pw = new PasswordWindow();
-                    pw.ShowDialog();
-                    new ProtectedFolder(fbd.SelectedPath, pw.Password);
-                }
-            }
-        }
 
-        private void BtnReadProtectedFolder_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog {Filter = "PasswordEncryptedFile (*.pwf)|*.pwf"};
-            ofd.ShowDialog();
-            FolderReader fr = new FolderReader(ofd.FileName);
-            fr.SaveAllFiles();
-        }
-
-        private void BtnDeleteEmptyFolders_Click(object sender, RoutedEventArgs e) => Task.Factory.StartNew(() => FileSystemLogic
-            .DeleteEmptyDirectories(@"C:\Users\Mani\Documents\Schule\Projektentwicklung\TESTORDNER"));
 
         private void BtnSetAeroSpeed_Click(object sender, RoutedEventArgs e) => Registry.SetValue(
             @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
-            "DesktopLivePreviewHoverTime", (int) MSecSlider.Value, RegistryValueKind.DWord);
+            "DesktopLivePreviewHoverTime", (int)MSecSlider.Value, RegistryValueKind.DWord);
 
         private void UpdateRegistry_Click(object sender, RoutedEventArgs e) => RegistryAPI.UpdateRegistry();
 
@@ -123,7 +101,7 @@ namespace WindowsAutomatedSimplifier
             .DisableAeroShake();
 
         private void applyPreviewSizeChange_Click(object sender, RoutedEventArgs e) => TaskbarPreviewWindow
-            .SetWindowSize((int) slider_TaskbarPreview.Value);
+            .SetWindowSize((int)slider_TaskbarPreview.Value);
 
         private void restorePreviewSize_Click(object sender, RoutedEventArgs e)
         {
@@ -144,14 +122,13 @@ namespace WindowsAutomatedSimplifier
             File.WriteAllBytes(path + targetfile, dec);
         }
 
-        private void BtnNetwork_OnClick(object sender, RoutedEventArgs e) => new Network().ShowDialog();
+        private void BtnNetwork_OnClick(object sender, RoutedEventArgs e) => new Network();
 
-        private void BtnFileSystem_OnClick(object sender, RoutedEventArgs e) => new FileSystemMainWindow().ShowDialog();
+        private void BtnFileSystem_OnClick(object sender, RoutedEventArgs e) => new FileSystemMainWindow();
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            MessageBoxResult mbr = MessageBox.Show("Update Changes?",
-                "Update changes now? Else on next Windows start...", MessageBoxButton.YesNo);
+            MessageBoxResult mbr = MessageBox.Show("Update Changes?", "Update changes now?", MessageBoxButton.YesNo);
             if (mbr == MessageBoxResult.Yes) RegistryAPI.UpdateRegistry();
 
             Window wind = sender as Window;
@@ -164,28 +141,89 @@ namespace WindowsAutomatedSimplifier
 
         private void Design_Initialized(object sender, EventArgs e)
         {
-            string keypath_01 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-            string keypath_02 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-            string keypath_03 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband";
-            string keypath_04 = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer";
+            const string advancedKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+            const string personalizeKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            const string taskbandKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband";
+            const string explorerKeyPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer";
 
-            ToggleAeroShake.IsChecked = ((int)Registry.GetValue(keypath_01, "DisallowShaking", false) == 0) ? true : false;
-            ToggleBlackTheme.IsChecked = ((int)Registry.GetValue(keypath_02, "AppsUseLightTheme", false) == 0) ? true : false;
-            ToggleCheckBoxes.IsChecked = ((int)Registry.GetValue(keypath_01, "AutoCheckSelect", false) == 1) ? true : false;
-            slider_TaskbarPreview.Value = (int)Registry.GetValue(keypath_03, "MinThumbSizePx", -1);
-            MSecSlider.Value = (int)Registry.GetValue(keypath_01, "DesktopLivePreviewHoverTime", -1);
-            Console.WriteLine(Registry.GetValue(keypath_04, "link", -1));//mach auf -> notChecked
+            ToggleAeroShake.IsChecked = (int)Registry.GetValue(advancedKeyPath, "DisallowShaking", false) == 0;
+            ToggleBlackTheme.IsChecked = (int)Registry.GetValue(personalizeKeyPath, "AppsUseLightTheme", false) == 0;
+            ToggleCheckBoxes.IsChecked = (int)Registry.GetValue(advancedKeyPath, "AutoCheckSelect", false) == 1;
+            slider_TaskbarPreview.Value = (int)Registry.GetValue(taskbandKeyPath, "MinThumbSizePx", -1);
+            MSecSlider.Value = (int)Registry.GetValue(advancedKeyPath, "DesktopLivePreviewHoverTime", -1);
 
-            var b = (Byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", null);
-            string s = BitConverter.ToString(b);
-            if (s == "00-00-00-00") //Wenn Key existiert
-            {
-                ToggleShortcutExtension.IsChecked = false;
-            }
-            else
-            {
-                ToggleShortcutExtension.IsChecked = true;
-            }
+            object val = Registry.GetValue(explorerKeyPath, "link", null);
+            ToggleShortcutExtension.IsChecked = val == null || val.ToString() != "0";
         }
+
+
+        #region DeleteEmptyDirectories
+        private void DelEmptyDirs_Click(object sender, RoutedEventArgs e)
+        {
+            string rootPath = TxtDelDirsPath.Text;
+            if (!Directory.Exists(rootPath))
+            {
+                CommonFileDialog folderDialog = FileDialogs.OpenFolderDialog();
+                if (folderDialog == null) return;
+                rootPath = folderDialog.FileName;
+            }
+            Task.Factory.StartNew(() => FileSystemLogic.DeleteEmptyDirectories(rootPath, EmptyFolderBlacklist.Items.OfType<string>().ToList()));
+        }
+
+        private void DelDirsChoosePath_Click(object sender, RoutedEventArgs e)
+        {
+            CommonFileDialog folderDialog = FileDialogs.OpenFolderDialog();
+            if (folderDialog != null) TxtDelDirsPath.Text = folderDialog.FileName;
+        }
+
+        private void DelDirsClear_Click(object sender, RoutedEventArgs e) => TxtDelDirsPath.Text = "";
+        
+        private void AddToBlackList_Click(object sender, RoutedEventArgs e)
+        {
+            CommonFileDialog folderDialog = FileDialogs.OpenFolderDialog();
+            if (folderDialog == null) return;
+            EmptyFolderBlacklist.Items.Add(folderDialog.FileName);
+        }
+
+        private void RemoveFromBlackList_Click(object sender, RoutedEventArgs e)
+        {
+            object selectedItem = EmptyFolderBlacklist.SelectedItem;
+            if (selectedItem != null) EmptyFolderBlacklist.Items.Remove(selectedItem);
+            EmptyFolderBlacklist.SelectedIndex = 0;
+        }
+        #endregion //DeleteEmptyDirectories
+
+        #region Encrypted Directory
+        private void CreateEncryptedDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            CommonFileDialog dialog = FileDialogs.OpenFolderDialog("Choose Directory...");
+            if (dialog != null)
+            {
+                new EncryptedDirectoryWriter(dialog.FileName, new PasswordWindow().Password);
+            }
+
+            //using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            //{
+            //    string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //    fbd.SelectedPath = rootPath;
+            //    fbd.ShowDialog();
+
+            //    if (fbd.SelectedPath != "" && Directory.Exists(fbd.SelectedPath))
+            //    {
+            //        PasswordWindow pw = new PasswordWindow();
+            //        pw.ShowDialog();
+            //        new EncryptedDirectoryWriter(fbd.SelectedPath, pw.Password);
+            //    }
+            //}
+        }
+
+        private void OpenEncryptedDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog { Filter = "PasswordEncryptedFile (*.pwf)|*.pwf" };
+            ofd.ShowDialog();
+            EncryptedDirectoryReader fr = new EncryptedDirectoryReader(ofd.FileName);
+            fr.SaveAllFiles();
+        }
+        #endregion //Encrypted Directory
     }
 }

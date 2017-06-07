@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
+namespace WindowsAutomatedSimplifier.EncryptedDirectory
 {
-    internal class ByteFile
+    internal class EncryptedFile
     {
         public string Name { get; set; }
         public string Path { get; set; }
@@ -10,7 +10,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         public byte[] Content { get; set; }
         public int Length { get; set; }
 
-        public ByteFile(string path, string root, string password)
+        public EncryptedFile(string path, string root, string password)
         {
             FileInfo file = new FileInfo(path);
             if (!file.Exists) return;

@@ -38,7 +38,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
             string rootPath = "";
             if (!Directory.Exists(TxtRootPath.Text))
             {
-                CommonFileDialog dialog = OpenFileDialog("Please choose root path again, previous was invalid...");
+                CommonFileDialog dialog = FileDialogs.OpenFolderDialog("Please choose root path again, previous was invalid...");
                 if (dialog == null) return;
                 rootPath = dialog.FileName;
             }
@@ -78,30 +78,9 @@ namespace WindowsAutomatedSimplifier.FileSystem
 
         private void TxtRootPath_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            CommonFileDialog dialog = OpenFileDialog();
+            CommonFileDialog dialog = FileDialogs.OpenFolderDialog();
             if (dialog == null) return;
             TxtRootPath.Text = dialog.FileName;
-        }
-
-        private static CommonFileDialog OpenFileDialog(string title = "Choose root directory...")
-        {
-            CommonOpenFileDialog dlg = new CommonOpenFileDialog
-            {
-                Title = title,
-                IsFolderPicker = true,
-                InitialDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
-                AddToMostRecentlyUsedList = false,
-                AllowNonFileSystemItems = false,
-                DefaultDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
-                EnsureFileExists = true,
-                EnsurePathExists = true,
-                EnsureReadOnly = false,
-                EnsureValidNames = true,
-                Multiselect = false,
-                ShowPlacesList = true
-            };
-
-            return dlg.ShowDialog() != CommonFileDialogResult.Ok ? null : dlg;
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿<Window x:Class="WindowsAutomatedSimplifier.PasswordProtectedFolder.PasswordProtectedFolder"
+﻿<Window x:Class="WindowsAutomatedSimplifier.EncryptedDirectory.EncryptedDirectoryUI"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WindowsAutomatedSimplifier.PasswordProtectedFolder"
         xmlns:tViewCBox="clr-namespace:WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="PasswordProtectedFolder" Height="500" Width="800">
+        Title="EncryptedDirectoryUI" Height="500" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">

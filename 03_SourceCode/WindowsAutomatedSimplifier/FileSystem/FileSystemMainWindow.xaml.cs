@@ -5,7 +5,7 @@ namespace WindowsAutomatedSimplifier.FileSystem
     /// <summary>
     /// Interaktionslogik für FileSystemMainWindow.xaml
     /// </summary>
-    public partial class FileSystemMainWindow : Window
+    public partial class FileSystemMainWindow
     {
         public static FileSystemMainWindow Instance { get; private set; }
         public FileSystemMainWindow()

@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:changeFont="clr-namespace:WindowsAutomatedSimplifier.ChangeFont"
         xmlns:iconSpacing="clr-namespace:WindowsAutomatedSimplifier.IconSpacing"
+        xmlns:fileSystem="clr-namespace:WindowsAutomatedSimplifier.FileSystem"
+        xmlns:network="clr-namespace:WindowsAutomatedSimplifier.NetworkSettings"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
-        Title="Windows Automated Simplifier" Height="600" Width="800">
+        Title="Windows Automated Simplifier" MinHeight="650" Height="650" MinWidth="800" Width="800">
     <Grid>
         <TabControl Margin="5">
             <TabItem x:Name="Security" Header="Security">
@@ -21,18 +23,16 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="BtnCompress" Content="Compress" Click="Btn_compress_OnClick" Grid.Row="0" Margin="2,2,-24,24.08"/>
                     <Button x:Name="BtnDecompress" Content="Decompress" Click="Btn_decompress_OnClick" Grid.Row="0" Margin="0,2,-296,24.08" HorizontalAlignment="Right" Width="116"/>
-                    <Button x:Name="BtnIconSpacing" Content="IconSpacing" Click="BtnIconSpacing_OnClick" Margin="0,0,-176,-5.92" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-                    <Button x:Name="BtnCreateProtectedFolder" Content="CreatePWF" Grid.Column="0" Margin="2,0,-24,-35.92" Click="BtnCreateProtectedFolder_Click" Height="26" VerticalAlignment="Bottom"/>
-                    <Button x:Name="BtnReadProtectedFolder" Content="ReadPWF" Margin="0,0,-296,-35.92" Click="BtnReadProtectedFolder_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="116"/>
-                    <Button x:Name="BtnDeleteEmptyFolders" Content="DeleteEmptyFolders" Margin="0,0,-176,-65.92" Click="BtnDeleteEmptyFolders_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
+                    <!--<Button x:Name="BtnIconSpacing" Content="IconSpacing" Click="BtnIconSpacing_OnClick" Margin="0,0,-176,-5.92" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>-->
+                    <Button x:Name="BtnCreateProtectedFolder" Content="CreatePWF" Grid.Column="0" Margin="2,0,-24,-35.92" Click="CreateEncryptedDirectory_Click" Height="26" VerticalAlignment="Bottom"/>
+                    <Button x:Name="BtnReadProtectedFolder" Content="ReadPWF" Margin="0,0,-296,-35.92" Click="OpenEncryptedDirectory_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="116"/>
 
 
 
-                    <Button x:Name="UpdateRegistry" Content="SaveChanges" Margin="0,0,-176,-183.92" Click="UpdateRegistry_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-                    <Button x:Name="FontChange" Content="ChangeFont" Margin="0,0,-176,-213.92" Click="FontChange_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148" />
+                    <Button x:Name="UpdateRegistry" Content="Update Registry" Margin="0,0,-176,-183.92" Click="UpdateRegistry_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
 
-                    <Button x:Name="openShortcutWindow" Content="OpenSC" Grid.Column="0" Margin="2,0,-24,-363.92" Click="OpenShortcutDialog" Height="26" VerticalAlignment="Bottom" />
-
+                    <!--<Button x:Name="FontChange" Content="ChangeFont" Margin="0,0,-176,-213.92" Click="FontChange_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148" />-->
+                    <!--<Button x:Name="openShortcutWindow" Content="OpenSC" Grid.Column="0" Margin="2,0,-24,-363.92" Click="OpenShortcutDialog" Height="26" VerticalAlignment="Bottom" />-->
 
                     <Button x:Name="EncryptDecryptTest" Content="EncryptDecryptTest" Margin="0,0,-176,-363.92" Click="EncryptDecryptTest_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
 
@@ -41,7 +41,7 @@
                     <Button x:Name="BtnFileSystem" Content="OpenFileSystem" Margin="0,0,-176,-423.92" Click="BtnFileSystem_OnClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Design" Header="Design" Background="White" Initialized="Design_Initialized">
+            <TabItem x:Name="Design" Header="Design" Initialized="Design_Initialized">
                 <Grid Width="Auto">
                     <GroupBox Header="Icon Spacing" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20" FontFamily="Roboto">
                         <iconSpacing:IconSpacingWindow />
@@ -85,28 +85,65 @@
                             </Grid.ColumnDefinitions>
 
                             <Slider x:Name="MSecSlider" Grid.ColumnSpan="2" Margin="10,0,50,0" VerticalAlignment="Center" Maximum="1000" Value="500" SmallChange="1" IsSnapToTickEnabled="True"/>
-                            <TextBox x:Name="textBlock" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding Value, ElementName=MSecSlider, StringFormat=\{0\}ms}" BorderBrush="Transparent"/>
-                            
+                            <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding Value, ElementName=MSecSlider, StringFormat=\{0\}ms}" BorderBrush="Transparent"/>
+
                             <Button x:Name="BtnSetAeroSpeed" Content="Apply" Click="BtnSetAeroSpeed_Click" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80"/>
                         </Grid>
                     </GroupBox>
 
                 </Grid>
             </TabItem>
+            <TabItem x:Name="FileSystem" Header="File System">
+                <Grid>
+                    <GroupBox Margin="15" Height="160" Header="Delete Empty Directories" VerticalAlignment="Top">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="44"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10*" />
+                                <ColumnDefinition Width="6*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox x:Name="TxtDelDirsPath" Text="" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                            <Button Content="Choose Path" Click="DelDirsChoosePath_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" Width="110"/>
+                            <Button Content="Clear" Click="DelDirsClear_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0" Width="110"/>
+                            <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="60,0,10,0" Foreground="#FF7A7A7A"/>
+
+                            <Label Content="Blacklist:" FontSize="10" Grid.Row="1" Grid.Column="0" Margin="10,-8" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                            <ListView x:Name="EmptyFolderBlacklist" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="10,6,10,0" />
+                            <Button Content="Add" Click="AddToBlackList_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" Width="110"/>
+                            <Button Content="Remove" Click="RemoveFromBlackList_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,10,0" Width="110"/>
+                            <Separator Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Margin="10,0,10,0" Foreground="#FF7A7A7A" />
+
+                            <CheckBox x:Name="CbOnlyTopDir" Content="Only Top Directory" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Content="Delete Directories" Click="DelEmptyDirs_Click" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Margin="15" Header="File System" VerticalAlignment="Bottom">
+                        <fileSystem:FileSystemMainWindow />
+                    </GroupBox>
+                </Grid>
+            </TabItem>
             <TabItem x:Name="Network" Header="Network">
-                <Grid Background="#FFE5E5E5"/>
+                <network:Network />
             </TabItem>
-            <TabItem x:Name="Extensions" Header="Extensions" Margin="0">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem x:Name="Extensions" Header="Extensions" >
+                <Grid>
+                    <GroupBox Header="Encrypted Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Create New" Click="CreateEncryptedDirectory_Click" Margin="20"/>
+                            <Button Content="Open Existing" Click="OpenEncryptedDirectory_Click" Margin="20"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <Button Content="Open Password Safe" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
             </TabItem>
-            <TabItem x:Name="About" Header="About" Height="23.96" VerticalAlignment="Bottom">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem x:Name="About" Header="About" VerticalAlignment="Bottom">
+                <Grid/>
             </TabItem>
         </TabControl>
     </Grid>
-
 </Window>
- 
- 
- 
- 

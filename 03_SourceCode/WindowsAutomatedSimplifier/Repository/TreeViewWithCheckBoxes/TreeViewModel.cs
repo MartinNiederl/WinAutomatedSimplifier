@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using WindowsAutomatedSimplifier.PasswordProtectedFolder;
+using WindowsAutomatedSimplifier.EncryptedDirectory;
 
 namespace WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes
 {
@@ -20,9 +20,9 @@ namespace WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes
 
         public static List<TreeViewModel> SetContent()
         {
-            TreeViewModel root = new TreeViewModel(FolderReader.FilePath) { IsInitiallySelected = true };
+            TreeViewModel root = new TreeViewModel(EncryptedDirectoryReader.FilePath) { IsInitiallySelected = true };
 
-            foreach (Header h in FolderReader.Headers)
+            foreach (Header h in EncryptedDirectoryReader.Headers)
             {
                 TreeViewModel tempRoot = root;
                 string tempPath = h.Path.Substring(1);

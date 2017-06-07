@@ -14,7 +14,7 @@ namespace WindowsAutomatedSimplifier.NetworkSettings
     /// <summary>
     /// Interaktionslogik für Network.xaml
     /// </summary>
-    public partial class Network : Window
+    public partial class Network
     {
         public ObservableCollection<KeyValuePair<string, object>> SelectedInterface { get; set; } = new ObservableCollection<KeyValuePair<string, object>>();
         public List<object> List { get; }

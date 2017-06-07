@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
 
-namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
+namespace WindowsAutomatedSimplifier.EncryptedDirectory
 {
     internal class Encryption
     {

@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using WindowsAutomatedSimplifier.Repository;
 
-namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
+namespace WindowsAutomatedSimplifier.EncryptedDirectory
 {
-    internal class FolderReader
+    internal class EncryptedDirectoryReader
     {
-        public static FolderReader Instance { get; set; }
+        public static EncryptedDirectoryReader Instance { get; set; }
         public static string FilePath { get; set; }
         public static List<Header> Headers { get; } = new List<Header>();
         private readonly int _headerlength = 14 + Environment.NewLine.Length;
 
         private readonly PasswordWindow _pw;
 
-        public FolderReader(string filePath)
+        public EncryptedDirectoryReader(string filePath)
         {
             //TODO Add invalid password support
             _pw = new PasswordWindow();
-            _pw.ShowDialog();
 
             if (string.IsNullOrEmpty(filePath)) return;
 
@@ -31,7 +30,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
                 Headers.Add(new Header(buf[0], buf[1], buf[2]));
             }
             Instance = this;
-            new PasswordProtectedFolder().ShowDialog();
+            new EncryptedDirectoryUI().ShowDialog();
         }
 
         public byte[] ReadFileByIndex(int index)

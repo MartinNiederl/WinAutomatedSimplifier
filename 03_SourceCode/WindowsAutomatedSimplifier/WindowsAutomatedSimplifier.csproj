@@ -120,6 +120,7 @@
       <DependentUpon>SelectedFileOverview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Repository\ByteSizeConverter.cs" />
+    <Compile Include="Repository\FileDialogs.cs" />
     <Compile Include="Repository\Logger.cs" />
     <Compile Include="WindowsTweaks\BlackTheme.cs" />
     <Compile Include="ChangeFont\ChangeFont.xaml.cs">
@@ -141,16 +142,16 @@
       <DependentUpon>Network.xaml</DependentUpon>
     </Compile>
     <Compile Include="NetworkSettings\NetworkLogic.cs" />
-    <Compile Include="PasswordProtectedFolder\ByteFile.cs" />
-    <Compile Include="PasswordProtectedFolder\Encryption.cs" />
-    <Compile Include="PasswordProtectedFolder\FolderReader.cs" />
-    <Compile Include="PasswordProtectedFolder\PasswordProtectedFolder.xaml.cs">
-      <DependentUpon>PasswordProtectedFolder.xaml</DependentUpon>
+    <Compile Include="EncryptedDirectory\EncryptedFile.cs" />
+    <Compile Include="EncryptedDirectory\Encryption.cs" />
+    <Compile Include="EncryptedDirectory\EncryptedDirectoryReader.cs" />
+    <Compile Include="EncryptedDirectory\EncryptedDirectoryUI.xaml.cs">
+      <DependentUpon>EncryptedDirectoryUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Repository\PasswordWindow.xaml.cs">
       <DependentUpon>PasswordWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PasswordProtectedFolder\ProtectedFolder.cs" />
+    <Compile Include="EncryptedDirectory\EncryptedDirectoryWriter.cs" />
     <Compile Include="RegistryHelper\RegistryAPI.cs" />
     <Compile Include="RegistryHelper\ShellNotification.cs" />
     <Compile Include="Repository\AutoClosingMessageBox.cs" />
@@ -219,7 +220,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PasswordProtectedFolder\PasswordProtectedFolder.xaml">
+    <Page Include="EncryptedDirectory\EncryptedDirectoryUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

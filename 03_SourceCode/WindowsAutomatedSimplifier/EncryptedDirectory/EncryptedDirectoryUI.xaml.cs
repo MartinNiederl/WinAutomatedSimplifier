@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using WindowsAutomatedSimplifier.Repository.TreeViewWithCheckBoxes;
 
-namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
+namespace WindowsAutomatedSimplifier.EncryptedDirectory
 {
     /// <summary>
-    /// Interaktionslogik für PasswordProtectedFolder.xaml
+    /// Interaktionslogik für EncryptedDirectoryUI.xaml
     /// </summary>
-    public partial class PasswordProtectedFolder
+    public partial class EncryptedDirectoryUI : Window
     {
         private readonly TreeViewModel _root;
-        public PasswordProtectedFolder()
+        public EncryptedDirectoryUI()
         {
             InitializeComponent();
 
@@ -44,7 +42,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
             foreach (TreeViewModel tvm in checkedItems)
             {
                 Header h = tvm.FileInfo;
-                FolderReader.Instance.SaveFileByPosition(h.Position, h.Length, h.Filename);
+                EncryptedDirectoryReader.Instance.SaveFileByPosition(h.Position, h.Length, h.Filename);
             }
         }
 

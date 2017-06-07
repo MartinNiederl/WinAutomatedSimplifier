@@ -1,29 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsAutomatedSimplifier.FileSystem;
 
-namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
+namespace WindowsAutomatedSimplifier.EncryptedDirectory
 {
-    internal class ProtectedFolder
+    internal class EncryptedDirectoryWriter
     {
-        private readonly List<ByteFile> _files = new List<ByteFile>();
-        public ProtectedFolder(string directory, string password)
+        private readonly List<EncryptedFile> _files = new List<EncryptedFile>();
+        public EncryptedDirectoryWriter(string directory, string password)
         {
-            foreach (FileInfo fileInfo in new DirectoryInfo(directory).GetFiles("*", SearchOption.AllDirectories))
-                try { _files.Add(new ByteFile(fileInfo.FullName, directory, password)); }
-                catch { }
+            Parallel.ForEach(FileSystemLogic.IterateThroughFiles(directory),
+                file => _files.Add(new EncryptedFile(file, directory, password)));
 
-            CreateFile(directory + ".pwf");
+            CreateFile($"{directory}.pwf");
+
+            Create(directory, password);
         }
+
         public async void CreateFile(string path)
         {
             using (Task<byte[]> headerTask = CreateHeaderAsync())
             using (Task<byte[]> filesTask = CombineFilesAsync())
             {
-
                 var allResults = await Task.WhenAll(headerTask, filesTask);
                 byte[] header = allResults[0];
                 byte[] files = allResults[1];
@@ -42,7 +45,7 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
             {
                 StringBuilder sb = new StringBuilder();
                 int position = 0;
-                foreach (ByteFile file in _files)
+                foreach (EncryptedFile file in _files)
                 {
                     sb.Append(file + "?" + position + Environment.NewLine);
                     position += file.Length;
@@ -55,11 +58,11 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
         {
             return Task.Factory.StartNew(() =>
             {
-                ByteFile[] arrays = _files.ToArray();
+                EncryptedFile[] arrays = _files.ToArray();
 
                 byte[] rv = new byte[arrays.Sum(a => a.Length)];
                 int offset = 0;
-                foreach (ByteFile byteFile in arrays)
+                foreach (EncryptedFile byteFile in arrays)
                 {
                     byte[] array = byteFile.Content;
                     Buffer.BlockCopy(array, 0, rv, offset, array.Length);
@@ -69,9 +72,37 @@ namespace WindowsAutomatedSimplifier.PasswordProtectedFolder
             });
         }
 
+        private void Create(string directory, string password)
+        {
+            long position = 0;
+            string bodyPath = directory + @"-body.tmp",
+                headerPath = directory + @"-header.tmp";
+
+            File.Create(bodyPath).Close();
+            File.Create(headerPath).Close();
+
+            using (var body = new FileStream(bodyPath, FileMode.Append))
+            {
+                foreach (string file in FileSystemLogic.IterateThroughFiles(directory))
+                {
+                    EncryptedFile encrypted = new EncryptedFile(file, directory, password);
+                    body.Write(encrypted.Content, 0, encrypted.Length);
+
+                    File.AppendAllText(headerPath, encrypted + "?" + position + Environment.NewLine, Encoding.ASCII);
+                    position += encrypted.Length;
+                }
+            }
+            File.AppendAllText(headerPath, "--header_end--" + Environment.NewLine, Encoding.ASCII);
+
+            FileSystemLogic.ConcatFiles(new[] { headerPath, bodyPath }, directory + " allesklar.pwf");
+
+            File.Delete(bodyPath);
+            File.Delete(headerPath);
+        }
+
         public void Print()
         {
-            foreach (ByteFile file in _files)
+            foreach (EncryptedFile file in _files)
                 Console.WriteLine(@"RelPath: " + file.RelativePath + @" Length: " + file.Length);
         }
     }

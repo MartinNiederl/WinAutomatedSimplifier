@@ -1,14 +1,13 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using Microsoft.Win32;
 
 namespace WindowsAutomatedSimplifier.WindowsTweaks
 {
     public static class ShortcutExtension
     {
-        public static void DisableShortcutExtension() => Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", new byte[] { 00, 00, 00, 00 }, RegistryValueKind.Binary);
+        private static string explorerPath = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer";
 
-        public static void EnableShortcutExtension() //by deleting link
-        {
-                Registry.SetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer", "link", new byte[] { 19, 00, 00, 00 });
-        }
-    }
+        public static void EnableShortcutExtension() => Registry.SetValue(explorerPath, "link", 1);
+
+        public static void DisableShortcutExtension() => Registry.SetValue(explorerPath, "link", 0);}
 }

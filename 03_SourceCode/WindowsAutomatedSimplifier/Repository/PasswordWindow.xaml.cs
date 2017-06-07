@@ -13,6 +13,7 @@ namespace WindowsAutomatedSimplifier.Repository
         {
             InitializeComponent();
             PasswordBox.Focus();
+            ShowDialog();
         }
 
         public string Password { get; private set; } = "";

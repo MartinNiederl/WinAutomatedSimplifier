@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
-using WindowsAutomatedSimplifier.PasswordProtectedFolder;
+using WindowsAutomatedSimplifier.EncryptedDirectory;
 using PasswordWindow = WindowsAutomatedSimplifier.Repository.PasswordWindow;
 
 namespace WindowsAutomatedSimplifier
@@ -21,12 +21,11 @@ namespace WindowsAutomatedSimplifier
             if (Directory.Exists(dir))
             {
                 PasswordWindow pw = new PasswordWindow();
-                pw.ShowDialog();
-                new ProtectedFolder(dir, pw.Password);
+                new EncryptedDirectoryWriter(dir, pw.Password);
             }
             else if (File.Exists(dir) && dir.EndsWith(".pwf"))
             {
-                FolderReader fr = new FolderReader(dir);
+                EncryptedDirectoryReader fr = new EncryptedDirectoryReader(dir);
                 fr.SaveAllFiles();
             }
             else MessageBox.Show(dir, "Ungültiges Verzeichnis!");

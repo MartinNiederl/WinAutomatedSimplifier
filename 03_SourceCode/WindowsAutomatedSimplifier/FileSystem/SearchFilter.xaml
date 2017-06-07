@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="280" d:DesignWidth="480">
+             d:DesignHeight="340" d:DesignWidth="700">
     <Grid IsHitTestVisible="True">
         <Grid.Resources>
             <Style TargetType="{x:Type Label}">
@@ -19,66 +19,67 @@
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="26*" />
+            <ColumnDefinition Width="20*" />
             <ColumnDefinition Width="40*" />
             <ColumnDefinition Width="40*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40" />
+            <RowDefinition Height="40"/>
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="20"/>
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
         <Label Content="Name (RegEx)" Grid.Column="0" Grid.Row="1"/>
-        <Label Content="Size" Grid.Column="0" Grid.Row="2"/>
-        <Label Content="Creation Date" Grid.Column="0" Grid.Row="3"/>
-        <Label Content="Last Edit Date" Grid.Column="0" Grid.Row="4"/>
+        <Label Content="Size" Grid.Column="0" Grid.Row="3"/>
+        <Label Content="Creation Date" Grid.Column="0" Grid.Row="4"/>
+        <Label Content="Last Edit Date" Grid.Column="0" Grid.Row="5"/>
         <Label Content="RootPath" Grid.Column="0" Grid.Row="0"/>
 
         <TextBox x:Name="TxtRootPath" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Height="24" Margin="14,0,14,0" MouseDoubleClick="TxtRootPath_OnMouseDoubleClick"/>
         <TextBox x:Name="TxtRegEx" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Height="24" Margin="14,0,14,0"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="40,0,0,0">
             <Label Content="from:" Style="{StaticResource Left}"/>
-            <TextBox x:Name="SizeFrom" Margin="4" Height="24" Width="80" PreviewTextInput="UIElement_OnPreviewTextInput" />
+            <TextBox x:Name="SizeFrom" Margin="10,0,10,0" Height="24" Width="80" PreviewTextInput="UIElement_OnPreviewTextInput" />
             <ComboBox x:Name="CSizeFrom" Margin="4" Height="24"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2">
-            <Label Content="to:" Style="{StaticResource Left}"/>
-            <TextBox x:Name="SizeTo" Margin="4" Height="24" Width="80" PreviewTextInput="UIElement_OnPreviewTextInput"/>
-            <ComboBox x:Name="CSizeTo" Margin="4" Height="24"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3">
-            <Label Content="from:" Style="{StaticResource Left}"/>
-            <DatePicker x:Name="CreationDateFrom" Margin="4" Height="26"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3">
             <Label Content="to:" Style="{StaticResource Left}"/>
-            <DatePicker x:Name="CreationDateTo" Margin="4" Height="26"/>
+            <TextBox x:Name="SizeTo" Margin="10,0,10,0" Height="24" Width="80" PreviewTextInput="UIElement_OnPreviewTextInput"/>
+            <ComboBox x:Name="CSizeTo" Margin="4" Height="24"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" Margin="40,0,0,0">
             <Label Content="from:" Style="{StaticResource Left}"/>
-            <DatePicker x:Name="LastChangeFrom" Margin="4" Height="26"/>
+            <DatePicker x:Name="CreationDateFrom" Margin="10,0,10,0" Height="26"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="4">
             <Label Content="to:" Style="{StaticResource Left}"/>
-            <DatePicker x:Name="LastChangeTo" Margin="4" Height="26"/>
+            <DatePicker x:Name="CreationDateTo" Margin="10,0,10,0" Height="26"/>
         </StackPanel>
 
-        <Separator Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" VerticalAlignment="Top" Margin="4"/>
-        <Button Click="BtnSelect_OnClick" Content="Select Files" Grid.Column="1" Grid.Row="5" Margin="0,20,10,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="5" Margin="40,0,0,0">
+            <Label Content="from:" Style="{StaticResource Left}"/>
+            <DatePicker x:Name="LastChangeFrom" Margin="10,0,10,0" Height="26"/>
+        </StackPanel>
 
-        <ProgressBar x:Name="ProgBar" Grid.Column="2" Grid.Row="5" Margin="10,20,10,0" IsIndeterminate="True" Visibility="Hidden"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="5">
+            <Label Content="to:" Style="{StaticResource Left}"/>
+            <DatePicker x:Name="LastChangeTo" Margin="10,0,10,0" Height="26"/>
+        </StackPanel>
 
-        <CheckBox x:Name="OnlyTopDir" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Content="Only Top Directory" HorizontalAlignment="Left" Margin="30,17,0,0"/>
+        <Separator Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="7" VerticalAlignment="Top" Margin="4"/>
+
+        <CheckBox x:Name="OnlyTopDir" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Content="Only Top Directory" HorizontalAlignment="Left" Margin="120,17,0,0"/>
+        <Button Click="BtnSelect_OnClick" Content="Select Files" Grid.Column="1" Grid.Row="7" Margin="0,20,10,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <ProgressBar x:Name="ProgBar" Grid.Column="2" Grid.Row="7" Margin="10,20,10,0" IsIndeterminate="True" Visibility="Hidden"/>
     </Grid>
 </UserControl>
     

@@ -101,7 +101,7 @@ namespace WindowsAutomatedSimplifier.RegistryHelper
 
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
-        
+
         public static void InitRegistry()
         {
             if (IsRegInit()) return;
@@ -141,22 +141,27 @@ namespace WindowsAutomatedSimplifier.RegistryHelper
         {
             Task.Run(() =>
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo()
+                Process process = new Process
                 {
-                    Verb = "runas",
-                    Arguments = "/f /im explorer.exe",
-                    FileName = @"C:\windows\system32\taskkill.exe"
+                    StartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = false,
+                        Verb = "runas",
+                        Arguments = "/f /im explorer.exe",
+                        FileName = @"C:\windows\system32\taskkill.exe"
+                    }
                 };
-                Process process = new Process { StartInfo = startInfo };
                 process.Start();
                 process.WaitForExit();
-                startInfo = new ProcessStartInfo()
+
+                new Process
                 {
-                    Verb = "runas",
-                    FileName = @"C:\windows\explorer.exe"
-                };
-                process = new Process { StartInfo = startInfo };
-                process.Start();
+                    StartInfo =
+                    {
+                        FileName = $"{Environment.GetEnvironmentVariable("WINDIR")}\\explorer.exe",
+                        UseShellExecute = true
+                    }
+                }.Start();
             });
         }
     }
