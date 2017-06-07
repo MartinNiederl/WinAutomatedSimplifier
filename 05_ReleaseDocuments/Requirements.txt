@@ -1,0 +1,21 @@
+	Security
+		PasswordSafe
+		EncryptedFolder
+	Design
+		IconSpacing
+		ChangeFont
+		Black Theme
+		ToggleAeroShake
+		Folder Checkboxes
+		Shortcut Extension
+		TaskbarPreviewWindow
+		Aero-Peek Time
+	Network
+		FileSystem
+		NetworkSettings
+	Extensions
+		Compress/DeCompress
+		ShortcutDialog
+
+	About
+		Credits (MD-Softworks)
