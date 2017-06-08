@@ -19,7 +19,7 @@ namespace WindowsAutomatedSimplifier.EncryptedDirectory
 
             CreateFile($"{directory}.pwf");
 
-            Create(directory, password);
+            //Create(directory, password);
         }
 
         public async void CreateFile(string path)
@@ -94,7 +94,7 @@ namespace WindowsAutomatedSimplifier.EncryptedDirectory
             }
             File.AppendAllText(headerPath, "--header_end--" + Environment.NewLine, Encoding.ASCII);
 
-            FileSystemLogic.ConcatFiles(new[] { headerPath, bodyPath }, directory + " allesklar.pwf");
+            FileSystemLogic.ConcatFiles(new[] { headerPath, bodyPath }, directory + ".pwf");
 
             File.Delete(bodyPath);
             File.Delete(headerPath);
