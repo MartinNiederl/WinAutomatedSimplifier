@@ -6,12 +6,11 @@ namespace WindowsAutomatedSimplifier.IconSpacing
 {
     public partial class IconSpacingWindow
     {
-        private static double _hdef, _vdef;
         public IconSpacingWindow()
         {
             InitializeComponent();
-            _hdef = HSlider.Value = IconSpacing.GetHorizontalSpacing() * -1;
-            _vdef = VSlider.Value = IconSpacing.GetVerticalSpacing() * -1;
+            HSlider.Value = IconSpacing.GetHorizontalSpacing() * -1;
+            VSlider.Value = IconSpacing.GetVerticalSpacing() * -1;
         }
 
         private void ApplyChangesBtn_OnClick(object sender, RoutedEventArgs e)
@@ -36,8 +35,8 @@ namespace WindowsAutomatedSimplifier.IconSpacing
 
         private void ResetSliderBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            HSlider.Value = _hdef;
-            VSlider.Value = _vdef;
+            HSlider.Value = 1128;
+            VSlider.Value = 1128;
         }
     }
 }

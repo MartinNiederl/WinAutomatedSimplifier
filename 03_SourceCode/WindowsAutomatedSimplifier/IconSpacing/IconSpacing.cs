@@ -16,11 +16,20 @@ namespace WindowsAutomatedSimplifier.IconSpacing
         /// <param name="vertical">Value for vertical spacing</param>
         public static void EditSpacing(int horizontal, int vertical)
         {
-            Registry.SetValue(KEYPATH, VALUEH, horizontal);
-            Registry.SetValue(KEYPATH, VALUEV, vertical);
+            Console.WriteLine("Horizontal: " + horizontal);
+            Registry.SetValue(KEYPATH, VALUEH, horizontal, RegistryValueKind.String);
+            Registry.SetValue(KEYPATH, VALUEV, vertical, RegistryValueKind.String);
         }
-        public static int GetHorizontalSpacing() => int.Parse((string)Registry.GetValue(KEYPATH, VALUEH, -1));
+        public static int GetHorizontalSpacing()
+        {
+            int.TryParse(Registry.GetValue(KEYPATH, VALUEH, -1).ToString(), out int retVal);
+            return retVal;
+        }
 
-        public static int GetVerticalSpacing() => int.Parse((string)Registry.GetValue(KEYPATH, VALUEV, -1));
+        public static int GetVerticalSpacing()
+        {
+            int.TryParse(Registry.GetValue(KEYPATH, VALUEV, -1).ToString(), out int retVal);
+            return retVal;
+        }
     }
 }

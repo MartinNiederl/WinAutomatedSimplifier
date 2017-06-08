@@ -43,7 +43,7 @@
             </TabItem>
             <TabItem x:Name="Design" Header="Design" Initialized="Design_Initialized">
                 <Grid Width="Auto">
-                    <GroupBox Header="Icon Spacing" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20" FontFamily="Roboto">
+                    <GroupBox Header="Icon Spacing - (System restart essential)" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20" FontFamily="Roboto">
                         <iconSpacing:IconSpacingWindow />
                     </GroupBox>
                     <GroupBox Header="Change System Font" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20" FontFamily="Roboto">

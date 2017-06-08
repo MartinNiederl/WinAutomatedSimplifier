@@ -139,8 +139,6 @@ namespace WindowsAutomatedSimplifier.RegistryHelper
 
         public static void UpdateRegistry()
         {
-            Task.Run(() =>
-            {
                 Process process = new Process
                 {
                     StartInfo = new ProcessStartInfo
@@ -162,7 +160,6 @@ namespace WindowsAutomatedSimplifier.RegistryHelper
                         UseShellExecute = true
                     }
                 }.Start();
-            });
         }
     }
 }
