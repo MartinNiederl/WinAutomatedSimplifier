@@ -16,7 +16,7 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
     /// <summary>
     /// Interaction logic for ShortcutDialog.xaml
     /// </summary>
-    public partial class ShortcutDialog : Window
+    public partial class ShortcutDialog
     {
         // ReSharper disable InconsistentNaming
         private readonly GlobalHotkeys hotkeyInstance;
@@ -41,7 +41,10 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            if (!File.Exists(scListPath)) File.Create(scListPath);
+            Directory.CreateDirectory(APPDATA);
+            if (!File.Exists(scListPath))
+                File.Create(scListPath).Close();
+
             var values = File.ReadAllLines(scListPath);
 
             for (int i = 0; i < values.Length; i++)

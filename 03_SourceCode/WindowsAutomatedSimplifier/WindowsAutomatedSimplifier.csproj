@@ -289,6 +289,10 @@
       <Project>{352ebbab-af63-4f9c-ab6a-0ad6d92b51d7}</Project>
       <Name>CustomMessageBox</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PasswordSafe\PasswordSafe.csproj">
+      <Project>{f04e31d3-d2e0-4465-baef-b7f6e1967ccd}</Project>
+      <Name>PasswordSafe</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfPageTransitions\WPFPageTransitions.csproj">
       <Project>{22a46d61-1d40-43a9-802c-b9d43dadd9ec}</Project>
       <Name>WPFPageTransitions</Name>

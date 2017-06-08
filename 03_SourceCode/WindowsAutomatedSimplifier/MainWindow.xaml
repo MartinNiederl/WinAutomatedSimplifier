@@ -7,40 +7,13 @@
         xmlns:iconSpacing="clr-namespace:WindowsAutomatedSimplifier.IconSpacing"
         xmlns:fileSystem="clr-namespace:WindowsAutomatedSimplifier.FileSystem"
         xmlns:network="clr-namespace:WindowsAutomatedSimplifier.NetworkSettings"
+        xmlns:shortcutDialog="clr-namespace:WindowsAutomatedSimplifier.ShortcutDialog"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
-        Title="Windows Automated Simplifier" MinHeight="650" Height="650" MinWidth="800" Width="800">
+        Title="Windows Automated Simplifier" MinHeight="650" Height="650" MinWidth="800" Width="800" MaxHeight="750" MaxWidth="900">
     <Grid>
         <TabControl Margin="5">
-            <TabItem x:Name="Security" Header="Security">
-                <Grid Background="White">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="BtnCompress" Content="Compress" Click="Btn_compress_OnClick" Grid.Row="0" Margin="2,2,-24,24.08"/>
-                    <Button x:Name="BtnDecompress" Content="Decompress" Click="Btn_decompress_OnClick" Grid.Row="0" Margin="0,2,-296,24.08" HorizontalAlignment="Right" Width="116"/>
-                    <!--<Button x:Name="BtnIconSpacing" Content="IconSpacing" Click="BtnIconSpacing_OnClick" Margin="0,0,-176,-5.92" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>-->
-                    <Button x:Name="BtnCreateProtectedFolder" Content="CreatePWF" Grid.Column="0" Margin="2,0,-24,-35.92" Click="CreateEncryptedDirectory_Click" Height="26" VerticalAlignment="Bottom"/>
-                    <Button x:Name="BtnReadProtectedFolder" Content="ReadPWF" Margin="0,0,-296,-35.92" Click="OpenEncryptedDirectory_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="116"/>
-
-
-
-                    <Button x:Name="UpdateRegistry" Content="Update Registry" Margin="0,0,-176,-183.92" Click="UpdateRegistry_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-
-                    <!--<Button x:Name="FontChange" Content="ChangeFont" Margin="0,0,-176,-213.92" Click="FontChange_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148" />-->
-                    <!--<Button x:Name="openShortcutWindow" Content="OpenSC" Grid.Column="0" Margin="2,0,-24,-363.92" Click="OpenShortcutDialog" Height="26" VerticalAlignment="Bottom" />-->
-
-                    <Button x:Name="EncryptDecryptTest" Content="EncryptDecryptTest" Margin="0,0,-176,-363.92" Click="EncryptDecryptTest_Click" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-
-                    <Button x:Name="BtnNetwork" Content="OpenNetworkSettings" Margin="0,0,-176,-393.92" Click="BtnNetwork_OnClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-
-                    <Button x:Name="BtnFileSystem" Content="OpenFileSystem" Margin="0,0,-176,-423.92" Click="BtnFileSystem_OnClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Bottom" Width="148"/>
-                </Grid>
-            </TabItem>
             <TabItem x:Name="Design" Header="Design" Initialized="Design_Initialized">
                 <Grid Width="Auto">
                     <GroupBox Header="Icon Spacing - (System restart essential)" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20" FontFamily="Roboto">
@@ -130,20 +103,72 @@
             <TabItem x:Name="Network" Header="Network">
                 <network:Network />
             </TabItem>
-            <TabItem x:Name="Extensions" Header="Extensions" >
+            <TabItem x:Name="Misc" Header="Misc" >
                 <Grid>
-                    <GroupBox Header="Encrypted Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                    <GroupBox Header="Encrypted Directory" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40">
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Create New" Click="CreateEncryptedDirectory_Click" Margin="20"/>
-                            <Button Content="Open Existing" Click="OpenEncryptedDirectory_Click" Margin="20"/>
+                            <Button Content="Create New" Click="CreateEncryptedDirectory_Click" Margin="20" Width="110"/>
+                            <Button Content="Open Existing" Click="OpenEncryptedDirectory_Click" Margin="20" Width="110"/>
                         </StackPanel>
                     </GroupBox>
-                    <Button Content="Open Password Safe" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    <GroupBox Header="Compress Files" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,160,40,40">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Compress" Click="Btn_compress_OnClick" Margin="20" Width="110"/>
+                            <Button Content="Decompress" Click="Btn_decompress_OnClick" Margin="20" Width="110"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Password Safe" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="40">
+                        <StackPanel>
+                            <Label Width="300" HorizontalAlignment="Left" Margin="10">
+                                <AccessText TextWrapping="WrapWithOverflow">
+                                    Password Safe allows you to safely and easily create a secured and encrypted password list. With Password Safe all you have to do is create and remember a single "Master Password" of your choice in order to unlock and access your entire user name/password list.
+                                </AccessText>
+                            </Label>
+                            <Button Content="Open Password Safe" Click="OpenPasswordSafe_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10,0,20"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Global Hotkeys" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="20">
+                        <shortcutDialog:ShortcutDialog Margin="10"/>
+                    </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="About" Header="About" VerticalAlignment="Bottom">
-                <Grid/>
+            <TabItem x:Name="Credits" Header="About" VerticalAlignment="Bottom">
+                <Grid>
+                    <RichTextBox VerticalAlignment="Center" HorizontalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent">
+                        <FlowDocument>
+                            <Paragraph FontWeight="Bold" FontSize="22" FontFamily="Calibri" TextAlignment="Center">
+                                <Span>
+                                    <Run Text="MD Softworks"/>
+                                </Span>
+                            </Paragraph>
+                            <Paragraph FontSize="22" FontFamily="Calibri" Margin="0" TextAlignment="Center">
+                                <Bold>W</Bold> indows
+                                <Bold>A</Bold> utomated
+                                <Bold>S</Bold> mplifier
+                            </Paragraph>
+                            <Paragraph LineHeight="20" />
+                            <Paragraph FontSize="16" FontFamily="Calibri" Margin="0" TextAlignment="Center" >
+                                Application developed by
+                            </Paragraph>
+                            <Paragraph FontWeight="Bold" FontSize="16" FontFamily="Calibri" Margin="0" TextAlignment="Center">
+                                Martin Niederl
+                            </Paragraph>
+                            <Paragraph FontWeight="Bold" FontSize="16" FontFamily="Calibri" Margin="0" TextAlignment="Center">
+                                David Eilmsteiner
+                            </Paragraph>
+                            <Paragraph FontSize="16" FontFamily="Calibri" Margin="0" TextAlignment="Center">
+                                as a School-Project in the year 2017
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
 </Window>
+
+
+
