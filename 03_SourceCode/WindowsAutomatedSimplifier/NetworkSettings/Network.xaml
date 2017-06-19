@@ -29,7 +29,7 @@
         </ListView>
         <DataGrid x:Name="NetInfo" ItemsSource="{Binding SelectedInterface, RelativeSource={RelativeSource AncestorType=UserControl}}" AutoGenerateColumns="True" Grid.Column="1" Grid.Row="1" Margin="10" />
 
-        <Button x:Name="RefreshIP" Content="Request New IP-Address" Grid.Column="0" Grid.Row="2" Margin="2" Click="RefreshIP_OnClick" VerticalAlignment="Center"/>
+        <!--<Button x:Name="RefreshIP" Content="Request New IP-Address" Grid.Column="0" Grid.Row="2" Margin="2" Click="RefreshIP_OnClick" VerticalAlignment="Center"/>-->
 
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
             <Label Content="Current IP-Address:" FontSize="14" />

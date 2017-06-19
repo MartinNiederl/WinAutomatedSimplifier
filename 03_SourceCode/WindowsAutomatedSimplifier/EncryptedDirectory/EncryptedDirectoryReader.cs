@@ -64,7 +64,7 @@ namespace WindowsAutomatedSimplifier.EncryptedDirectory
             try
             {
                 //TODO überarbeiten - Geschwindigkeit optimieren indem nur einmal aufgerufen!
-                string path = Path.GetDirectoryName(FilePath) + "\\" + Path.GetFileNameWithoutExtension(FilePath);
+                string path = Path.GetDirectoryName(FilePath) + "\\" + Path.GetFileNameWithoutExtension(FilePath) + " - PWF";
                 Directory.CreateDirectory(path);
                 //TODO relativen Pfad für Unterverzeichnisse hinzufügen
                 File.WriteAllBytes(path + Headers[index].Filename, ReadFileByIndex(index));
@@ -77,7 +77,7 @@ namespace WindowsAutomatedSimplifier.EncryptedDirectory
         {
             try
             {
-                string path = Path.GetDirectoryName(FilePath) + "\\" + Path.GetFileNameWithoutExtension(FilePath);
+                string path = Path.GetDirectoryName(FilePath) + "\\" + Path.GetFileNameWithoutExtension(FilePath) + " - PWF";
                 Directory.CreateDirectory(path);
 
                 byte[] file = ReadFromPosition(position, lenght);
