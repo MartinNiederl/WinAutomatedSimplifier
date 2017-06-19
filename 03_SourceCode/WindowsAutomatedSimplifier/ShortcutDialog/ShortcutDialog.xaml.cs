@@ -29,10 +29,8 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
             hotkeyInstance = new GlobalHotkeys(this);
         }
 
-        public void Window_Closing(object sender, CancelEventArgs e)
+        public void Close()
         {
-            hotkeyInstance.CloseForm();
-
             var paths = HotkeyInterface.Children.OfType<TextBox>().Select(el => el.Text);
 
             if (!File.Exists(scListPath)) File.Create(scListPath);
@@ -47,16 +45,18 @@ namespace WindowsAutomatedSimplifier.ShortcutDialog
 
             var values = File.ReadAllLines(scListPath);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 1; i < values.Length; i++)
             {
                 string name = "TxtPath" + i.ToString().PadLeft(2, '0');
                 TextBox box = (TextBox)FindName(name);
-                if (box != null) box.Text = values[i];
+                if (box != null) box.Text = values[i - 1];
             }
         }
 
         public void RunCommand(object sender, MouseButtonEventArgs e)
         {
+            Close();
+
             TextBox box = sender as TextBox;
             if (box != null && box.Text.Length > 0)
                 Process.Start("explorer.exe", box.Text);
